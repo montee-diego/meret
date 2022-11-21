@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
-import sanityClient from "@services/sanityClient";
-import { queryAll } from "@services/sanityQueries/queryAll";
 import { ISong } from "@global/types";
 
 export default function Home() {
   const [songs, setSongs] = useState<ISong[]>([]);
   const fetchAll = () => {
-    sanityClient
-      .fetch(queryAll())
-      .then((response) => {
-        console.log(response);
-        setSongs(response);
+    fetch("/api/music/songs", { method: "GET" })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setSongs(data);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

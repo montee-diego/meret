@@ -16,6 +16,8 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@components/*": ["src/components/*"],
+      "@context/*": ["src/context/*"],
       "@global/*": ["src/global/*"],
       "@services/*": ["src/services/*"]
     }
