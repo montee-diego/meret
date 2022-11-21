@@ -1,1 +1,3 @@
-export { NowPlaying } from "./NowPlaying/NowPlaying";
+export { Header } from "./Header";
+export { NowPlaying } from "./NowPlaying";
+export { Sidebar } from "./Sidebar";

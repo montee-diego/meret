@@ -27,8 +27,6 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Meret</h1>
-
       {songs.map((song) => (
         <div>
           <h2>
