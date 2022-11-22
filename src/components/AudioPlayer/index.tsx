@@ -24,8 +24,11 @@ export const AudioPlayer: FC = () => {
     <div className={style.Container}>
       <Cover colors={[]} cover={cover} />
 
-      <h1>Playback</h1>
-      <h2>{playlist.length > 0 && playlist[0].title}</h2>
+      <div className={style.Tags}>
+        <p className={style.Title}>{title}</p>
+        <p className={style.Artist}>{artist}</p>
+      </div>
+
       <button onClick={() => audioRef.current?.play()}>play</button>
       {/* {nowPlaying !== undefined && (
         <audio src={nowPlaying?.playback?.audio} controls autoPlay></audio>

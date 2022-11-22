@@ -2,6 +2,7 @@
   aspect-ratio: 1/1;
   border-radius: 5px;
   display: inline-block;
+  flex-shrink: 0;
   height: 100%;
   overflow: hidden;
   position: relative;

@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+body {
+  font-family: "Work Sans", sans-serif;
+}
+
 #__next {
   display: flex;
   flex-direction: column;
