@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { ISong } from "@global/types";
-import { useNowPlaying } from "@context/NowPlaying";
+import { useAudioPlayer } from "@context/AudioPlayer";
 
 export default function Home() {
   const [songs, setSongs] = useState<ISong[]>([]);
-  const { setPlay } = useNowPlaying();
+  const { setPlaylist } = useAudioPlayer();
   const fetchAll = () => {
     fetch("/api/music/songs", { method: "GET" })
       .then((res) => res.json())
@@ -20,8 +20,8 @@ export default function Home() {
   }, []);
 
   const handlePlay = () => {
-    if (setPlay) {
-      setPlay(songs[0]);
+    if (setPlaylist) {
+      setPlaylist([songs[0]]);
     }
   };
 
