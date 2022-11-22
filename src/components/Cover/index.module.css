@@ -1,0 +1,26 @@
+.Container {
+  aspect-ratio: 1/1;
+  border-radius: 5px;
+  display: inline-block;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.Container svg,
+.Container img {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.Img {
+  opacity: 0;
+  transition: opacity 0.25s ease-in;
+  z-index: 10;
+}
+
+.ImgLoaded {
+  opacity: 1;
+}

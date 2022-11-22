@@ -1,4 +1,5 @@
-.container {
+.Container {
   background-color: burlywood;
   height: 5rem;
+  padding: 1rem;
 }
