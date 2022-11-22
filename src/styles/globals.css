@@ -8,6 +8,14 @@ body {
   font-family: "Work Sans", sans-serif;
 }
 
+body[data-theme="light"] {
+  --color-text-default: #272727;
+}
+
+body[data-theme="dark"] {
+  --color-text-default: #efefef;
+}
+
 #__next {
   display: flex;
   flex-direction: column;
@@ -21,4 +29,8 @@ body {
 
 main {
   flex: 1;
+}
+
+h1 {
+  color: var(--color-text-default);
 }

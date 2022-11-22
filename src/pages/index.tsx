@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { ISong } from "@global/types";
 import { useAudioPlayer } from "@context/AudioPlayer";
+import { useTheme } from "@context/Theme";
 
 export default function Home() {
   const [songs, setSongs] = useState<ISong[]>([]);
   const { setPlaylist } = useAudioPlayer();
+  const { setTheme } = useTheme();
   const fetchAll = () => {
     fetch("/api/music/songs", { method: "GET" })
       .then((res) => res.json())
@@ -36,6 +38,9 @@ export default function Home() {
           {/* <audio src={song.audio} controls></audio> */}
         </div>
       ))}
+
+      <button onClick={() => setTheme("light")}>light</button>
+      <button onClick={() => setTheme("dark")}>dark</button>
     </div>
   );
 }
