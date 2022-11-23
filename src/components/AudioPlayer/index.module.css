@@ -1,6 +1,6 @@
 .Container {
   align-items: center;
-  /* background-color: burlywood; */
+  background-color: var(--color-panel);
   display: flex;
   gap: 1rem;
   height: 5rem;

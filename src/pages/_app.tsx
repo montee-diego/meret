@@ -9,7 +9,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <ThemeContext>
       <AudioPlayerContext>
         <Header />
-        <Component {...pageProps} />
+
+        <main>
+          <Component {...pageProps} />
+        </main>
+
         <AudioPlayer />
       </AudioPlayerContext>
     </ThemeContext>

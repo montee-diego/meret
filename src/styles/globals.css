@@ -6,6 +6,7 @@
 
 body[data-theme="light"] {
   --color-text-default: #0f0f0f;
+  --color-panel: rgba(0, 0, 0, 0.1);
 
   /* Background */
   background: linear-gradient(215deg, #8cd38e 29.9%, #308fce 80%),
@@ -16,6 +17,7 @@ body[data-theme="light"] {
 
 body[data-theme="dark"] {
   --color-text-default: #efefef;
+  --color-panel: rgba(255, 255, 255, 0.1);
 
   /* Background */
   background: linear-gradient(215deg, #88402e 29.9%, #162568 80%),
