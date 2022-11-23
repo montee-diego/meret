@@ -5,30 +5,29 @@
 }
 
 body[data-theme="light"] {
-  --color-text-default: #0f0f0f;
-  --color-panel: rgba(0, 0, 0, 0.1);
-
-  /* Background */
-  background: linear-gradient(215deg, #8cd38e 29.9%, #308fce 80%),
+  background: linear-gradient(215deg, #8cd38e 29.9%, #43a5e7 80%),
     linear-gradient(304deg, rgba(255, 101, 53, 0.4) 24.9%, #aa2743 91%),
     linear-gradient(10deg, #b1c9d8 19.9%, #2776aa 50%),
     linear-gradient(145deg, #f4df26 15.9%, #ff1b9a 40%);
+
+  --color-text-default: #0f0f0f;
+  --color-panel: rgba(0, 0, 0, 0.1);
 }
 
 body[data-theme="dark"] {
-  --color-text-default: #efefef;
-  --color-panel: rgba(255, 255, 255, 0.1);
-
-  /* Background */
   background: linear-gradient(215deg, #88402e 29.9%, #162568 80%),
     linear-gradient(304deg, rgba(177, 15, 123, 0.4) 24.9%, #911f37 91%),
     linear-gradient(10deg, #b1c9d8 19.9%, #2776aa 50%),
     linear-gradient(145deg, #fff9cd 15.9%, #ff1b9a 40%);
+
+  --color-text-default: #efefef;
+  --color-panel: rgba(255, 255, 255, 0.1);
 }
 
 body {
   background-repeat: no-repeat;
   background-blend-mode: hard-light;
+  color: var(--color-text-default);
   font-family: "Work Sans", sans-serif;
   height: 100vh;
 }
@@ -37,26 +36,19 @@ body {
   backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
   position: absolute;
   top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
 }
 
 main {
   flex: 1;
 }
 
+a,
 button {
-  color: var(--color-text-default);
-}
-
-h1 {
-  color: var(--color-text-default);
-}
-
-p {
   color: var(--color-text-default);
 }

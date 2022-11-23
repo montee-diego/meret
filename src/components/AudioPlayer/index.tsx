@@ -13,9 +13,21 @@ export const AudioPlayer: FC = () => {
   const { artist, audio, cover, title, length } = playlist[trackIndex] || {};
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const handleControls = {
+    Play: () => {
+      const track = audioRef.current;
+
+      if (track) {
+        isPlaying ? track.pause() : track.play();
+        setIsPlaying(!isPlaying);
+      }
+    },
+    Prev: () => {},
+    Next: () => {},
+  };
 
   useEffect(() => {
-    if (audio !== "") {
+    if (audio) {
       audioRef.current = new Audio(audio);
     }
   }, [audio]);
@@ -29,11 +41,7 @@ export const AudioPlayer: FC = () => {
         <p className={style.Artist}>{artist}</p>
       </div>
 
-      <button onClick={() => audioRef.current?.play()}>play</button>
-      <AudioControls />
-      {/* {nowPlaying !== undefined && (
-        <audio src={nowPlaying?.playback?.audio} controls autoPlay></audio>
-      )} */}
+      <AudioControls handleControls={handleControls} isPlaying={isPlaying} />
     </div>
   );
 };
