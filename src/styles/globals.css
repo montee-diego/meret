@@ -49,6 +49,10 @@ main {
   flex: 1;
 }
 
+button {
+  color: var(--color-text-default);
+}
+
 h1 {
   color: var(--color-text-default);
 }

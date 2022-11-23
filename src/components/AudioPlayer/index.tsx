@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { useAudioPlayer } from "@context/AudioPlayer";
-import { Cover } from "@components/index";
+import { AudioControls, Cover } from "@components/index";
 import style from "./index.module.css";
 
 export const AudioPlayer: FC = () => {
@@ -30,6 +30,7 @@ export const AudioPlayer: FC = () => {
       </div>
 
       <button onClick={() => audioRef.current?.play()}>play</button>
+      <AudioControls />
       {/* {nowPlaying !== undefined && (
         <audio src={nowPlaying?.playback?.audio} controls autoPlay></audio>
       )} */}

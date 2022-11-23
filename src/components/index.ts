@@ -1,3 +1,4 @@
+export { AudioControls } from "./AudioControls";
 export { AudioPlayer } from "./AudioPlayer";
 export { Cover } from "./Cover";
 export { CoverPlaceholder } from "./CoverPlaceholder";

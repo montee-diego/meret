@@ -1,0 +1,13 @@
+.Container {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.Button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+}
