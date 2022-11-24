@@ -3,6 +3,7 @@ import { faPlay, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import type { FC } from "react";
 import type { ITrack } from "@global/types";
+import { formatTime } from "@global/utils";
 import { Cover } from "@components/index";
 import style from "./index.module.css";
 
@@ -31,7 +32,7 @@ export const Track: FC<IProps> = ({ track }) => {
       <div className={style.Metadata}>
         <p>{track.genres.join(", ")}</p>
         <p>{track.date}</p>
-        <p className={style.Length}>{track.length}</p>
+        <p className={style.Length}>{formatTime(track.length)}</p>
       </div>
 
       <button className={style.MenuBtn} aria-label="Track menu">
