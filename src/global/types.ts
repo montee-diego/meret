@@ -5,6 +5,7 @@ export interface IPlaylist {
 }
 
 export interface ITrack {
+  _id: string;
   artist: string;
   audio: string;
   cover: string;
