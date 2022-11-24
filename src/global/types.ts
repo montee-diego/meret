@@ -1,4 +1,10 @@
-export interface ISong {
+export interface IPlaylist {
+  name: string;
+  id: string;
+  songs: ITrack[];
+}
+
+export interface ITrack {
   artist: string;
   audio: string;
   cover: string;
@@ -9,10 +15,4 @@ export interface ISong {
     current: string;
   };
   title: string;
-}
-
-export interface IPlaylist {
-  name: string;
-  id: string;
-  songs: ISong[];
 }
