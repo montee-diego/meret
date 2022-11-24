@@ -1,23 +1,19 @@
 .Container {
   align-items: center;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .Button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  height: 2rem;
-  width: 2rem;
+  padding: 5px;
 }
 
 .Button svg {
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.25s ease-in-out;
 }
 
 @media (hover: hover) {
   .Button:hover svg {
-    transform: scale(125%);
+    transform: rotate(360deg) scale(125%);
   }
 }

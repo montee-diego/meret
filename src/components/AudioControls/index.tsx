@@ -1,5 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBackwardStep, faForwardStep, faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBackwardStep,
+  faForwardStep,
+  faCirclePlay,
+  faCirclePause,
+} from "@fortawesome/free-solid-svg-icons";
 import type { FC } from "react";
 import style from "./index.module.css";
 
@@ -16,19 +21,19 @@ export const AudioControls: FC<IProps> = ({ handleControls, isPlaying }) => {
   return (
     <div className={style.Container}>
       <button className={style.Button} onClick={handleControls.Prev} aria-label="Previous">
-        <FontAwesomeIcon size="2x" icon={faBackwardStep} />
+        <FontAwesomeIcon size="2x" icon={faBackwardStep} fixedWidth />
       </button>
 
       <button className={style.Button} onClick={handleControls.Play} aria-label="Play">
         {isPlaying ? (
-          <FontAwesomeIcon size="2x" icon={faPause} />
+          <FontAwesomeIcon size="3x" icon={faCirclePause} />
         ) : (
-          <FontAwesomeIcon size="2x" icon={faPlay} />
+          <FontAwesomeIcon size="3x" icon={faCirclePlay} />
         )}
       </button>
 
       <button className={style.Button} onClick={handleControls.Next} aria-label="Next">
-        <FontAwesomeIcon size="2x" icon={faForwardStep} />
+        <FontAwesomeIcon size="2x" icon={faForwardStep} fixedWidth />
       </button>
     </div>
   );
