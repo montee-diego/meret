@@ -16,3 +16,42 @@
   height: 1.7rem;
   width: 1.7rem;
 }
+
+.Data {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.Data p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Title {
+  font-weight: 700;
+}
+
+.Metadata {
+  color: var(--color-text-secondary);
+  column-gap: 0.5rem;
+  display: grid;
+  flex: 2;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.Length {
+  text-align: right;
+}
+
+.Menu {
+  padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .Metadata {
+    display: none;
+  }
+}

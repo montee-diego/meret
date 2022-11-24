@@ -11,6 +11,7 @@ body[data-theme="light"] {
     linear-gradient(145deg, #f4df26 15.9%, #ff1b9a 40%);
 
   --color-text-default: #0f0f0f;
+  --color-text-secondary: #353535;
   --color-panel: rgba(0, 0, 0, 0.1);
 }
 
@@ -21,6 +22,7 @@ body[data-theme="dark"] {
     linear-gradient(145deg, #fff9cd 15.9%, #ff1b9a 40%);
 
   --color-text-default: #efefef;
+  --color-text-secondary: #b8b8b8;
   --color-panel: rgba(255, 255, 255, 0.1);
 }
 
