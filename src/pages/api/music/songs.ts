@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sanityClient } from "@services/sanity/client";
 import { queryAll } from "@services/sanity/query/queryAll";
-import { ISong } from "@global/types";
+import { ITrack } from "@global/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     await sanityClient
       .fetch(queryAll())
-      .then((response: ISong) => {
+      .then((response: ITrack) => {
         //console.log(response);
         res.status(200).json(response);
       })

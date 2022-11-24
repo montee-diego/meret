@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { ISong } from "@global/types";
+import { ITrack } from "@global/types";
 import { useAudioPlayer } from "@context/AudioPlayer";
+import { TrackList } from "@components/TrackList";
 
 export default function Home() {
-  const [songs, setSongs] = useState<ISong[]>([]);
+  const [tracks, setTracks] = useState<ITrack[]>([]);
   const { setPlaylist } = useAudioPlayer();
 
   const fetchAll = () => {
@@ -11,7 +12,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setSongs(data);
+        setTracks(data);
       })
       .catch((err) => console.log(err));
   };
@@ -22,21 +23,22 @@ export default function Home() {
 
   const handlePlay = () => {
     if (setPlaylist) {
-      setPlaylist([songs[0]]);
+      setPlaylist([tracks[0]]);
     }
   };
 
   return (
     <div>
-      {songs.map((song) => (
+      {/* {tracks.map((song) => (
         <div>
           <h2>
             {song.title} by {song.artist}
           </h2>
           <button onClick={handlePlay}>Play</button>
-          {/* <audio src={song.audio} controls></audio> */}
         </div>
-      ))}
+      ))} */}
+
+      <TrackList tracks={tracks} />
     </div>
   );
 }

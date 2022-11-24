@@ -1,0 +1,18 @@
+.Container {
+  align-items: center;
+  background-color: var(--color-panel);
+  border-radius: 5px;
+  display: flex;
+  gap: 1rem;
+  height: 1px;
+  min-height: 4rem;
+  padding: 0.5rem;
+}
+
+.Button {
+  border: 2px solid var(--color-text-default);
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 1.7rem;
+  width: 1.7rem;
+}
