@@ -9,12 +9,15 @@
   padding: 0.5rem;
 }
 
-.Button {
-  border: 2px solid var(--color-text-default);
+.Container button {
   border-radius: 50%;
   flex-shrink: 0;
   height: 1.7rem;
   width: 1.7rem;
+}
+
+.PlayBtn {
+  border: 2px solid var(--color-text-default);
 }
 
 .Data {
@@ -44,10 +47,6 @@
 
 .Length {
   text-align: right;
-}
-
-.Menu {
-  padding: 5px;
 }
 
 @media screen and (max-width: 768px) {
