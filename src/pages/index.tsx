@@ -4,6 +4,7 @@ import { useAudioPlayer } from "@context/AudioPlayer";
 import { TrackList } from "@components/TrackList";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [tracks, setTracks] = useState<ITrack[]>([]);
   const { setPlaylist } = useAudioPlayer();
 
@@ -13,6 +14,7 @@ export default function Home() {
       .then((data) => {
         console.log(data);
         setTracks(data);
+        setIsLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -28,7 +30,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <section>
       {/* {tracks.map((song) => (
         <div>
           <h2>
@@ -38,7 +40,7 @@ export default function Home() {
         </div>
       ))} */}
 
-      <TrackList tracks={tracks} />
-    </div>
+      <TrackList isLoading={isLoading} tracks={tracks} />
+    </section>
   );
 }
