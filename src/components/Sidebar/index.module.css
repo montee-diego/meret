@@ -1,0 +1,44 @@
+.Container {
+  max-width: 75%;
+  width: 18rem;
+}
+
+.Overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: 0.25s ease-in-out;
+  transition-property: opacity, visibility;
+  visibility: hidden;
+  z-index: 900;
+}
+
+@media screen and (max-width: 768px) {
+  .Container {
+    background-color: var(--color-panel-solid);
+    backdrop-filter: blur(15px);
+    bottom: 0;
+    box-shadow: 1px 0px rgba(0, 0, 0, 0.3), 5px 0px 10px rgba(0, 0, 0, 0.2);
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease-in-out;
+  }
+
+  .Open {
+    transform: translateX(0%);
+  }
+
+  .OverlayShow {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+  }
+}
