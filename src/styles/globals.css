@@ -5,7 +5,7 @@
 }
 
 body[data-theme="light"] {
-  background: linear-gradient(215deg, #8cd38e 29.9%, #43a5e7 80%),
+  background-image: linear-gradient(215deg, #8cd38e 29.9%, #43a5e7 80%),
     linear-gradient(304deg, rgba(255, 101, 53, 0.4) 24.9%, #aa2743 91%),
     linear-gradient(10deg, #b1c9d8 19.9%, #2776aa 50%),
     linear-gradient(145deg, #f4df26 15.9%, #ff1b9a 40%);
@@ -17,7 +17,7 @@ body[data-theme="light"] {
 }
 
 body[data-theme="dark"] {
-  background: linear-gradient(215deg, #88402e 29.9%, #162568 80%),
+  background-image: linear-gradient(215deg, #88402e 29.9%, #162568 80%),
     linear-gradient(304deg, rgba(177, 15, 123, 0.4) 24.9%, #911f37 91%),
     linear-gradient(10deg, #b1c9d8 19.9%, #2776aa 50%),
     linear-gradient(145deg, #fff9cd 15.9%, #ff1b9a 40%);
@@ -29,11 +29,13 @@ body[data-theme="dark"] {
 }
 
 body {
-  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
   background-blend-mode: hard-light;
+  background-repeat: no-repeat;
   color: var(--color-text-default);
   font-family: "Work Sans", sans-serif;
   height: 100vh;
+  /* touch-action: none; */
 }
 
 body::before {
@@ -47,7 +49,7 @@ body::before {
 #__next {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
   left: 0;
   overflow: hidden;
   position: absolute;
