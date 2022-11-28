@@ -18,7 +18,7 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
     <header className={style.Container}>
       <div className={style.Title}>
         <button className={style.Burger} onClick={handleNavState}>
-          <FontAwesomeIcon icon={faBars} size="2x" fixedWidth />
+          <FontAwesomeIcon icon={faBars} size="2x" />
         </button>
         <h1>*title goes here*</h1>
       </div>

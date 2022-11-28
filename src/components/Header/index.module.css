@@ -1,15 +1,23 @@
 .Container {
-  /* background-color: burlywood; */
   height: 5rem;
 }
 
 .Title {
   align-items: center;
   display: flex;
+  gap: 1rem;
+}
+
+.Title h1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .Burger {
   display: none;
+  height: 2rem;
+  width: 2rem;
 }
 
 @media screen and (max-width: 768px) {
