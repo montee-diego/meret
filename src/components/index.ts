@@ -5,5 +5,6 @@ export { CoverPlaceholder } from "./CoverPlaceholder";
 export { Header } from "./Header";
 export { Loading } from "./Loading";
 export { Sidebar } from "./Sidebar";
+export { ThemeToggle } from "./ThemeToggle";
 export { Track } from "./Track";
 export { TrackList } from "./TrackList";
