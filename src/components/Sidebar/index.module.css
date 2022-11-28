@@ -1,6 +1,19 @@
 .Container {
   max-width: 75%;
+  padding: 0.5rem;
   width: 18rem;
+}
+
+.Title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Close {
+  display: none;
+  height: 2rem;
+  width: 2rem;
 }
 
 .Overlay {
@@ -34,6 +47,10 @@
 
   .Open {
     transform: translateX(0%);
+  }
+
+  .Close {
+    display: initial;
   }
 
   .OverlayShow {
