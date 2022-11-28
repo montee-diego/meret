@@ -1,7 +1,7 @@
 import type { FC, Dispatch, SetStateAction } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { useTheme } from "@context/Theme";
+import { ThemeToggle } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -9,21 +9,18 @@ interface IProps {
 }
 
 export const Header: FC<IProps> = ({ setIsNavOpen }) => {
-  const { setTheme } = useTheme();
-
   const handleNavState = () => setIsNavOpen(true);
-  const handleThemeState = () => setTheme((theme) => (theme == "light" ? "dark" : "light"));
 
   return (
     <header className={style.Container}>
       <div className={style.Title}>
         <button className={style.Burger} onClick={handleNavState}>
-          <FontAwesomeIcon icon={faBars} size="2x" />
+          <FontAwesomeIcon icon={faBars} size="xl" />
         </button>
-        <h1>*title goes here*</h1>
+        <h2>Home</h2>
       </div>
 
-      <button onClick={handleThemeState}>Theme</button>
+      <ThemeToggle />
     </header>
   );
 };
