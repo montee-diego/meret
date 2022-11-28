@@ -1,4 +1,6 @@
 import type { FC, Dispatch, SetStateAction } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from "@context/Theme";
 import style from "./index.module.css";
 
@@ -9,12 +11,19 @@ interface IProps {
 export const Header: FC<IProps> = ({ setIsNavOpen }) => {
   const { setTheme } = useTheme();
 
+  const handleNavState = () => setIsNavOpen(true);
+  const handleThemeState = () => setTheme((theme) => (theme == "light" ? "dark" : "light"));
+
   return (
     <header className={style.Container}>
-      <h1 onClick={() => setIsNavOpen(true)}>*title goes here*</h1>
+      <div className={style.Title}>
+        <button className={style.Burger} onClick={handleNavState}>
+          <FontAwesomeIcon icon={faBars} size="2x" fixedWidth />
+        </button>
+        <h1>*title goes here*</h1>
+      </div>
 
-      <button onClick={() => setTheme("light")}>light</button>
-      <button onClick={() => setTheme("dark")}>dark</button>
+      <button onClick={handleThemeState}>Theme</button>
     </header>
   );
 };

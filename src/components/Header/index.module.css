@@ -2,3 +2,18 @@
   /* background-color: burlywood; */
   height: 5rem;
 }
+
+.Title {
+  align-items: center;
+  display: flex;
+}
+
+.Burger {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .Burger {
+    display: initial;
+  }
+}
