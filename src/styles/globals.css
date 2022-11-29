@@ -14,6 +14,7 @@ body[data-theme="light"] {
   --color-text-secondary: #353535;
   --color-panel: rgba(0, 0, 0, 0.1);
   --color-panel-solid: rgba(162, 235, 205, 0.6);
+  --color-focus: rgba(0, 0, 0, 0.3);
 }
 
 body[data-theme="dark"] {
@@ -26,6 +27,7 @@ body[data-theme="dark"] {
   --color-text-secondary: #b8b8b8;
   --color-panel: rgba(255, 255, 255, 0.1);
   --color-panel-solid: rgba(83, 44, 81, 0.5);
+  --color-focus: rgba(255, 255, 255, 0.3);
 }
 
 body {
@@ -64,7 +66,8 @@ main {
 }
 
 a,
-button {
+button,
+input {
   color: var(--color-text-default);
 }
 
@@ -74,7 +77,15 @@ button {
   cursor: pointer;
 }
 
-input,
-button {
+button,
+input {
   font-family: "Work Sans", sans-serif;
+}
+
+input {
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: none;
 }
