@@ -1,0 +1,16 @@
+.Button {
+  border-radius: 5px;
+  height: 2rem;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 2rem;
+}
+
+.Button:focus {
+  outline: 2px solid var(--color-focus);
+}
+
+@media (hover: hover) {
+  .Button:hover {
+    background-color: var(--color-panel);
+  }
+}
