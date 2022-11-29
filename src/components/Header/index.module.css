@@ -17,15 +17,3 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-.Burger {
-  display: none;
-  height: 2rem;
-  width: 2rem;
-}
-
-@media screen and (max-width: 768px) {
-  .Burger {
-    display: initial;
-  }
-}
