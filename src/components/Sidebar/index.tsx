@@ -1,6 +1,7 @@
 import type { FC, Dispatch, SetStateAction } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { ButtonIcon, Search } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -16,10 +17,12 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
       <nav className={style.Container + (isNavOpen ? " " + style.Open : "")}>
         <div className={style.Title}>
           <h1>Meret</h1>
-          <button className={style.Close} onClick={handleNavState}>
+          <ButtonIcon onClick={handleNavState}>
             <FontAwesomeIcon icon={faXmark} size="xl" />
-          </button>
+          </ButtonIcon>
         </div>
+
+        <Search />
       </nav>
 
       <div

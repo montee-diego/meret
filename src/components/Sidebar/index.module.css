@@ -1,7 +1,21 @@
 .Container {
+  background-color: var(--color-panel-solid);
+  backdrop-filter: blur(15px);
+  bottom: 0;
+  box-shadow: 1px 0px rgba(0, 0, 0, 0.3), 5px 0px 10px rgba(0, 0, 0, 0.2);
+  left: 0;
   max-width: 75%;
   padding: 0.5rem;
-  width: 18rem;
+  position: absolute;
+  top: 0;
+  transform: translateX(-105%);
+  transition: transform 0.25s ease-in-out;
+  width: 20rem;
+  z-index: 1000;
+}
+
+.Open {
+  transform: translateX(0%);
 }
 
 .Title {
@@ -10,12 +24,6 @@
   height: 3rem;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-}
-
-.Close {
-  display: none;
-  height: 2rem;
-  width: 2rem;
 }
 
 .Overlay {
@@ -33,31 +41,8 @@
   z-index: 900;
 }
 
-@media screen and (max-width: 768px) {
-  .Container {
-    background-color: var(--color-panel-solid);
-    backdrop-filter: blur(15px);
-    bottom: 0;
-    box-shadow: 1px 0px rgba(0, 0, 0, 0.3), 5px 0px 10px rgba(0, 0, 0, 0.2);
-    left: 0;
-    position: absolute;
-    top: 0;
-    z-index: 1000;
-    transform: translateX(-105%);
-    transition: transform 0.25s ease-in-out;
-  }
-
-  .Open {
-    transform: translateX(0%);
-  }
-
-  .Close {
-    display: initial;
-  }
-
-  .OverlayShow {
-    opacity: 1;
-    pointer-events: all;
-    visibility: visible;
-  }
+.OverlayShow {
+  opacity: 1;
+  pointer-events: all;
+  visibility: visible;
 }
