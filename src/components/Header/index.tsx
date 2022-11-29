@@ -1,18 +1,19 @@
 import type { FC, Dispatch, SetStateAction } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faArrowRightToBracket as faSide } from "@fortawesome/free-solid-svg-icons";
+import { useAudioPlayer } from "@context/AudioPlayer";
 import { ButtonIcon, ThemeToggle } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
-  isPlayerOpen: boolean;
   setIsNavOpen: Dispatch<SetStateAction<boolean>>;
-  setIsPlayerOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Header: FC<IProps> = ({ isPlayerOpen, setIsNavOpen, setIsPlayerOpen }) => {
+export const Header: FC<IProps> = ({ setIsNavOpen }) => {
+  const { playerOpen, setPlayerOpen } = useAudioPlayer();
+
   const handleNavState = () => setIsNavOpen(true);
-  const handlePlayerState = () => setIsPlayerOpen((isPlayerOpen) => !isPlayerOpen);
+  const handlePlayerState = () => setPlayerOpen(!playerOpen);
 
   return (
     <header className={style.Container}>
@@ -25,8 +26,7 @@ export const Header: FC<IProps> = ({ isPlayerOpen, setIsNavOpen, setIsPlayerOpen
 
       <ThemeToggle />
       <ButtonIcon onClick={handlePlayerState}>
-        {isPlayerOpen}
-        <FontAwesomeIcon icon={faArrowRightToBracket} size="xl" flip={!isPlayerOpen ? "horizontal" : undefined} />
+        <FontAwesomeIcon icon={faSide} size="xl" flip={playerOpen ? undefined : "horizontal"} />
       </ButtonIcon>
     </header>
   );

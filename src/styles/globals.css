@@ -59,13 +59,11 @@ body::before {
   width: 100%;
 }
 
-main {
+/* main {
   display: flex;
   gap: 0.5rem;
-  /* flex: 1; */
   padding: 0.5rem;
-  /* width: 100%; */
-}
+} */
 
 section {
   flex: 1;
@@ -97,8 +95,8 @@ input:focus {
   outline: none;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   main.hide section {
     display: none;
   }
-}
+} */

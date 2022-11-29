@@ -1,20 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import type { FC, Dispatch, SetStateAction } from "react";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { AudioControls, Cover } from "@components/index";
+import type { FC } from "react";
 import style from "./index.module.css";
 
-interface IProps {
-  isPlayerOpen: boolean;
-  setIsPlayerOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-export const AudioPlayer: FC<IProps> = ({ isPlayerOpen }) => {
+export const AudioPlayer: FC = () => {
   const [trackIndex, setTrackIndex] = useState<number>(0);
   const [trackProgress, setTrackProgress] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  const { playlist } = useAudioPlayer();
+  const { playerOpen, playlist } = useAudioPlayer();
   const { artist, audio, cover, title, length } = playlist[trackIndex] || {};
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -38,7 +33,7 @@ export const AudioPlayer: FC<IProps> = ({ isPlayerOpen }) => {
   }, [audio]);
 
   return (
-    <aside className={style.Container + (isPlayerOpen ? " " + style.Open : "")}>
+    <aside className={style.Container + (playerOpen ? " " + style.Open : "")}>
       <Cover colors={[]} cover={cover} />
 
       <div className={style.Tags}>
