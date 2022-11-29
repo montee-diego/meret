@@ -7,20 +7,20 @@ import "@styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
+  const [isPlayerOpen, setIsPlayerOpen] = useState<boolean>(false);
 
   return (
     <ThemeContext>
       <AudioPlayerContext>
-        <div style={{ display: "flex", flex: 1 }}>
-          <Sidebar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+        <Sidebar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+        <Header setIsNavOpen={setIsNavOpen} isPlayerOpen={isPlayerOpen} setIsPlayerOpen={setIsPlayerOpen} />
 
-          <main>
-            <Header setIsNavOpen={setIsNavOpen} />
-            <Component {...pageProps} />
-          </main>
-        </div>
-
-        <AudioPlayer />
+        {/* <div style={{ display: "flex" }}> */}
+        <main className={isPlayerOpen ? "hide" : ""}>
+          <Component {...pageProps} />
+          <AudioPlayer isPlayerOpen={isPlayerOpen} setIsPlayerOpen={setIsPlayerOpen} />
+        </main>
+        {/* </div> */}
       </AudioPlayerContext>
     </ThemeContext>
   );

@@ -1,11 +1,15 @@
 .Container {
   align-items: center;
   background-color: var(--color-panel);
-  display: flex;
+  display: none;
   gap: 1rem;
   height: 1px;
   min-height: 5rem;
   padding: 0.5rem;
+}
+
+.Open {
+  display: flex;
 }
 
 .Tags {

@@ -49,8 +49,8 @@ body::before {
 }
 
 #__next {
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
   height: 100vh;
   left: 0;
   overflow: hidden;
@@ -60,8 +60,15 @@ body::before {
 }
 
 main {
-  flex: 1;
+  display: flex;
+  gap: 0.5rem;
+  /* flex: 1; */
   padding: 0.5rem;
+  /* width: 100%; */
+}
+
+section {
+  flex: 1;
   width: 100%;
 }
 
@@ -88,4 +95,10 @@ input {
 
 input:focus {
   outline: none;
+}
+
+@media screen and (max-width: 768px) {
+  main.hide section {
+    display: none;
+  }
 }
