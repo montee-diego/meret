@@ -1,0 +1,22 @@
+.Container {
+  background-color: var(--color-panel);
+  border-radius: 5px;
+  display: flex;
+}
+
+.Container:focus-within {
+  outline: 2px solid var(--color-focus);
+}
+
+.Input {
+  background-color: transparent;
+  border: none;
+  flex: 1;
+  height: 2rem;
+  padding-left: 0.5rem;
+}
+
+.Submit {
+  height: 2rem;
+  width: 2rem;
+}
