@@ -34,7 +34,7 @@ export const AudioPlayer: FC = () => {
 
   return (
     <aside className={style.Container + (playerOpen ? " " + style.Open : "")}>
-      <Cover colors={[]} cover={cover} />
+      <Cover colors={[]} cover={cover} size="50%" />
 
       <div className={style.Tags}>
         <p className={style.Title}>{title}</p>
