@@ -18,7 +18,7 @@ export const Track: FC<IProps> = ({ track }) => {
 
   return (
     <div className={style.Container}>
-      <Cover colors={[]} cover={track.cover} />
+      <Cover colors={[]} cover={track.cover} size="3rem" />
 
       <button className={style.PlayBtn} aria-label="Play" onClick={handlePlay}>
         <FontAwesomeIcon icon={faPlay} transform="right-1" />

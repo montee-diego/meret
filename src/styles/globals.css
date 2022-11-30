@@ -67,6 +67,7 @@ body::before {
 
 section {
   flex: 1;
+  padding: 1rem 0.5rem;
   width: 100%;
 }
 
