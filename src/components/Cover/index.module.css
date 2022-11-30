@@ -1,14 +1,17 @@
 .Container {
+  align-items: center;
   aspect-ratio: 1/1;
+  background-color: var(--color-panel);
   border-radius: 5px;
-  display: inline-block;
+  display: flex;
   flex-shrink: 0;
-  height: 100%;
+  /* height: 100%; */
+  justify-content: center;
   overflow: hidden;
   position: relative;
 }
 
-.Container svg,
+/* .Container svg, */
 .Container img {
   height: 100%;
   left: 0;
