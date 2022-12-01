@@ -15,7 +15,7 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   return (
     <>
       <nav className={style.Container + (isNavOpen ? " " + style.Open : "")}>
-        <div className={style.Title}>
+        <div className={style.Logo}>
           <h1>Meret</h1>
           <ButtonIcon onClick={handleNavState}>
             <FontAwesomeIcon icon={faXmark} size="xl" />
