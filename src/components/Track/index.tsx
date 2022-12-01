@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
-import type { FC } from "react";
-import type { ITrack } from "@global/types";
 import { formatTime } from "@global/utils";
 import { Cover } from "@components/index";
+import type { FC } from "react";
+import type { ITrack } from "@global/types";
 import style from "./index.module.css";
 
 interface IProps {
@@ -18,10 +18,10 @@ export const Track: FC<IProps> = ({ track }) => {
 
   return (
     <div className={style.Container}>
-      <Cover colors={[]} cover={track.cover} size="3rem" />
+      <Cover cover={track.cover} size="3rem" />
 
-      <button className={style.PlayBtn} aria-label="Play" onClick={handlePlay}>
-        <FontAwesomeIcon icon={faPlay} transform="right-1" />
+      <button className={style.Button} aria-label="Play" onClick={handlePlay}>
+        <FontAwesomeIcon size="lg" icon={faPlay} transform="right-1 up-0.5" />
       </button>
 
       <div className={style.Data}>
@@ -35,8 +35,8 @@ export const Track: FC<IProps> = ({ track }) => {
         <p className={style.Length}>{formatTime(track.length)}</p>
       </div>
 
-      <button className={style.MenuBtn} aria-label="Track menu">
-        <FontAwesomeIcon icon={faEllipsisVertical} size="xl" fixedWidth />
+      <button className={style.Button} aria-label="Track menu">
+        <FontAwesomeIcon size="xl" icon={faEllipsisVertical} fixedWidth />
       </button>
     </div>
   );

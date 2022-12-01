@@ -9,15 +9,16 @@
   padding: 0.5rem 1rem 0.5rem 0.5rem;
 }
 
-.Container button {
+.Button {
   border-radius: 50%;
   flex-shrink: 0;
-  height: 1.7rem;
-  width: 1.7rem;
+  height: 2rem;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 2rem;
 }
 
-.PlayBtn {
-  border: 2px solid var(--color-text-default);
+.Button:focus {
+  outline: 2px solid var(--color-focus);
 }
 
 .Data {
@@ -47,6 +48,12 @@
 
 .Length {
   text-align: right;
+}
+
+@media (hover: hover) {
+  .Button:hover {
+    background-color: var(--color-panel);
+  }
 }
 
 @media screen and (max-width: 768px) {
