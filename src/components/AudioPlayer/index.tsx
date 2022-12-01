@@ -34,11 +34,11 @@ export const AudioPlayer: FC = () => {
 
   return (
     <aside className={style.Container + (playerOpen ? " " + style.Open : "")}>
-      <Cover colors={[]} cover={cover} size="50%" />
+      <Cover cover={cover} size="50%" />
 
       <div className={style.Tags}>
-        <p className={style.Title}>{title}</p>
-        <p className={style.Artist}>{artist}</p>
+        <p className={style.Title}>{title || "No track"}</p>
+        <p className={style.Artist}>{artist || "Select a playlist or track to begin"}</p>
       </div>
 
       <AudioControls handleControls={handleControls} isPlaying={isPlaying} />

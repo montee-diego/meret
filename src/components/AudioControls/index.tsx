@@ -25,11 +25,7 @@ export const AudioControls: FC<IProps> = ({ handleControls, isPlaying }) => {
       </button>
 
       <button className={style.Button} onClick={handleControls.Play} aria-label="Play">
-        {isPlaying ? (
-          <FontAwesomeIcon size="3x" icon={faCirclePause} />
-        ) : (
-          <FontAwesomeIcon size="3x" icon={faCirclePlay} />
-        )}
+        <FontAwesomeIcon size="3x" icon={isPlaying ? faCirclePause : faCirclePlay} />
       </button>
 
       <button className={style.Button} onClick={handleControls.Next} aria-label="Next">

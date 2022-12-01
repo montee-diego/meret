@@ -4,10 +4,11 @@
   border-left: 1px solid var(--color-focus);
   display: none;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   /* height: 1px;
   min-height: 5rem; */
-  min-height: calc(100vh - 4rem);
+  /* min-height: calc(100vh - 4rem); */
+  overflow: hidden auto;
   padding: 1rem 0.5rem;
   width: 356px;
 }
@@ -17,23 +18,22 @@
 }
 
 .Tags {
+  flex-shrink: 0;
   overflow: hidden;
   text-align: center;
   width: 100%;
 }
 
 .Tags p {
+  line-height: 1.7rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .Title {
+  font-size: 1.1rem;
   font-weight: 700;
-}
-
-.Artist {
-  font-size: 0.9rem;
 }
 
 @media screen and (max-width: 768px) {
