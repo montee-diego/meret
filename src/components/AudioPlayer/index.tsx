@@ -54,7 +54,7 @@ export const AudioPlayer: FC = () => {
 
   return (
     <aside className={style.Container + (playerOpen ? " " + style.Open : "")}>
-      <Cover cover={cover} size="50%" />
+      <Cover cover={cover} size="60%" />
 
       <div className={style.Time}>
         <span>{formatTime(trackProgress)}</span>

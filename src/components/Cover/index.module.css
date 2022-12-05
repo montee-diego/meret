@@ -3,6 +3,7 @@
   background-color: var(--color-panel);
   border-radius: 5px;
   flex-shrink: 0;
+  max-width: 320px;
   overflow: hidden;
   position: relative;
 }

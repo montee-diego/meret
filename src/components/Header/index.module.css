@@ -19,3 +19,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@media screen and (max-width: 768px) {
+  .Container {
+    padding: 0.5rem;
+  }
+}
