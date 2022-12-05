@@ -9,12 +9,31 @@
   min-height: 5rem; */
   /* min-height: calc(100vh - 4rem); */
   overflow: hidden auto;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
   width: 356px;
 }
 
 .Open {
   display: flex;
+}
+
+.Time {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.Time span {
+  width: 2.5rem;
+}
+
+.Time span:last-child {
+  text-align: right;
+}
+
+.Time input {
+  flex: 1;
 }
 
 .Tags {

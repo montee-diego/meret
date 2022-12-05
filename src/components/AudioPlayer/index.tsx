@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAudioPlayer } from "@context/AudioPlayer";
+import { formatTime } from "@global/utils";
 import { AudioControls, Cover } from "@components/index";
 import type { FC } from "react";
 import style from "./index.module.css";
@@ -25,16 +26,41 @@ export const AudioPlayer: FC = () => {
     Prev: () => {},
     Next: () => {},
   };
+  const handleSeek = (e: any) => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.currentTime = e.target.value;
+      setTrackProgress(e.target.value);
+    }
+  };
 
   useEffect(() => {
     if (audio) {
       audioRef.current = new Audio(audio);
+
+      audioRef.current.ontimeupdate = (e: any) => {
+        const currentTime = Math.floor(e.target.currentTime);
+
+        if (trackProgress !== currentTime) {
+          setTrackProgress(currentTime);
+        }
+      };
+
+      audioRef.current.onended = (e: any) => {
+        setIsPlaying(false);
+        setTrackProgress(0);
+      };
     }
   }, [audio]);
 
   return (
     <aside className={style.Container + (playerOpen ? " " + style.Open : "")}>
       <Cover cover={cover} size="50%" />
+
+      <div className={style.Time}>
+        <span>{formatTime(trackProgress)}</span>
+        <input type="range" max={length || 0} value={trackProgress || 0} onChange={handleSeek} />
+        <span>{formatTime(length || 0)}</span>
+      </div>
 
       <div className={style.Tags}>
         <p className={style.Title}>{title || "No track"}</p>
