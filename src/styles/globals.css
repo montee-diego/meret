@@ -92,7 +92,10 @@ section {
   width: 100%;
 }
 
-a,
+a {
+  text-decoration: none;
+}
+
 button,
 input {
   color: var(--color-text-default);
