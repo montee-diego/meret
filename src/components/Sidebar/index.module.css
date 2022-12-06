@@ -33,6 +33,46 @@
   /* padding: 0.5rem; */
 }
 
+.Links {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.Links a,
+.Playlists summary {
+  border-radius: 5px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  line-height: 2.5rem;
+  padding: 0rem 0.5rem;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Links a:focus,
+.Playlists summary:focus {
+  outline: 2px solid var(--color-focus);
+}
+
+.Playlists {
+  margin: 3px 0px;
+}
+
+.Playlists summary {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.Playlists summary svg {
+  transition: transform 0.25s ease;
+}
+
+.Playlists[open] summary svg {
+  transform: rotate(180deg);
+}
+
 .Overlay {
   background-color: rgba(0, 0, 0, 0.5);
   bottom: 0;
@@ -52,4 +92,11 @@
   opacity: 1;
   pointer-events: all;
   visibility: visible;
+}
+
+@media (hover: hover) {
+  .Links a:hover,
+  .Playlists summary:hover {
+    background-color: var(--color-panel);
+  }
 }
