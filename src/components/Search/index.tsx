@@ -33,6 +33,7 @@ export const Search: FC<IProps> = ({ setIsNavOpen }) => {
         value={input}
         placeholder="Search"
         onInput={handleInput}
+        required
       />
       <button type="submit" className={style.Submit}>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
