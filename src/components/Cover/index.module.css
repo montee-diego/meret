@@ -12,13 +12,6 @@
   animation: loadingAnim 1s cubic-bezier(0.17, 0.67, 0.83, 0.67) alternate infinite;
 }
 
-.Container img {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-
 .Img {
   opacity: 0;
   transition: opacity 0.25s ease-in;
