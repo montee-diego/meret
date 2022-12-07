@@ -15,19 +15,24 @@ const Theme = createContext<IContext>({
   setTheme: () => {},
 });
 
-export const ThemeContext: FC<IProps> = (props) => {
+export const ThemeContext: FC<IProps> = ({ children }) => {
   const [theme, setTheme] = useState<string>("light");
 
   useEffect(() => {
-    console.log("theme changed to: ", theme);
-    document.body.dataset.theme = theme;
-  }, [theme]);
+    const savedTheme = window.localStorage.getItem("theme");
+
+    if (savedTheme && savedTheme !== "light") {
+      setTheme(savedTheme);
+    }
+
+    document.body.dataset.theme = savedTheme || "light";
+  }, []);
 
   return (
     <Theme.Provider value={{ theme, setTheme }}>
-      {props.children}
+      {children}
     </Theme.Provider>
-  )
-}
+  );
+};
 
 export const useTheme = () => useContext(Theme);

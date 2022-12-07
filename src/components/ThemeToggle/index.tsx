@@ -8,7 +8,11 @@ export const ThemeToggle: FC = () => {
   const { theme, setTheme } = useTheme();
 
   const handleThemeToggle = () => {
-    setTheme((theme) => (theme === "light" ? "dark" : "light"));
+    const activeTheme = theme === "light" ? "dark" : "light";
+
+    document.body.dataset.theme = activeTheme;
+    window.localStorage.setItem("theme", activeTheme);
+    setTheme(activeTheme);
   };
 
   return (
