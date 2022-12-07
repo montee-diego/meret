@@ -1,10 +1,17 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import type { FC, SyntheticEvent } from "react";
+import type { FC, SyntheticEvent, Dispatch, SetStateAction } from "react";
 import style from "./index.module.css";
 
-export const Search: FC = () => {
+interface IProps {
+  setIsNavOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export const Search: FC<IProps> = ({ setIsNavOpen }) => {
+  const router = useRouter();
+
   const [input, setInput] = useState<string>("");
 
   const handleInput = (e: SyntheticEvent<HTMLInputElement>) => {
@@ -13,7 +20,9 @@ export const Search: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Search:", input);
+    router.push(`/search?query=${input}`);
+    setInput("");
+    setIsNavOpen(false);
   };
 
   return (
