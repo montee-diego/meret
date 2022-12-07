@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { sanityClient } from "@services/sanity/client";
-import { queryAll } from "@services/sanity/queries";
-import { TrackList } from "@components/TrackList";
+import { querySearch } from "@services/sanity/queries";
+import { TrackList } from "@components/index";
 import type { GetServerSideProps } from "next";
 import type { ITrack } from "@global/types";
 
@@ -9,18 +9,20 @@ interface IProps {
   tracks: ITrack[];
 }
 
-export default function Home({ tracks }: IProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+export default function Search({ tracks }: IProps) {
+  const { query } = useRouter();
 
   return (
     <section>
+      <h1>Search: {query.query}</h1>
       <TrackList isLoading={false} tracks={tracks} />
     </section>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const response = await sanityClient.fetch(queryAll());
+  const { query } = context.query;
+  const response = await sanityClient.fetch(querySearch(query));
 
   return {
     props: {

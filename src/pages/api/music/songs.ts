@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sanityClient } from "@services/sanity/client";
-import { queryAll } from "@services/sanity/query/queryAll";
+import { queryAll } from "@services/sanity/queries";
 import { ITrack } from "@global/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
