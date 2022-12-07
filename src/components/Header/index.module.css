@@ -12,12 +12,19 @@
   align-items: center;
   display: flex;
   gap: 1rem;
+  text-transform: capitalize;
 }
 
 .Title h1 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.Actions {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
 }
 
 @media screen and (max-width: 768px) {
