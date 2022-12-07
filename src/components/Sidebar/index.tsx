@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ButtonIcon, Search } from "@components/index";
@@ -11,7 +12,12 @@ interface IProps {
 }
 
 export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
+  const { pathname } = useRouter();
+
   const handleNavState = () => setIsNavOpen(false);
+  const setActiveClass = (href: string): string => {
+    return pathname === href ? style.Active : "";
+  };
 
   return (
     <>
@@ -23,11 +29,15 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
           </ButtonIcon>
         </div>
 
-        <Search />
+        <Search setIsNavOpen={setIsNavOpen} />
 
         <div className={style.Links}>
-          <Link href="/">Home</Link>
-          <Link href="/artists">Artists</Link>
+          <Link href="/" className={setActiveClass("/")}>
+            Home
+          </Link>
+          <Link href="/artists" className={setActiveClass("/artists")}>
+            Artists
+          </Link>
         </div>
 
         <details className={style.Playlists}>

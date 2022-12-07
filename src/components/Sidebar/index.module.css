@@ -73,6 +73,10 @@
   transform: rotate(180deg);
 }
 
+.Links a.Active {
+  color: var(--color-text-default);
+}
+
 .Overlay {
   background-color: rgba(0, 0, 0, 0.5);
   bottom: 0;
