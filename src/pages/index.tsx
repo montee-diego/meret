@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { sanityClient } from "@services/sanity/client";
 import { queryAll } from "@services/sanity/queries";
 import { TrackList } from "@components/TrackList";
