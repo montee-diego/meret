@@ -1,8 +1,6 @@
 .Container {
   display: flex;
   overflow: hidden;
-  /* gap: 0.5rem; */
-  /* padding: 0.5rem; */
 }
 
 @media screen and (max-width: 768px) {

@@ -1,6 +1,6 @@
+import { Loading, Track } from "@components/index";
 import type { FC } from "react";
 import type { ITrack } from "@global/types";
-import { Loading, Track } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {

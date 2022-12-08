@@ -1,13 +1,9 @@
 .Container {
   align-items: center;
-  /* background-color: var(--color-panel); */
   border-left: 1px solid var(--color-focus);
   display: none;
   flex-direction: column;
   gap: 1.5rem;
-  /* height: 1px;
-  min-height: 5rem; */
-  /* min-height: calc(100vh - 4rem); */
   overflow: hidden auto;
   padding: 1rem;
   width: 356px;
