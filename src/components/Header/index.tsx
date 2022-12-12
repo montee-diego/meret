@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faArrowRightToBracket as faSide } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
-import { ButtonIcon, ThemeToggle } from "@components/index";
+import { ButtonIcon, ThemeToggle, User } from "@components/index";
 import type { FC, Dispatch, SetStateAction } from "react";
 import style from "./index.module.css";
 
@@ -23,6 +23,8 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
         </ButtonIcon>
         <h2>Home</h2>
       </div>
+
+      <User />
 
       <div className={style.Actions}>
         <ThemeToggle />
