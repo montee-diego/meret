@@ -1,6 +1,6 @@
 export default {
-  name: "song",
-  title: "Song",
+  name: "track",
+  title: "Track",
   type: "document",
   fields: [
     {

@@ -5,10 +5,12 @@ import createSchema from "part:@sanity/base/schema-creator";
 import schemaTypes from "all:part:@sanity/base/schema-type";
 
 // Import types
-import song from "./song";
+import playlist from "./playlist";
+import track from "./track";
+import user from "./user";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
   name: "default",
-  types: schemaTypes.concat([song]),
+  types: schemaTypes.concat([playlist, track, user]),
 });
