@@ -1,6 +1,6 @@
 export const queryAll = () => {
   return `
-    *[_type == "song"] {
+    *[_type == "track"] {
       ...,
       "audio": audio.asset->url,
       "cover": cover.asset->url
@@ -10,7 +10,7 @@ export const queryAll = () => {
 
 export const querySearch = (query: string | string[] | undefined) => {
   return `
-    *[_type == "song" && [title, artist] match "*${query}*"] {
+    *[_type == "track" && [title, artist] match "*${query}*"] {
       ...,
       "audio": audio.asset->url,
       "cover": cover.asset->url
