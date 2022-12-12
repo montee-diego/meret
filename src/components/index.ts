@@ -10,3 +10,4 @@ export { Sidebar } from "./Sidebar";
 export { ThemeToggle } from "./ThemeToggle";
 export { Track } from "./Track";
 export { TrackList } from "./TrackList";
+export { User } from "./User";

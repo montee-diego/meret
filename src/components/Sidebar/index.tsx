@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ButtonIcon, Search } from "@components/index";
@@ -13,6 +14,7 @@ interface IProps {
 
 export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   const { pathname } = useRouter();
+  const { data: session } = useSession();
 
   const handleNavState = () => setIsNavOpen(false);
   const setActiveClass = (href: string): string => {
@@ -45,12 +47,16 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
             <FontAwesomeIcon icon={faChevronDown} size="sm" />
             Playlists
           </summary>
-          <ul>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-          </ul>
+          {session ? (
+            <ul>
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+              <li>4</li>
+            </ul>
+          ) : (
+            <p>login to view playlists</p>
+          )}
         </details>
       </nav>
 
