@@ -24,9 +24,8 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
         <h2>Home</h2>
       </div>
 
-      <User />
-
       <div className={style.Actions}>
+        <User />
         <ThemeToggle />
         <ButtonIcon onClick={handlePlayerState}>
           <FontAwesomeIcon icon={faSide} size="xl" flip={playerOpen ? undefined : "horizontal"} />
