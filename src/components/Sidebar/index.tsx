@@ -45,18 +45,22 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
         <details className={style.Playlists}>
           <summary>
             <FontAwesomeIcon icon={faChevronDown} size="sm" />
-            Playlists
+            <span>Playlists</span>
           </summary>
-          {session ? (
-            <ul>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-            </ul>
-          ) : (
-            <p>login to view playlists</p>
-          )}
+          <div className={style.PlaylistsContent}>
+            {session ? (
+              <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+              </ul>
+            ) : (
+              <button>
+                <strong>Log In</strong> to view playlists
+              </button>
+            )}
+          </div>
         </details>
       </nav>
 

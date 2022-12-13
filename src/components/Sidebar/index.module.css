@@ -58,6 +58,7 @@
   display: flex;
   gap: 0.5rem;
   list-style: none;
+  margin-bottom: 3px;
 }
 
 .Playlists summary svg {
@@ -68,8 +69,31 @@
   transform: rotate(180deg);
 }
 
+.Playlists[open] > div {
+  animation: sweep 0.25s ease-in-out;
+}
+
 .Links a.Active {
   color: var(--color-text-default);
+}
+
+.PlaylistsContent {
+  padding-left: calc(0.5rem + 0.875em);
+}
+
+.PlaylistsContent button {
+  border-radius: 5px;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 2.5rem;
+  text-align: left;
+  padding: 0rem 0.5rem;
+  transition: color 0.25s ease-in-out;
+  width: 100%;
+}
+
+.PlaylistsContent button:focus {
+  outline: 2px solid var(--color-focus);
 }
 
 .Overlay {
@@ -93,9 +117,24 @@
   visibility: visible;
 }
 
+@keyframes sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @media (hover: hover) {
   .Links a:hover,
   .Playlists summary:hover {
     background-color: var(--color-panel);
+  }
+
+  .PlaylistsContent button:hover {
+    color: var(--color-text-default);
   }
 }
