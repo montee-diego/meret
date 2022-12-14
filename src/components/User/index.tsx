@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { ButtonIcon } from "@components/index";
+import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+import Link from "next/link";
 import type { FC } from "react";
 import style from "./index.module.css";
 
@@ -14,25 +15,32 @@ export const User: FC = () => {
   const handleLogOut = () => signOut();
 
   return (
-    <div className={style.MenuButton}>
-      <ButtonIcon onClick={handleUserMenu}>
+    <div className={style.Container}>
+      <button className={style.Button} onClick={handleUserMenu}>
         {session ? (
-          <img src={`${session.user?.image}`} alt="" />
+          <div className={style.ProfileImage}>
+            <Image src={`${session.user?.image}`} alt="U" sizes="64px" fill />
+          </div>
         ) : (
-          <FontAwesomeIcon size="xl" icon={faCircleUser} />
+          <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: "2rem" }} />
         )}
-      </ButtonIcon>
+
+        <FontAwesomeIcon size="xs" icon={faChevronDown} transform="down-3" />
+      </button>
 
       <div className={style.Menu + (isMenuOpen ? " " + style.Open : "")}>
         {session ? (
-          <div>
+          <>
             <p>{session.user?.name}</p>
-            <button className={style.Button} onClick={handleLogOut}>
+            <Link href="/profile" className={style.LinkButton}>
+              Profile
+            </Link>
+            <button className={style.LinkButton} onClick={handleLogOut}>
               Log Out
             </button>
-          </div>
+          </>
         ) : (
-          <button className={style.Button} onClick={handleLogIn}>
+          <button className={style.LinkButton} onClick={handleLogIn}>
             Log In
           </button>
         )}
