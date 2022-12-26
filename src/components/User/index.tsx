@@ -4,19 +4,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
-import type { FC } from "react";
+import type { FC, FocusEvent, MouseEvent } from "react";
 import style from "./index.module.css";
 
 export const User: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { data: session } = useSession();
+
   const handleUserMenu = () => setIsMenuOpen(!isMenuOpen);
   const handleLogIn = () => signIn("google");
   const handleLogOut = () => signOut();
+  const handleFocus = (event: FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.matches(":focus-within")) {
+      setIsMenuOpen(false);
+    }
+  };
+  const handleMouse = (event: MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
 
   return (
-    <div className={style.Container}>
-      <button className={style.Button} onClick={handleUserMenu}>
+    <div className={style.Container} onBlur={handleFocus}>
+      <button className={style.Button} onClick={handleUserMenu} aria-label={"toggle user menu"}>
         {session ? (
           <div className={style.ProfileImage}>
             <Image src={`${session.user?.image}`} alt="U" sizes="64px" fill />
@@ -28,7 +37,7 @@ export const User: FC = () => {
         <FontAwesomeIcon size="xs" icon={faChevronDown} transform="down-3" />
       </button>
 
-      <div className={style.Menu + (isMenuOpen ? " " + style.Open : "")}>
+      <div className={style.Menu + (isMenuOpen ? " " + style.Open : "")} onMouseDown={handleMouse}>
         {session ? (
           <>
             <p>{session.user?.name}</p>
