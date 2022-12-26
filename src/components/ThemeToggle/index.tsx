@@ -16,7 +16,7 @@ export const ThemeToggle: FC = () => {
   };
 
   return (
-    <ButtonIcon onClick={handleThemeToggle}>
+    <ButtonIcon onClick={handleThemeToggle} label={"toggle theme"}>
       <FontAwesomeIcon size="xl" icon={theme === "light" ? faMoon : faSun} />
     </ButtonIcon>
   );

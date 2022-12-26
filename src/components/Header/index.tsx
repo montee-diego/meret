@@ -18,7 +18,7 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
   return (
     <header className={style.Container}>
       <div className={style.Title}>
-        <ButtonIcon onClick={handleNavState}>
+        <ButtonIcon onClick={handleNavState} label={"open sidebar"}>
           <FontAwesomeIcon icon={faBars} size="xl" />
         </ButtonIcon>
         <h2>Home</h2>
@@ -26,7 +26,7 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
 
       <div className={style.Actions}>
         <ThemeToggle />
-        <ButtonIcon onClick={handlePlayerState}>
+        <ButtonIcon onClick={handlePlayerState} label={"toggle audio player"}>
           <FontAwesomeIcon icon={faSide} size="xl" flip={playerOpen ? undefined : "horizontal"} />
         </ButtonIcon>
         <User />

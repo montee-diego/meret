@@ -20,7 +20,7 @@ export const Track: FC<IProps> = ({ track }) => {
     <div className={style.Container}>
       <Cover cover={track.cover} size="3rem" />
 
-      <button className={style.Button} aria-label="Play" onClick={handlePlay}>
+      <button className={style.Button} onClick={handlePlay} aria-label="play">
         <FontAwesomeIcon size="lg" icon={faPlay} transform="right-1 up-0.5" />
       </button>
 
@@ -35,7 +35,7 @@ export const Track: FC<IProps> = ({ track }) => {
         <p className={style.Length}>{formatTime(track.length)}</p>
       </div>
 
-      <button className={style.Button} aria-label="Track menu">
+      <button className={style.Button} aria-label="open track menu">
         <FontAwesomeIcon size="xl" icon={faEllipsisVertical} fixedWidth />
       </button>
     </div>

@@ -12,7 +12,7 @@
   width: 3rem;
 }
 
-.Button[aria-label="Play/Pause"] {
+.Button[aria-label="play/pause"] {
   height: 4rem;
   width: 4rem;
 }

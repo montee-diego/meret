@@ -20,15 +20,15 @@ interface IProps {
 export const AudioControls: FC<IProps> = ({ handleControls, isPlaying }) => {
   return (
     <div className={style.Container}>
-      <button className={style.Button} onClick={handleControls.Prev} aria-label="Previous">
+      <button className={style.Button} onClick={handleControls.Prev} aria-label="previous">
         <FontAwesomeIcon size="2x" icon={faBackwardStep} fixedWidth />
       </button>
 
-      <button className={style.Button} onClick={handleControls.Play} aria-label="Play/Pause">
+      <button className={style.Button} onClick={handleControls.Play} aria-label="play/pause">
         <FontAwesomeIcon size="3x" icon={isPlaying ? faCirclePause : faCirclePlay} />
       </button>
 
-      <button className={style.Button} onClick={handleControls.Next} aria-label="Next">
+      <button className={style.Button} onClick={handleControls.Next} aria-label="next">
         <FontAwesomeIcon size="2x" icon={faForwardStep} fixedWidth />
       </button>
     </div>
