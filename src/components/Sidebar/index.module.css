@@ -10,13 +10,19 @@
   position: absolute;
   top: 0;
   transform: translateX(-105%);
-  transition: transform 0.25s ease-in-out;
+  transition-property: transform, visibility;
+  transition-delay: 0s, 0.25s;
+  transition-duration: 0.25s, 0s;
+  transition-timing-function: ease-in-out;
+  visibility: hidden;
   width: 20rem;
   z-index: 1000;
 }
 
 .Open {
   transform: translateX(0%);
+  transition-delay: 0s;
+  visibility: visible;
 }
 
 .Logo {

@@ -1,10 +1,11 @@
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ButtonIcon, Search } from "@components/index";
 import Link from "next/link";
-import type { FC, Dispatch, SetStateAction } from "react";
+import type { FC, Dispatch, SetStateAction, FocusEvent, KeyboardEvent } from "react";
 import style from "./index.module.css";
 
 interface IProps {
@@ -15,18 +16,45 @@ interface IProps {
 export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   const { pathname } = useRouter();
   const { data: session } = useSession();
+  const closeRef = useRef<HTMLButtonElement | null>(null);
 
   const handleNavState = () => setIsNavOpen(false);
+
+  const handleKey = (event: KeyboardEvent) => {
+    if (event.code === "Escape" && isNavOpen) {
+      setIsNavOpen(false);
+    }
+  };
+
+  const handleFocus = ({ currentTarget }: FocusEvent<HTMLElement>) => {
+    if (!currentTarget.matches(":focus-within")) {
+      setIsNavOpen(false);
+    }
+  };
+
   const setActiveClass = (href: string): string => {
     return pathname === href ? style.Active : "";
   };
 
+  useEffect(() => {
+    if (isNavOpen) {
+      if (closeRef.current) closeRef.current.focus();
+    } else {
+      if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+    }
+  }, [isNavOpen]);
+
   return (
     <>
-      <nav className={style.Container + (isNavOpen ? " " + style.Open : "")}>
+      <nav
+        className={style.Container + (isNavOpen ? " " + style.Open : "")}
+        onKeyDown={handleKey}
+        onBlur={handleFocus}
+        tabIndex={-1}
+      >
         <div className={style.Logo}>
           <h1>Meret</h1>
-          <ButtonIcon onClick={handleNavState}>
+          <ButtonIcon onClick={handleNavState} label={"close sidebar"} ref={closeRef}>
             <FontAwesomeIcon icon={faXmark} size="xl" />
           </ButtonIcon>
         </div>
