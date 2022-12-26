@@ -22,8 +22,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
           <Header setIsNavOpen={setIsNavOpen} />
 
           <Main>
-            <Component {...pageProps} />
             <AudioPlayer />
+            <Component {...pageProps} />
           </Main>
         </AudioPlayerContext>
       </ThemeContext>

@@ -1,5 +1,6 @@
 .Container {
   display: flex;
+  flex-direction: row-reverse;
   overflow: hidden;
 }
 
