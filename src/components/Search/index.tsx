@@ -35,7 +35,7 @@ export const Search: FC<IProps> = ({ setIsNavOpen }) => {
         onInput={handleInput}
         required
       />
-      <button type="submit" className={style.Submit}>
+      <button type="submit" className={style.Submit} tabIndex={-1} aria-label="submit search">
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>
     </form>
