@@ -17,3 +17,11 @@ export const querySearch = (query: string | string[] | undefined) => {
     }
   `;
 };
+
+export const queryUserPlaylists = (id: string) => {
+  return `
+    *[_type == "user" && _id == ${id}] {
+      playlists
+    }
+  `;
+};
