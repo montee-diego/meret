@@ -1,4 +1,24 @@
 .Container {
+  background-color: rgba(0, 0, 0, 0);
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: 0.25s ease-in-out;
+  transition-property: background-color, visibility;
+  visibility: hidden;
+  z-index: 900;
+}
+
+.View {
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: all;
+  visibility: visible;
+}
+
+.Menu {
   background-color: var(--color-panel-solid);
   backdrop-filter: blur(15px);
   bottom: 0;
@@ -104,27 +124,6 @@
 
 .PlaylistsContent button:focus {
   outline: 2px solid var(--color-focus);
-}
-
-.Overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  bottom: 0;
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: fixed;
-  right: 0;
-  top: 0;
-  transition: 0.25s ease-in-out;
-  transition-property: opacity, visibility;
-  visibility: hidden;
-  z-index: 900;
-}
-
-.OverlayShow {
-  opacity: 1;
-  pointer-events: all;
-  visibility: visible;
 }
 
 @keyframes sweep {

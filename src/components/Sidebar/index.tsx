@@ -18,7 +18,7 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   const { data: session } = useSession();
   const closeRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleNavState = () => setIsNavOpen(false);
+  const handleNavClose = () => setIsNavOpen(false);
 
   const handleKey = (event: KeyboardEvent) => {
     if (event.code === "Escape" && isNavOpen) {
@@ -45,16 +45,16 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   }, [isNavOpen]);
 
   return (
-    <>
+    <div className={style.Container + (isNavOpen ? " " + style.View : "")}>
       <nav
-        className={style.Container + (isNavOpen ? " " + style.Open : "")}
+        className={style.Menu + (isNavOpen ? " " + style.Open : "")}
         onKeyDown={handleKey}
         onBlur={handleFocus}
         tabIndex={-1}
       >
         <div className={style.Logo}>
           <h1>Meret</h1>
-          <ButtonIcon onClick={handleNavState} label={"close sidebar"} ref={closeRef}>
+          <ButtonIcon onClick={handleNavClose} label={"close sidebar"} ref={closeRef}>
             <FontAwesomeIcon icon={faXmark} size="xl" />
           </ButtonIcon>
         </div>
@@ -65,8 +65,8 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
           <Link href="/" className={setActiveClass("/")}>
             Home
           </Link>
-          <Link href="/artists" className={setActiveClass("/artists")}>
-            Artists
+          <Link href="/discover" className={setActiveClass("/discover")}>
+            Discover
           </Link>
         </div>
 
@@ -91,11 +91,6 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
           </div>
         </details>
       </nav>
-
-      <div
-        className={style.Overlay + (isNavOpen ? " " + style.OverlayShow : "")}
-        onClick={handleNavState}
-      ></div>
-    </>
+    </div>
   );
 };
