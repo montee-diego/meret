@@ -3,18 +3,20 @@ import { faPlay, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { formatTime } from "@global/utils";
 import { Cover } from "@components/index";
-import type { FC } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import type { ITrack } from "@global/types";
 import style from "./index.module.css";
 
 interface IProps {
   track: ITrack;
+  setContent: Dispatch<SetStateAction<ITrack | null>>;
 }
 
-export const Track: FC<IProps> = ({ track }) => {
+export const Track: FC<IProps> = ({ track, setContent }) => {
   const { setPlaylist } = useAudioPlayer();
 
   const handlePlay = () => setPlaylist([track]);
+  const handleMenu = () => setContent(track);
 
   return (
     <div className={style.Container}>
@@ -35,7 +37,7 @@ export const Track: FC<IProps> = ({ track }) => {
         <p className={style.Length}>{formatTime(track.length)}</p>
       </div>
 
-      <button className={style.Button} aria-label="open track menu">
+      <button className={style.Button} aria-label="open track menu" onClick={handleMenu}>
         <FontAwesomeIcon size="xl" icon={faEllipsisVertical} fixedWidth />
       </button>
     </div>
