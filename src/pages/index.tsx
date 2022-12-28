@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { sanityClient } from "@services/sanity/client";
 import { queryAll } from "@services/sanity/queries";
 import { TrackList } from "@components/TrackList";
@@ -10,11 +9,9 @@ interface IProps {
 }
 
 export default function Home({ tracks }: IProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
   return (
     <section>
-      <TrackList isLoading={false} tracks={tracks} />
+      <TrackList tracks={tracks} />
     </section>
   );
 }

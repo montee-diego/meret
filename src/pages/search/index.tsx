@@ -15,7 +15,7 @@ export default function Search({ tracks }: IProps) {
   return (
     <section>
       <h1>Search: {query.query}</h1>
-      <TrackList isLoading={false} tracks={tracks} />
+      <TrackList tracks={tracks} />
     </section>
   );
 }
