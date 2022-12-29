@@ -24,7 +24,7 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   };
 
   return (
-    <div className={style.Container + (isNavOpen ? " " + style.View : "")} onClick={handleNavClose}>
+    <div className={style.Container + (isNavOpen ? " " + style.View : "")}>
       <FocusTrap
         active={isNavOpen}
         className={style.Menu + (isNavOpen ? " " + style.Open : "")}

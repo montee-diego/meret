@@ -13,7 +13,7 @@ export const Modal: FC<IProps> = ({ children, setContent }) => {
   const handleClose = () => setContent(null);
 
   return createPortal(
-    <div className={style.Container} onClick={handleClose}>
+    <div className={style.Container}>
       <FocusTrap active={true} className={style.Content} cancelEvent={handleClose}>
         {children}
       </FocusTrap>
