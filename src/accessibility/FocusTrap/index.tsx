@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { tabbable } from "@accessibility/tabbable";
-import type { FC, KeyboardEvent, ReactNode, SyntheticEvent } from "react";
+import type { FC, ReactNode } from "react";
 
 interface IProps {
   active: boolean;
@@ -14,24 +14,50 @@ export const FocusTrap: FC<IProps> = ({ active, cancelEvent, className, children
   const triggerFocus = useRef<Element | null>(null);
   const trap = useRef<HTMLDivElement | null>(null);
 
-  const setFocus = (target: HTMLDivElement | null): void => {
-    if (target) {
-      const tabable = tabbable(target);
+  const setFocus = (): void => {
+    const tabable = tabbable(trap.current);
 
-      tabable[0].focus();
+    if (tabable.length) {
+      lastFocus.current = tabable[0];
+
+      if (lastFocus.current instanceof HTMLElement) {
+        lastFocus.current.focus();
+      }
     }
   };
 
-  const handleClick = (event: SyntheticEvent): void => event.stopPropagation();
+  const handleMouseDown = (event: MouseEvent | TouchEvent): void => {
+    const target = event.target;
 
-  const handleKey = (event: KeyboardEvent): void => {
-    const tabable = tabbable(event.currentTarget);
+    if (trap.current && target instanceof HTMLElement) {
+      if (!trap.current.contains(target)) {
+        event.preventDefault();
+        cancelEvent();
+      }
+    }
+  };
 
-    if (event.code === "Escape") {
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    const tabable = tabbable(trap.current);
+
+    if (event.code === "Escape" || event.key === "Escape") {
       cancelEvent();
-    } else if (event.code === "Tab") {
-      const first: HTMLElement = tabable[0];
-      const last: HTMLElement = tabable[tabable.length - 1];
+    } else if (event.code === "Tab" || event.key === "Tab") {
+      if (!tabable.length) {
+        event.preventDefault();
+        return;
+      }
+
+      if (lastFocus.current !== event.target) {
+        if (lastFocus.current instanceof HTMLElement) {
+          lastFocus.current.focus();
+          event.preventDefault();
+          return;
+        }
+      }
+
+      const first = tabable[0];
+      const last = tabable[tabable.length - 1];
 
       if (event.shiftKey) {
         if (document.activeElement === first) {
@@ -47,44 +73,52 @@ export const FocusTrap: FC<IProps> = ({ active, cancelEvent, className, children
     }
   };
 
-  const handleFocus = (): void => {
-    if (trap.current) {
-      if (trap.current.contains(document.activeElement)) {
-        return;
+  const handleFocus = (event: FocusEvent): void => {
+    if (lastFocus.current && lastFocus.current instanceof HTMLElement) {
+      lastFocus.current.focus();
+    }
+  };
+
+  const handleFocusIn = (event: FocusEvent): void => {
+    const tabable = tabbable(trap.current);
+    const target = event.target;
+    const valid = tabable.some((node) => node === target);
+
+    if (trap.current && target instanceof HTMLElement) {
+      if (trap.current.contains(target) && valid) {
+        lastFocus.current = target;
       }
     }
-
-    if (lastFocus.current instanceof HTMLElement) {
-      lastFocus.current.focus();
-    } else {
-      setFocus(trap.current);
-    }
   };
 
-  const handleBlur = (): void => {
-    lastFocus.current = document.activeElement;
-  };
+  function addListeners(): void {
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("touchstart", handleMouseDown);
+    document.addEventListener("focus", handleFocus);
+    document.addEventListener("focusin", handleFocusIn);
+  }
+
+  function removeListeners(): void {
+    document.removeEventListener("keydown", handleKeyDown);
+    document.removeEventListener("mousedown", handleMouseDown);
+    document.removeEventListener("touchstart", handleMouseDown);
+    document.removeEventListener("focus", handleFocus);
+    document.removeEventListener("focusin", handleFocusIn);
+  }
 
   useEffect(() => {
     if (active) {
-      triggerFocus.current = document.activeElement;
-
-      setFocus(trap.current);
-
-      window.addEventListener("focus", handleFocus);
-      window.addEventListener("blur", handleBlur);
-    } else {
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("blur", handleBlur);
-
-      if (triggerFocus.current instanceof HTMLElement) {
-        triggerFocus.current.focus();
+      if (document.activeElement instanceof HTMLElement) {
+        triggerFocus.current = document.activeElement;
       }
+
+      setFocus();
+      addListeners();
     }
 
     return () => {
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("blur", handleBlur);
+      removeListeners();
 
       if (triggerFocus.current instanceof HTMLElement) {
         triggerFocus.current.focus();
@@ -93,7 +127,7 @@ export const FocusTrap: FC<IProps> = ({ active, cancelEvent, className, children
   }, [active]);
 
   return (
-    <div className={className} ref={trap} onKeyDown={handleKey} tabIndex={-1} onClick={handleClick}>
+    <div className={className} ref={trap} tabIndex={-1}>
       {children}
     </div>
   );
