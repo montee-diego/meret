@@ -7,7 +7,9 @@ const elements = [
   "details > summary:first-of-type",
 ];
 
-export const tabbable = (target: Element): HTMLElement[] => {
+export const tabbable = (target: HTMLDivElement | null): HTMLElement[] => {
+  if (!target) return [];
+
   const nodes = target.querySelectorAll(elements.join(",")) as NodeListOf<HTMLElement>;
   let list: HTMLElement[] = [];
 
