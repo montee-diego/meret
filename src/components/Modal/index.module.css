@@ -6,13 +6,9 @@
   display: flex;
   justify-content: center;
   left: 0;
-  /* pointer-events: none; */
   position: fixed;
   right: 0;
   top: 0;
-  /* transition: 0.25s ease-in-out; */
-  /* transition-property: background-color, visibility; */
-  /* visibility: hidden; */
   z-index: 900;
 }
 
@@ -25,18 +21,10 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
-  min-width: 200px;
-  /* opacity: 0; */
+  max-width: 512px;
   padding: 0.5rem;
-  /* position: absolute;
-  right: 0;
-  top: 100%;
-  transform: translateY(0);
-  transition-property: opacity, transform, visibility;
-  transition-duration: 0.25s;
-  transition-timing-function: ease-in-out;
-  visibility: hidden; */
   white-space: nowrap;
+  width: calc(100vw - 1rem);
   z-index: 1000;
 }
 
@@ -52,7 +40,7 @@
 
 @keyframes popIn {
   from {
-    transform: scale(0.5);
+    transform: scale(0.75);
   }
 
   to {
