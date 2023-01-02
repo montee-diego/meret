@@ -34,7 +34,7 @@
   white-space: nowrap;
 }
 
-.Title {
+.Data p:first-of-type {
   font-weight: 700;
 }
 

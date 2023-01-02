@@ -27,8 +27,8 @@ export const Track: FC<IProps> = ({ track, setContent }) => {
       </button>
 
       <div className={style.Data}>
-        <p className={style.Title}>{track.title}</p>
-        <p className={style.Artist}>{track.artist}</p>
+        <p>{track.title}</p>
+        <p>{track.artist}</p>
       </div>
 
       <div className={style.Metadata}>
