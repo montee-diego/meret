@@ -13,3 +13,4 @@ export { Track } from "./Track";
 export { TrackList } from "./TrackList";
 export { TrackMenu } from "./TrackMenu";
 export { User } from "./User";
+export { UserPlaylists } from "./UserPlaylists";
