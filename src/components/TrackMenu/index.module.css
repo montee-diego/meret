@@ -1,0 +1,29 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.Track {
+  align-items: center;
+  border-bottom: 1px solid var(--color-focus);
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  width: 100%;
+}
+
+.Data {
+  flex: 1;
+  overflow: hidden;
+}
+
+.Data p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Data p:first-of-type {
+  font-weight: 700;
+}
