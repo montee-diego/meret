@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import { ThemeContext } from "@context/Theme";
 import { AudioPlayerContext } from "@context/AudioPlayer";
+import { UserContext } from "@context/User";
 import { AudioPlayer, Header, Main, Sidebar } from "@components/index";
 import Head from "next/head";
 import type { AppProps } from "next/app";
@@ -13,19 +14,21 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <SessionProvider session={session}>
       <ThemeContext>
-        <AudioPlayerContext>
-          <Head>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          </Head>
+        <UserContext>
+          <AudioPlayerContext>
+            <Head>
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            </Head>
 
-          <Sidebar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
-          <Header setIsNavOpen={setIsNavOpen} />
+            <Sidebar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+            <Header setIsNavOpen={setIsNavOpen} />
 
-          <Main>
-            <AudioPlayer />
-            <Component {...pageProps} />
-          </Main>
-        </AudioPlayerContext>
+            <Main>
+              <AudioPlayer />
+              <Component {...pageProps} />
+            </Main>
+          </AudioPlayerContext>
+        </UserContext>
       </ThemeContext>
     </SessionProvider>
   );
