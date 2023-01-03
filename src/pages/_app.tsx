@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
 import { ThemeContext } from "@context/Theme";
 import { AudioPlayerContext } from "@context/AudioPlayer";
 import { UserContext } from "@context/User";
@@ -7,6 +8,12 @@ import { AudioPlayer, Header, Main, Sidebar } from "@components/index";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import "@styles/globals.css";
+
+const toastOptions = {
+  style: {
+    minWidth: "300px",
+  },
+};
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
@@ -27,6 +34,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
               <AudioPlayer />
               <Component {...pageProps} />
             </Main>
+
+            <Toaster position="bottom-center" toastOptions={toastOptions} />
           </AudioPlayerContext>
         </UserContext>
       </ThemeContext>
