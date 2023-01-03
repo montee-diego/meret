@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const token = await getToken({ req });
 
     if (token) {
-      // @ts-ignore
       const response = await sanityClient.fetch(queryUserPlaylists(token.id));
 
       if (response) {
