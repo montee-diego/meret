@@ -29,6 +29,10 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
 
   const fetchPlaylists = async () => {
     const response = await fetch("/api/user/playlists");
+
+    if (!response.ok) {
+      console.log("error on /api/user/playlist");
+    }
     const data = await response.json();
 
     setPlaylists(data);
@@ -36,10 +40,10 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   };
 
   useEffect(() => {
-    if (session) {
+    if (status === "authenticated") {
       fetchPlaylists();
     }
-  }, []);
+  }, [status]);
 
   return (
     <div className={style.Container + (isNavOpen ? " " + style.View : "")}>
