@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { ButtonIcon, Cover } from "@components/index";
+import { ButtonIcon, Cover, UserPlaylists } from "@components/index";
 import type { Dispatch, FC, SetStateAction } from "react";
 import type { ITrack } from "@global/types";
 import style from "./index.module.css";
@@ -31,6 +31,7 @@ export const TrackMenu: FC<IProps> = ({ content, setContent }) => {
 
       <a href="#">Action 2</a>
       <a href="#">Action 3</a>
+      <UserPlaylists />
     </div>
   );
 };
