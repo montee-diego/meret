@@ -18,16 +18,5 @@ export default {
       title: "Image",
       type: "string",
     },
-    {
-      name: "playlists",
-      title: "Playlists",
-      type: "array",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "playlist" }],
-        },
-      ],
-    },
   ],
 };
