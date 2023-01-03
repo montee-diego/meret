@@ -1,7 +1,11 @@
 export interface IPlaylist {
+  _id: string;
+  author: {
+    name: string;
+    image: string;
+  };
   name: string;
-  id: string;
-  songs: ITrack[];
+  tracks: ITrack[];
 }
 
 export interface ITrack {
