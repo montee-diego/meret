@@ -20,7 +20,7 @@
   font-size: 1rem;
   line-height: 2.5rem;
   padding: 0rem 0.5rem;
-  transition: color 0.25s ease-in-out;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .Form input {
@@ -49,12 +49,18 @@
   outline: 2px solid var(--color-focus);
 }
 
+.Form:focus-within {
+  background-color: var(--color-panel);
+}
+
 .Form:focus-within button {
   display: initial;
 }
 
 @media (hover: hover) {
+  .Form:hover,
   .List a:hover {
-    color: var(--color-text-default);
+    background-color: var(--color-panel);
+    /* color: var(--color-text-default); */
   }
 }
