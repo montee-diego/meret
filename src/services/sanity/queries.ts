@@ -20,8 +20,18 @@ export const querySearch = (query: string | string[] | undefined) => {
 
 export const queryUserPlaylists = (id: string) => {
   return `
-    *[_type == "user" && _id == ${id}] {
-      playlists
+    *[_type=='playlist' && references("${id}")] {
+      ...,
+      author->{name, image}
+    }
+  `;
+};
+
+export const queryPlaylist = (id: string | string[] | undefined) => {
+  return `
+    *[_type=='playlist' && _id == "${id}"] {
+      ...,
+      author->{name, image}
     }
   `;
 };
