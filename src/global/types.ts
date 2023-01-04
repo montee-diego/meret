@@ -1,5 +1,9 @@
-export interface IPlaylist {
+export interface IDocument {
   _id: string;
+  _updatedAt: string;
+}
+
+export interface IPlaylist extends IDocument {
   author: {
     name: string;
     image: string;
@@ -8,8 +12,7 @@ export interface IPlaylist {
   tracks: ITrack[];
 }
 
-export interface ITrack {
-  _id: string;
+export interface ITrack extends IDocument {
   artist: string;
   audio: string;
   cover: string;
