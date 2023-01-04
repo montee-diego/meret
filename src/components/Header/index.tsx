@@ -1,8 +1,9 @@
+import type { FC, Dispatch, SetStateAction } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faArrowRightToBracket as faSide } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { ButtonIcon, ThemeToggle, User } from "@components/index";
-import type { FC, Dispatch, SetStateAction } from "react";
 import style from "./index.module.css";
 
 interface IProps {
@@ -18,7 +19,7 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
   return (
     <header className={style.Container}>
       <div className={style.Title}>
-        <ButtonIcon onClick={handleNavState} label={"open sidebar"}>
+        <ButtonIcon onClick={handleNavState} label="open sidebar">
           <FontAwesomeIcon icon={faBars} size="xl" />
         </ButtonIcon>
         <h2>Home</h2>
@@ -26,7 +27,7 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
 
       <div className={style.Actions}>
         <ThemeToggle />
-        <ButtonIcon onClick={handlePlayerState} label={"toggle audio player"}>
+        <ButtonIcon onClick={handlePlayerState} label="toggle audio player">
           <FontAwesomeIcon icon={faSide} size="xl" flip={playerOpen ? undefined : "horizontal"} />
         </ButtonIcon>
         <User />
