@@ -1,20 +1,18 @@
+import type { FC, ReactNode } from "react";
+
 import { createPortal } from "react-dom";
 import { FocusTrap } from "@accessibility/FocusTrap";
-import type { Dispatch, FC, ReactNode, SetStateAction } from "react";
-import type { ITrack } from "@global/types";
 import style from "./index.module.css";
 
 interface IProps {
   children: ReactNode;
-  setContent: Dispatch<SetStateAction<ITrack | null>>;
+  toggleOpen: () => void;
 }
 
-export const Modal: FC<IProps> = ({ children, setContent }) => {
-  const handleClose = () => setContent(null);
-
+export const Modal: FC<IProps> = ({ children, toggleOpen }) => {
   return createPortal(
     <div className={style.Container}>
-      <FocusTrap active={true} className={style.Content} cancelEvent={handleClose}>
+      <FocusTrap active={true} className={style.Content} cancelEvent={toggleOpen}>
         {children}
       </FocusTrap>
     </div>,

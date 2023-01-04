@@ -1,11 +1,11 @@
 import { useState } from "react";
-import type { ITrack } from "@global/types";
 
 export const useModal = () => {
-  const [content, setContent] = useState<ITrack | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const toggleOpen = () => setIsOpen(!isOpen);
 
   return {
-    content,
-    setContent,
+    isOpen,
+    toggleOpen,
   };
 };
