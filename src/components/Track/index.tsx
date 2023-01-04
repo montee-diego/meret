@@ -1,22 +1,23 @@
+import type { FC } from "react";
+import type { ITrack } from "@global/types";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { formatTime } from "@global/utils";
 import { Cover } from "@components/index";
-import type { Dispatch, FC, SetStateAction } from "react";
-import type { ITrack } from "@global/types";
 import style from "./index.module.css";
 
 interface IProps {
   track: ITrack;
-  setContent: Dispatch<SetStateAction<ITrack | null>>;
+  openMenu: (track: ITrack) => void;
 }
 
-export const Track: FC<IProps> = ({ track, setContent }) => {
+export const Track: FC<IProps> = ({ track, openMenu }) => {
   const { setPlaylist } = useAudioPlayer();
 
   const handlePlay = () => setPlaylist([track]);
-  const handleMenu = () => setContent(track);
+  const handleMenu = () => openMenu(track);
 
   return (
     <div className={style.Container}>

@@ -1,29 +1,28 @@
+import type { FC } from "react";
+import type { ITrack } from "@global/types";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { ButtonIcon, Cover, UserPlaylists } from "@components/index";
-import type { Dispatch, FC, SetStateAction } from "react";
-import type { ITrack } from "@global/types";
 import style from "./index.module.css";
 
 interface IProps {
-  content: ITrack | null;
-  setContent: Dispatch<SetStateAction<ITrack | null>>;
+  track: ITrack | null;
+  toggleOpen: () => void;
 }
 
-export const TrackMenu: FC<IProps> = ({ content, setContent }) => {
-  const handleClose = () => setContent(null);
-
+export const TrackMenu: FC<IProps> = ({ track, toggleOpen }) => {
   return (
     <div className={style.Container}>
       <div className={style.Track}>
-        <Cover cover={`${content?.cover}`} size={"50px"} />
+        <Cover cover={`${track?.cover}`} size={"50px"} />
 
         <div className={style.Data}>
-          <p>{content?.title}</p>
-          <p>{content?.artist}</p>
+          <p>{track?.title}</p>
+          <p>{track?.artist}</p>
         </div>
 
-        <ButtonIcon onClick={handleClose} label={"close modal"}>
+        <ButtonIcon onClick={toggleOpen} label={"close modal"}>
           <FontAwesomeIcon icon={faXmark} size={"xl"} />
         </ButtonIcon>
       </div>
