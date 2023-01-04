@@ -22,15 +22,18 @@ export const TrackMenu: FC<IProps> = ({ track, toggleOpen }) => {
           <p>{track?.artist}</p>
         </div>
 
-        <ButtonIcon onClick={toggleOpen} label={"close modal"}>
+        <ButtonIcon onClick={toggleOpen} label="close modal">
           <FontAwesomeIcon icon={faXmark} size={"xl"} />
         </ButtonIcon>
       </div>
-      <p>Action 1</p>
 
-      <a href="#">Action 2</a>
-      <a href="#">Action 3</a>
-      <UserPlaylists />
+      <div className={style.Actions}>
+        <p>Action 1</p>
+
+        <a href="#">Action 2</a>
+        <a href="#">Action 3</a>
+        <UserPlaylists />
+      </div>
     </div>
   );
 };

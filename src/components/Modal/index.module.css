@@ -22,8 +22,7 @@
   flex-direction: column;
   gap: 3px;
   max-width: 512px;
-  padding: 0.5rem;
-  white-space: nowrap;
+  overflow: hidden;
   width: calc(100vw - 1rem);
   z-index: 1000;
 }

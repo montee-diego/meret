@@ -1,3 +1,5 @@
+import type { FC, Dispatch, SetStateAction } from "react";
+
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
@@ -7,7 +9,6 @@ import { faChevronDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FocusTrap } from "@accessibility/FocusTrap";
 import { ButtonIcon, Search, UserPlaylists } from "@components/index";
 import Link from "next/link";
-import type { FC, Dispatch, SetStateAction } from "react";
 import style from "./index.module.css";
 
 interface IProps {
@@ -54,7 +55,7 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
       >
         <div className={style.Logo}>
           <h1>Meret</h1>
-          <ButtonIcon onClick={handleNavClose} label={"close sidebar"}>
+          <ButtonIcon onClick={handleNavClose} label="close sidebar">
             <FontAwesomeIcon icon={faXmark} size="xl" />
           </ButtonIcon>
         </div>

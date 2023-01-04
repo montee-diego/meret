@@ -1,10 +1,11 @@
+import type { FC, FocusEvent, MouseEvent } from "react";
+
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
-import type { FC, FocusEvent, MouseEvent } from "react";
 import style from "./index.module.css";
 
 export const User: FC = () => {
@@ -25,7 +26,7 @@ export const User: FC = () => {
 
   return (
     <div className={style.Container} onBlur={handleFocus}>
-      <button className={style.Button} onClick={handleUserMenu} aria-label={"toggle user menu"}>
+      <button className={style.Button} onClick={handleUserMenu} aria-label="toggle user menu">
         {session ? (
           <div className={style.ProfileImage}>
             <Image src={`${session.user?.image}`} alt="U" sizes="64px" fill />
@@ -40,18 +41,25 @@ export const User: FC = () => {
       <div className={style.Menu + (isMenuOpen ? " " + style.Open : "")} onMouseDown={handleMouse}>
         {session ? (
           <>
-            <p>{session.user?.name}</p>
-            <Link href="/profile" className={style.LinkButton}>
-              Profile
-            </Link>
-            <button className={style.LinkButton} onClick={handleLogOut}>
-              Log Out
-            </button>
+            <div className={style.Name}>
+              <p>{session.user?.name}</p>
+            </div>
+
+            <div className={style.Actions}>
+              <Link className={style.LinkButton} href="/profile">
+                Profile
+              </Link>
+              <button className={style.LinkButton} onClick={handleLogOut}>
+                Log Out
+              </button>
+            </div>
           </>
         ) : (
-          <button className={style.LinkButton} onClick={handleLogIn}>
-            Log In
-          </button>
+          <div className={style.Actions}>
+            <button className={style.LinkButton} onClick={handleLogIn}>
+              Log In
+            </button>
+          </div>
         )}
       </div>
     </div>
