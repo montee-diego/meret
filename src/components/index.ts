@@ -1,6 +1,7 @@
 export { AudioControls } from "./AudioControls";
 export { AudioPlayer } from "./AudioPlayer";
 export { ButtonIcon } from "./ButtonIcon";
+export { ButtonText } from "./ButtonText";
 export { ConfirmDialog } from "./ConfirmDialog";
 export { Cover } from "./Cover";
 export { Header } from "./Header";

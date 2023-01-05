@@ -1,0 +1,19 @@
+.Item {
+  border-radius: 5px;
+  display: block;
+  font-size: 1rem;
+  line-height: 2.5rem;
+  padding: 0rem 0.5rem;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.Item:focus {
+  outline: 2px solid var(--color-focus);
+}
+
+@media (hover: hover) {
+  .Item:hover {
+    background-color: var(--color-panel);
+  }
+}
