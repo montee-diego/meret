@@ -20,7 +20,7 @@ export const querySearch = (query: string | string[] | undefined) => {
 
 export const queryUserPlaylists = (id: string) => {
   return `
-    *[_type=='playlist' && references("${id}")] {
+    *[_type=='playlist' && author._ref == "${id}"] | order(_createdAt asc) {
       ...,
       author->{name, image}
     }
