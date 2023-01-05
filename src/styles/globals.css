@@ -89,6 +89,7 @@ a {
   text-decoration: none;
 }
 
+a,
 button,
 input {
   color: var(--color-text-default);
