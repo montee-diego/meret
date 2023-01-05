@@ -5,7 +5,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .Open section {
+  .Container[data-open="true"] section {
     display: none;
   }
 }

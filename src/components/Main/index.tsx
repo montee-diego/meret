@@ -10,7 +10,7 @@ export const Main: FC<IProps> = ({ children }) => {
   const { playerOpen } = useAudioPlayer();
 
   return (
-    <main className={style.Container + (playerOpen ? " " + style.Open : "")}>
+    <main className={style.Container} data-open={playerOpen}>
       {children}
     </main>
   );

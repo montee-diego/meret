@@ -9,7 +9,7 @@
   width: 356px;
 }
 
-.Open {
+.Container[data-open="true"] {
   display: flex;
 }
 

@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { ButtonText } from "@components/index";
 import Image from "next/image";
-import Link from "next/link";
 import style from "./index.module.css";
 
 export const User: FC = () => {
@@ -38,7 +38,7 @@ export const User: FC = () => {
         <FontAwesomeIcon size="xs" icon={faChevronDown} transform="down-3" />
       </button>
 
-      <div className={style.Menu + (isMenuOpen ? " " + style.Open : "")} onMouseDown={handleMouse}>
+      <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}>
         {session ? (
           <>
             <div className={style.Name}>
@@ -46,19 +46,19 @@ export const User: FC = () => {
             </div>
 
             <div className={style.Actions}>
-              <Link className={style.LinkButton} href="/profile">
+              <ButtonText href="/profile" align="left">
                 Profile
-              </Link>
-              <button className={style.LinkButton} onClick={handleLogOut}>
+              </ButtonText>
+              <ButtonText onClick={handleLogOut} align="left">
                 Log Out
-              </button>
+              </ButtonText>
             </div>
           </>
         ) : (
           <div className={style.Actions}>
-            <button className={style.LinkButton} onClick={handleLogIn}>
+            <ButtonText onClick={handleLogIn} align="left">
               Log In
-            </button>
+            </ButtonText>
           </div>
         )}
       </div>
