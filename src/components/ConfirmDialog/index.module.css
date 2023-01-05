@@ -1,12 +1,4 @@
-.Container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.Title,
-.Message,
-.Actions {
+.Container > div {
   padding: 0.5rem;
 }
 
@@ -17,13 +9,13 @@
   justify-content: space-between;
 }
 
-.Title h3 {
-  line-height: 2.5rem;
-}
-
 .Title h3,
 .Message p {
   padding-left: 0.5rem;
+}
+
+.Title h3 {
+  line-height: 2.5rem;
 }
 
 .Message p {
@@ -31,25 +23,11 @@
 }
 
 .Actions {
-  align-self: flex-end;
   display: flex;
   gap: 0.5rem;
+  justify-content: flex-end;
 }
 
-.Actions button {
-  border-radius: 5px;
-  font-size: 1rem;
-  height: 2.5rem;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.Actions > button {
   width: 5rem;
-}
-
-.Actions button:focus {
-  outline: 2px solid var(--color-focus);
-}
-
-@media (hover: hover) {
-  .Actions button:hover {
-    background-color: var(--color-panel);
-  }
 }

@@ -2,7 +2,7 @@ import type { FC, ReactNode } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { ButtonIcon } from "@components/index";
+import { ButtonIcon, ButtonText } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -27,12 +27,12 @@ export const ConfirmDialog: FC<IProps> = ({ children, onCancel, onConfirm }) => 
       </div>
 
       <div className={style.Actions}>
-        <button type="button" onClick={onConfirm}>
+        <ButtonText onClick={onConfirm} align="center">
           Confirm
-        </button>
-        <button type="button" onClick={onCancel}>
+        </ButtonText>
+        <ButtonText onClick={onCancel} align="center">
           Cancel
-        </button>
+        </ButtonText>
       </div>
     </div>
   );
