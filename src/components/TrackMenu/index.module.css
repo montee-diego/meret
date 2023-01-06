@@ -1,15 +1,4 @@
-.Container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.Container button {
-  font-size: 1rem;
-}
-
-.Track,
-.Actions {
+.Container > div {
   padding: 0.5rem;
 }
 
@@ -34,4 +23,9 @@
 
 .Data p:first-of-type {
   font-weight: 700;
+}
+
+.Playlists {
+  max-height: 30vh;
+  overflow: auto;
 }

@@ -12,6 +12,10 @@ interface IProps {
 }
 
 export const TrackMenu: FC<IProps> = ({ track, toggleOpen }) => {
+  const handleAddToPlaylist = () => {
+    // send track to playlist
+  };
+
   return (
     <div className={style.Container}>
       <div className={style.Track}>
@@ -27,12 +31,8 @@ export const TrackMenu: FC<IProps> = ({ track, toggleOpen }) => {
         </ButtonIcon>
       </div>
 
-      <div className={style.Actions}>
-        <p>Action 1</p>
-
-        <a href="#">Action 2</a>
-        <a href="#">Action 3</a>
-        <UserPlaylists />
+      <div className={style.Playlists}>
+        <UserPlaylists onClick={handleAddToPlaylist} />
       </div>
     </div>
   );
