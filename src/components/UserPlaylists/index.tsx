@@ -1,17 +1,24 @@
+import type { FC, SyntheticEvent } from "react";
+
 import { useRef, useState } from "react";
-import { toast } from "react-hot-toast";
+import { useSession, signIn } from "next-auth/react";
 import { useUser } from "@context/User";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import type { FC, SyntheticEvent } from "react";
+import { ButtonText } from "@components/index";
 import style from "./index.module.css";
 
-export const UserPlaylists: FC = () => {
-  const { playlists, setPlaylists } = useUser();
+interface IProps {
+  onClick?: () => void;
+}
+
+export const UserPlaylists: FC<IProps> = ({ onClick }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { status } = useSession();
+  const { playlists } = useUser();
   const input = useRef<HTMLInputElement | null>(null);
 
+  const handleLogIn = () => signIn("google");
   const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -21,49 +28,53 @@ export const UserPlaylists: FC = () => {
 
     setIsLoading(true);
 
-    const request = fetch("/api/playlist/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: input.current?.value }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsLoading(false);
-        setPlaylists((prevPlaylists) => [...prevPlaylists, data]);
+    const status = await playlists.create(`${input.current?.value}`);
 
-        if (input.current) {
-          input.current.value = "";
-        }
-      });
+    if (status === "success") {
+      if (input.current) {
+        input.current.value = "";
+      }
+    }
 
-    toast.promise(request, {
-      loading: "Creating playlist...",
-      success: "Playlist created!",
-      error: "Failed to create playlist",
-    });
+    setIsLoading(false);
   };
 
   return (
     <>
-      <form className={style.Form} onSubmit={handleSubmit}>
-        <input type="text" placeholder="Create Playlist" size={2} ref={input} />
-        <button type="submit" tabIndex={-1} aria-label="create playlist">
-          {isLoading ? (
-            <FontAwesomeIcon icon={faSpinner} spin />
-          ) : (
-            <FontAwesomeIcon icon={faPlus} />
-          )}
-        </button>
-      </form>
-      <ul className={style.List}>
-        {playlists.map((playlist) => (
-          <li key={playlist._id}>
-            <Link href={`/playlist/${playlist._id}`}>{playlist.name}</Link>
-          </li>
-        ))}
-      </ul>
+      {status === "authenticated" ? (
+        <>
+          <form className={style.Form} onSubmit={handleSubmit}>
+            <input type="text" placeholder="Create Playlist" size={2} ref={input} />
+            <button type="submit" tabIndex={-1} aria-label="create playlist">
+              {isLoading ? (
+                <FontAwesomeIcon icon={faSpinner} size="lg" spin />
+              ) : (
+                <FontAwesomeIcon icon={faPlus} size="lg" />
+              )}
+            </button>
+          </form>
+
+          <ul className={style.List}>
+            {playlists.data.map((playlist) => (
+              <li key={playlist._id}>
+                {onClick ? (
+                  <ButtonText onClick={onClick} align="left">
+                    {playlist.name}
+                  </ButtonText>
+                ) : (
+                  <ButtonText href={`/playlist/${playlist._id}`} align="left">
+                    {playlist.name}
+                  </ButtonText>
+                )}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <ButtonText onClick={handleLogIn} align="left">
+          <strong>Log In</strong> to view playlists
+        </ButtonText>
+      )}
     </>
   );
 };
