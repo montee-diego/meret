@@ -12,9 +12,15 @@
   z-index: 900;
 }
 
-.View {
+.Container[data-open="true"] {
   background-color: rgba(0, 0, 0, 0.5);
   pointer-events: all;
+  visibility: visible;
+}
+
+.Container[data-open="true"] .Menu {
+  transform: translateX(0%);
+  transition-delay: 0s;
   visibility: visible;
 }
 
@@ -39,12 +45,6 @@
   z-index: 1000;
 }
 
-.Open {
-  transform: translateX(0%);
-  transition-delay: 0s;
-  visibility: visible;
-}
-
 .Logo {
   align-items: center;
   border-bottom: 1px solid var(--color-focus);
@@ -64,17 +64,15 @@
   gap: 3px;
 }
 
-.Links a,
 .Playlists summary {
   border-radius: 5px;
-  color: var(--color-text-secondary);
+  color: var(--color-text-default);
   cursor: pointer;
   line-height: 2.5rem;
   padding: 0rem 0.5rem;
   transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.Links a:focus,
 .Playlists summary:focus {
   outline: 2px solid var(--color-focus);
 }
@@ -103,27 +101,8 @@
   animation: sweep 0.25s ease-in-out;
 }
 
-.Links a.Active {
-  color: var(--color-text-default);
-}
-
 .PlaylistsContent {
   padding-left: calc(0.5rem + 0.875em);
-}
-
-.PlaylistsContent button {
-  border-radius: 5px;
-  color: var(--color-text-secondary);
-  font-size: 1rem;
-  line-height: 2.5rem;
-  text-align: left;
-  padding: 0rem 0.5rem;
-  transition: color 0.25s ease-in-out;
-  width: 100%;
-}
-
-.PlaylistsContent button:focus {
-  outline: 2px solid var(--color-focus);
 }
 
 @keyframes sweep {
@@ -138,12 +117,7 @@
 }
 
 @media (hover: hover) {
-  .Links a:hover,
   .Playlists summary:hover {
     background-color: var(--color-panel);
-  }
-
-  .PlaylistsContent button:hover {
-    color: var(--color-text-default);
   }
 }

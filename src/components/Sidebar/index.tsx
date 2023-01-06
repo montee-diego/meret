@@ -1,14 +1,12 @@
 import type { FC, Dispatch, SetStateAction } from "react";
 
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useUser } from "@context/User";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FocusTrap } from "@accessibility/FocusTrap";
-import { ButtonIcon, Search, UserPlaylists } from "@components/index";
-import Link from "next/link";
+import { ButtonIcon, ButtonText, Search, UserPlaylists } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -17,27 +15,17 @@ interface IProps {
 }
 
 export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
-  const { pathname } = useRouter();
-  const { data: session, status } = useSession();
-  const { setPlaylists } = useUser();
+  const { status } = useSession();
+  const { playlists } = useUser();
 
   const handleNavClose = () => setIsNavOpen(false);
-  const handleLogIn = () => signIn("google");
-
-  const setActiveClass = (href: string): string => {
-    return pathname === href ? style.Active : "";
-  };
 
   const fetchPlaylists = async () => {
-    const response = await fetch("/api/user/playlists");
+    const status = await playlists.fetch();
 
-    if (!response.ok) {
-      console.log("error on /api/user/playlist");
+    if (status === "success") {
+      // do something
     }
-    const data = await response.json();
-
-    setPlaylists(data);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -47,12 +35,8 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   }, [status]);
 
   return (
-    <div className={style.Container + (isNavOpen ? " " + style.View : "")}>
-      <FocusTrap
-        active={isNavOpen}
-        className={style.Menu + (isNavOpen ? " " + style.Open : "")}
-        cancelEvent={handleNavClose}
-      >
+    <div className={style.Container} data-open={isNavOpen}>
+      <FocusTrap active={isNavOpen} className={style.Menu} cancelEvent={handleNavClose}>
         <div className={style.Logo}>
           <h1>Meret</h1>
           <ButtonIcon onClick={handleNavClose} label="close sidebar">
@@ -63,12 +47,12 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
         <Search setIsNavOpen={setIsNavOpen} />
 
         <div className={style.Links}>
-          <Link href="/" className={setActiveClass("/")}>
+          <ButtonText href="/" align="left">
             Home
-          </Link>
-          <Link href="/discover" className={setActiveClass("/discover")}>
+          </ButtonText>
+          <ButtonText href="/discover" align="left">
             Discover
-          </Link>
+          </ButtonText>
         </div>
 
         <details className={style.Playlists}>
@@ -76,14 +60,9 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
             <FontAwesomeIcon icon={faChevronDown} size="sm" />
             <span>Playlists</span>
           </summary>
+
           <div className={style.PlaylistsContent}>
-            {status === "authenticated" ? (
-              <UserPlaylists />
-            ) : (
-              <button onClick={handleLogIn}>
-                <strong>Log In</strong> to view playlists
-              </button>
-            )}
+            <UserPlaylists />
           </div>
         </details>
       </FocusTrap>
