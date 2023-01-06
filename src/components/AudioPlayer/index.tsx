@@ -1,8 +1,9 @@
+import type { FC } from "react";
+
 import { useEffect, useRef, useState } from "react";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { formatTime } from "@global/utils";
 import { AudioControls, Cover } from "@components/index";
-import type { FC } from "react";
 import style from "./index.module.css";
 
 export const AudioPlayer: FC = () => {

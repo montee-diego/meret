@@ -1,3 +1,5 @@
+import type { AppProps } from "next/app";
+
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
@@ -6,7 +8,6 @@ import { AudioPlayerContext } from "@context/AudioPlayer";
 import { UserContext } from "@context/User";
 import { AudioPlayer, Header, Main, Sidebar } from "@components/index";
 import Head from "next/head";
-import type { AppProps } from "next/app";
 import "@styles/globals.css";
 
 const toastOptions = {

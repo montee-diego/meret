@@ -1,6 +1,7 @@
+import type { FC } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
-import type { FC } from "react";
 import style from "./index.module.css";
 
 export const Loading: FC = () => {

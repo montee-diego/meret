@@ -1,6 +1,6 @@
-import { forwardRef } from "react";
+import type { ReactNode } from "react";
 
-import type { FC, ReactNode } from "react";
+import { forwardRef } from "react";
 import style from "./index.module.css";
 
 interface IProps {

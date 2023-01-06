@@ -1,8 +1,9 @@
+import type { GetServerSideProps } from "next";
+import type { ITrack } from "@global/types";
+
 import { sanityClient } from "@services/sanity/client";
 import { queryAll } from "@services/sanity/queries";
 import { TrackList } from "@components/TrackList";
-import type { GetServerSideProps } from "next";
-import type { ITrack } from "@global/types";
 
 interface IProps {
   tracks: ITrack[];

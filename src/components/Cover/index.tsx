@@ -1,6 +1,7 @@
+import type { FC } from "react";
+
 import { useState } from "react";
 import Image from "next/image";
-import type { FC } from "react";
 import style from "./index.module.css";
 
 interface IProps {

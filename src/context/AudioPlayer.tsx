@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from "react";
 import type { FC, ReactNode, Dispatch, SetStateAction } from "react";
 import type { ITrack } from "@global/types";
+
+import { createContext, useContext, useState } from "react";
 
 interface IProps {
   children: ReactNode;

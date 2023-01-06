@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { ITrack } from "@global/types";
+
 import { sanityClient } from "@services/sanity/client";
 import { queryAll } from "@services/sanity/queries";
-import { ITrack } from "@global/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {

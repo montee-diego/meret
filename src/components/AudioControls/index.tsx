@@ -1,3 +1,5 @@
+import type { FC } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBackwardStep,
@@ -5,7 +7,6 @@ import {
   faCirclePlay,
   faCirclePause,
 } from "@fortawesome/free-solid-svg-icons";
-import type { FC } from "react";
 import style from "./index.module.css";
 
 interface IProps {

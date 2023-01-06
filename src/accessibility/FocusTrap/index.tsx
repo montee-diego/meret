@@ -1,6 +1,7 @@
+import type { FC, ReactNode } from "react";
+
 import { useEffect, useRef } from "react";
 import { tabbable } from "@accessibility/tabbable";
-import type { FC, ReactNode } from "react";
 
 interface IProps {
   active: boolean;

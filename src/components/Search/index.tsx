@@ -1,8 +1,9 @@
+import type { FC, SyntheticEvent, Dispatch, SetStateAction } from "react";
+
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import type { FC, SyntheticEvent, Dispatch, SetStateAction } from "react";
 import style from "./index.module.css";
 
 interface IProps {

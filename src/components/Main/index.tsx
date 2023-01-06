@@ -1,5 +1,6 @@
-import { useAudioPlayer } from "@context/AudioPlayer";
 import type { FC, ReactNode } from "react";
+
+import { useAudioPlayer } from "@context/AudioPlayer";
 import style from "./index.module.css";
 
 interface IProps {

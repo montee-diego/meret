@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
 import type { FC, ReactNode, Dispatch, SetStateAction } from "react";
+
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface IProps {
   children: ReactNode;
