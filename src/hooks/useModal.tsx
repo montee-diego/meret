@@ -1,11 +1,10 @@
 import { useState } from "react";
 
-export const useModal = () => {
+type ModalTuple = [boolean, () => void];
+
+export const useModal = (): ModalTuple => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  return {
-    isOpen,
-    toggleOpen,
-  };
+  return [isOpen, toggleOpen];
 };
