@@ -21,6 +21,7 @@
       "@context/*": ["src/context/*"],
       "@global/*": ["src/global/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@reducers/*": ["src/reducers/*"],
       "@services/*": ["src/services/*"],
       "@styles/*": ["src/styles/*"]
     },
