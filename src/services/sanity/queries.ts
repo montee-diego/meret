@@ -31,7 +31,15 @@ export const queryPlaylist = (id: string | string[] | undefined) => {
   return `
     *[_type=='playlist' && _id == "${id}"] {
       ...,
-      author->{name, image}
+      author->{name, image},
+      tracks[] {
+        _key,
+        ...@->{
+          ...,
+          "audio": audio.asset->url,
+          "cover": cover.asset->url
+        }
+      }
     }
   `;
 };
