@@ -9,13 +9,14 @@ interface IProps {
   children: ReactNode;
   onCancel: () => void;
   onConfirm: () => void;
+  title: string;
 }
 
-export const ConfirmDialog: FC<IProps> = ({ children, onCancel, onConfirm }) => {
+export const ConfirmDialog: FC<IProps> = ({ children, onCancel, onConfirm, title }) => {
   return (
     <div className={style.Container}>
       <div className={style.Title}>
-        <h3>Confirm Action</h3>
+        <h3>{title}</h3>
 
         <ButtonIcon onClick={onCancel} label="close modal">
           <FontAwesomeIcon icon={faXmark} size={"xl"} />
@@ -23,7 +24,7 @@ export const ConfirmDialog: FC<IProps> = ({ children, onCancel, onConfirm }) => 
       </div>
 
       <div className={style.Message}>
-        <p>{children}</p>
+        {children}
       </div>
 
       <div className={style.Actions}>

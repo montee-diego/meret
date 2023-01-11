@@ -22,6 +22,21 @@
   line-height: 1.5rem;
 }
 
+.Message input {
+  background-color: var(--color-panel);
+  border: none;
+  border-radius: 5px;
+  flex: 1;
+  height: 2.5rem;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  width: 100%;
+}
+
+.Message input:focus {
+  outline: 2px solid var(--color-focus);
+}
+
 .Actions {
   display: flex;
   gap: 0.5rem;
