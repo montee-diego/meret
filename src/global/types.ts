@@ -13,6 +13,7 @@ export interface IPlaylist extends IDocument {
 }
 
 export interface ITrack extends IDocument {
+  _key?: string;
   artist: string;
   audio: string;
   cover: string;
