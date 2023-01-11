@@ -12,11 +12,11 @@ interface IProps {
 
 export const TrackList: FC<IProps> = ({ tracks }) => {
   const [selected, setSelected] = useState<ITrack | null>(null);
-  const { isOpen, toggleOpen } = useModal();
+  const [trackModal, toggleTrackModal] = useModal();
 
   const openModal = (track: ITrack) => {
     setSelected(track);
-    toggleOpen();
+    toggleTrackModal();
   };
 
   return (
@@ -27,9 +27,9 @@ export const TrackList: FC<IProps> = ({ tracks }) => {
         ))}
       </div>
 
-      {isOpen && (
-        <Modal toggleOpen={toggleOpen}>
-          <TrackMenu track={selected} toggleOpen={toggleOpen} />
+      {trackModal && (
+        <Modal toggleOpen={toggleTrackModal}>
+          <TrackMenu track={selected} toggleOpen={toggleTrackModal} />
         </Modal>
       )}
     </>
