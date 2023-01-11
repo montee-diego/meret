@@ -4,6 +4,6 @@ export const sanityClient = client({
   projectId: process.env.SANITY_PROJECT_ID,
   dataset: "production",
   apiVersion: "2022-11-18",
-  useCdn: true,
+  useCdn: false,
   token: process.env.SANITY_TOKEN,
 });
