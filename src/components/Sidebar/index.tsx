@@ -1,8 +1,5 @@
 import type { FC, Dispatch, SetStateAction } from "react";
 
-import { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useUser } from "@context/User";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FocusTrap } from "@accessibility/FocusTrap";
@@ -15,24 +12,7 @@ interface IProps {
 }
 
 export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
-  const { status } = useSession();
-  const { playlists } = useUser();
-
   const handleNavClose = () => setIsNavOpen(false);
-
-  const fetchPlaylists = async () => {
-    const status = await playlists.fetch();
-
-    if (status === "success") {
-      // do something
-    }
-  };
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      fetchPlaylists();
-    }
-  }, [status]);
 
   return (
     <div className={style.Container} data-open={isNavOpen}>
