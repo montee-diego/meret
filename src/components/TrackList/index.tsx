@@ -23,7 +23,7 @@ export const TrackList: FC<IProps> = ({ tracks }) => {
     <>
       <div className={style.Container}>
         {tracks.map((track) => (
-          <Track track={track} openMenu={openModal} key={track._id} />
+          <Track track={track} openMenu={openModal} key={track._key || track._id} />
         ))}
       </div>
 
