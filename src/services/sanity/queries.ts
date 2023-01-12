@@ -32,6 +32,7 @@ export const queryPlaylist = (id: string | string[] | undefined) => {
     *[_type=='playlist' && _id == "${id}"] {
       ...,
       author->{name, image},
+      "total": count(tracks),
       tracks[] {
         _key,
         ...@->{
