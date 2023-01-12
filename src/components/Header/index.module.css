@@ -9,7 +9,7 @@
 .Title {
   align-items: center;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   text-transform: capitalize;
 }
 
