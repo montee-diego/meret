@@ -1,0 +1,101 @@
+.Container {
+  border-bottom: 1px solid var(--color-focus);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.Title {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.Menu {
+  background-color: var(--color-panel-solid);
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  transform: translateY(0);
+  transition-property: opacity, transform, visibility;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
+  visibility: hidden;
+  white-space: nowrap;
+  z-index: 700;
+}
+
+.Menu[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0.5rem);
+  visibility: visible;
+}
+
+.Menu > div {
+  padding: 0.5rem;
+}
+
+.Subtitle {
+  align-items: center;
+  color: var(--color-text-secondary);
+  display: flex;
+  font-size: 0.9rem;
+  gap: 0.5rem;
+  margin-left: 2.5rem;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.Subtitle::-webkit-scrollbar {
+  display: none;
+}
+
+.Subtitle p,
+.Subtitle span {
+  line-height: 1.55rem;
+}
+
+.Author {
+  align-items: center;
+  background-color: var(--color-panel);
+  border-radius: 1.5rem;
+  display: flex;
+  gap: 5px;
+  padding: 2px 8px 2px 3px;
+}
+
+.Total {
+  background-color: var(--color-panel);
+  border-radius: 1.5rem;
+  padding: 2px 8px;
+}
+
+.Image {
+  background-color: var(--color-text-primary);
+  border-radius: 50%;
+  min-height: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  min-width: 1.5rem;
+}
+
+.Updated {
+  background-color: var(--color-panel);
+  border-radius: 1.5rem;
+  padding: 2px 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .Container {
+    padding: 1rem 0.5rem;
+  }
+}
