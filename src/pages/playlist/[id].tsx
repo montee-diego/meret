@@ -1,15 +1,18 @@
+import type { FocusEvent, MouseEvent } from "react";
 import type { GetServerSideProps } from "next";
 import type { IPlaylist } from "@global/types";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@context/User";
 import { useModal } from "@hooks/useModal";
 import { sanityClient } from "@services/sanity/client";
 import { queryPlaylist } from "@services/sanity/queries";
-import { ButtonIcon, ConfirmDialog, Modal, TrackList } from "@components/index";
+import { ButtonIcon, ButtonText, ConfirmDialog, Modal, TrackList } from "@components/index";
+import Image from "next/image";
+import style from "@styles/playlist.module.css";
 
 interface IProps {
   playlist: IPlaylist;
@@ -21,6 +24,17 @@ export default function Playlist({ playlist }: IProps) {
   const { playlists } = useUser();
   const [delModal, toggleDelModal] = useModal();
   const [renModal, toggleRenModal] = useModal();
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const handleUserMenu = () => setIsMenuOpen(!isMenuOpen);
+  const handleFocus = (event: FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.matches(":focus-within")) {
+      setIsMenuOpen(false);
+    }
+  };
+  const handleMouse = (event: MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
 
   const handleDelete = async () => {
     const status = await playlists.delete(playlist._id);
@@ -48,18 +62,49 @@ export default function Playlist({ playlist }: IProps) {
     }
   };
 
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat().format(date);
+  };
+
   return (
     <section>
-      <div>
-        <p>{playlist.name}</p>
+      <div className={style.Container}>
+        <div className={style.Title} onBlur={handleFocus}>
+          <ButtonIcon onClick={handleUserMenu} label="rename playlist">
+            <FontAwesomeIcon icon={faEllipsisVertical} size="xl" />
+          </ButtonIcon>
+          <h2>{playlist.name}</h2>
 
-        <ButtonIcon onClick={toggleRenModal} label="rename playlist">
-          <FontAwesomeIcon icon={faPen} size="xl" />
-        </ButtonIcon>
+          <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}>
+            <div>
+              <ButtonText onClick={toggleRenModal} align="left">
+                Rename
+              </ButtonText>
+              <ButtonText onClick={toggleDelModal} align="left">
+                Delete
+              </ButtonText>
+            </div>
+          </div>
+        </div>
 
-        <ButtonIcon onClick={toggleDelModal} label="delete playlist">
-          <FontAwesomeIcon icon={faTrash} size="xl" />
-        </ButtonIcon>
+        <div className={style.Subtitle}>
+          <span>By</span>
+          <div className={style.Author}>
+            <div className={style.Image}>
+              <Image src={playlist.author.image} alt="U" sizes="64px" fill />
+            </div>
+            <p>{playlist.author.name}</p>
+          </div>
+
+          <div className={style.Total}>
+            <p>{playlist.total === 1 ? `${playlist.total} Track` : `${playlist.total} Tracks`}</p>
+          </div>
+
+          <div className={style.Updated}>
+            <p>Updated: {formatDate(playlist._updatedAt)}</p>
+          </div>
+        </div>
       </div>
 
       <TrackList tracks={playlist.tracks} />
