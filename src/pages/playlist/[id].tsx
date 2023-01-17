@@ -2,8 +2,12 @@ import type { FocusEvent, MouseEvent } from "react";
 import type { GetServerSideProps } from "next";
 import type { IPlaylist } from "@global/types";
 
+// SSR
+import { getToken } from "next-auth/jwt";
+
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { useSession, signIn } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@context/User";
@@ -21,12 +25,14 @@ interface IProps {
 export default function Playlist({ playlist }: IProps) {
   const router = useRouter();
   const renInput = useRef<HTMLInputElement | null>(null);
+  const { status } = useSession();
   const { playlists } = useUser();
   const [delModal, toggleDelModal] = useModal();
   const [renModal, toggleRenModal] = useModal();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const handleUserMenu = () => setIsMenuOpen(!isMenuOpen);
+  const handleLogIn = () => signIn("google");
   const handleFocus = (event: FocusEvent<HTMLDivElement>) => {
     if (!event.currentTarget.matches(":focus-within")) {
       setIsMenuOpen(false);
@@ -77,14 +83,22 @@ export default function Playlist({ playlist }: IProps) {
           <h2>{playlist.name}</h2>
 
           <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}>
-            <div>
-              <ButtonText onClick={toggleRenModal} align="left">
-                Rename
+            {status === "authenticated" ? (
+              playlist.isAuthor && (
+                <div>
+                  <ButtonText onClick={toggleRenModal} align="left">
+                    Rename
+                  </ButtonText>
+                  <ButtonText onClick={toggleDelModal} align="left">
+                    Delete
+                  </ButtonText>
+                </div>
+              )
+            ) : (
+              <ButtonText onClick={handleLogIn} align="left">
+                Log In
               </ButtonText>
-              <ButtonText onClick={toggleDelModal} align="left">
-                Delete
-              </ButtonText>
-            </div>
+            )}
           </div>
         </div>
 
@@ -134,9 +148,13 @@ export default function Playlist({ playlist }: IProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query;
-  const response = await sanityClient.fetch(queryPlaylist(id));
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+  const { id } = query;
+  const token = await getToken({ req });
+  const response = await sanityClient.fetch(queryPlaylist(), {
+    id: id || "",
+    user: token?.id || "",
+  });
 
   if (!response.length) {
     return {
