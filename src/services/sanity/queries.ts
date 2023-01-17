@@ -27,10 +27,11 @@ export const queryUserPlaylists = (id: string) => {
   `;
 };
 
-export const queryPlaylist = (id: string | string[] | undefined) => {
+export const queryPlaylist = () => {
   return `
-    *[_type=='playlist' && _id == "${id}"] {
+    *[_type=='playlist' && _id == $id] {
       ...,
+      "isAuthor": author._ref == $user,
       author->{name, image},
       "total": count(tracks),
       tracks[] {
