@@ -7,11 +7,11 @@ const elements = [
   "details > summary:first-of-type",
 ];
 
-export const tabbable = (target: HTMLDivElement | null): HTMLElement[] => {
+export function tabbable(target: HTMLDivElement | null): HTMLElement[] {
   if (!target) return [];
 
   const nodes = target.querySelectorAll(elements.join(",")) as NodeListOf<HTMLElement>;
-  let list: HTMLElement[] = [];
+  const focusable: HTMLElement[] = [];
 
   for (var i = 0; i < nodes.length; i++) {
     if (nodes[i].getAttribute("tabIndex") === "-1") {
@@ -24,8 +24,8 @@ export const tabbable = (target: HTMLDivElement | null): HTMLElement[] => {
       }
     }
 
-    list.push(nodes[i]);
+    focusable.push(nodes[i]);
   }
 
-  return list;
-};
+  return focusable;
+}
