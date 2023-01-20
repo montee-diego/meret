@@ -1,4 +1,37 @@
-export const queryAll = () => {
+export function queryHome() {
+  return `
+    {
+      "tracks": *[_type == "track"][0...5] | order(_createdAt desc) {
+        ...,
+        "audio": audio.asset->url,
+        "cover": cover.asset->url
+      },
+      "playlists": *[_type == "playlist"][0...5] | order(_updatedAt desc) {
+        ...,
+        author->{name, image},
+        "total": count(tracks)
+      }
+    }`;
+}
+
+export function queryUserPlaylists() {
+  return `
+    *[_type=="playlist" && author._ref == $id] | order(_createdAt asc) {
+      _id,
+      name
+    }
+  `;
+}
+
+export function queryUserSubs() {
+  return `
+    *[_type=="user" && _id == $id][0] {
+      subs[]->{_id, name}
+    }
+  `;
+}
+
+export function queryAll() {
   return `
     *[_type == "track"] {
       ...,
@@ -6,32 +39,27 @@ export const queryAll = () => {
       "cover": cover.asset->url
     }
   `;
-};
+}
 
-export const querySearch = (query: string | string[] | undefined) => {
+export function querySearch() {
   return `
-    *[_type == "track" && [title, artist] match "*${query}*"] {
+    *[_type == "track" && [title, artist] match $query] {
       ...,
       "audio": audio.asset->url,
       "cover": cover.asset->url
     }
   `;
-};
+}
 
-export const queryUserPlaylists = (id: string) => {
+export function queryPlaylist() {
   return `
-    *[_type=='playlist' && author._ref == "${id}"] | order(_createdAt asc) {
-      ...,
-      author->{name, image}
-    }
-  `;
-};
-
-export const queryPlaylist = () => {
-  return `
-    *[_type=='playlist' && _id == $id] {
+    *[_type=="playlist" && _id == $id][0] {
       ...,
       "isAuthor": author._ref == $user,
+      "user": *[_type=="user" && _id == $user][0] {
+        "isAuthor": ^.author._ref == $user,
+        "isSub": $id in subs[]._ref
+      },
       author->{name, image},
       "total": count(tracks),
       tracks[] {
@@ -44,4 +72,4 @@ export const queryPlaylist = () => {
       }
     }
   `;
-};
+}
