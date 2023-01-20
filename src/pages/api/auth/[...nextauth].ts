@@ -13,7 +13,7 @@ export const authOptions = {
     async jwt({ token, user }: any) {
       if (user) {
         const { id, name, email, image } = user;
-        const sanityUser = { _id: id, name, email, image, _type: "user" };
+        const sanityUser = { _id: id, name, email, image, subs: [], _type: "user" };
 
         token.id = id;
         sanityClient.createOrReplace(sanityUser).then((res) => {
