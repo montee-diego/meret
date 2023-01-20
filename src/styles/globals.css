@@ -20,15 +20,15 @@
 }
 
 body[data-theme="light"] {
-  --bg-grad-1: linear-gradient(215deg, #8cd38e 30%, #43a5e7 80%);
-  --bg-grad-2: linear-gradient(304deg, #ff653566 25%, #aa2743 91%);
-  --bg-grad-3: linear-gradient(10deg, #b1c9d8 20%, #2776aa 50%);
+  --bg-grad-1: linear-gradient(215deg, #f7d6d6 30%, #60bfff 80%);
+  --bg-grad-2: linear-gradient(304deg, #ff653566 25%, #cc2e50 91%);
+  --bg-grad-3: linear-gradient(10deg, #b1c9d8 20%, #2c83bd 50%);
   --bg-grad-4: linear-gradient(145deg, #f4df26 16%, #ff1b9a 40%);
   --color-text-default: #0f0f0f;
   --color-text-secondary: #353535;
   --color-panel: rgba(0, 0, 0, 0.1);
-  --color-panel-header: rgba(162, 235, 205, 0.7);
-  --color-panel-solid: rgba(162, 235, 205, 0.7);
+  --color-panel-header: rgba(210, 250, 255, 0.7);
+  --color-panel-solid: rgba(210, 250, 255, 0.7);
   --color-focus: rgba(0, 0, 0, 0.3);
   --color-scroll: rgba(0, 0, 0, 0.2);
 }
