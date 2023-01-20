@@ -8,10 +8,13 @@ export interface IPlaylist extends IDocument {
     name: string;
     image: string;
   };
-  isAuthor?: boolean;
   name: string;
   total: number;
   tracks: ITrack[];
+  user?: {
+    isAuthor: boolean;
+    isSub: boolean;
+  };
 }
 
 export interface ITrack extends IDocument {
