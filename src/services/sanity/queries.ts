@@ -55,7 +55,6 @@ export function queryPlaylist() {
   return `
     *[_type=="playlist" && _id == $id][0] {
       ...,
-      "isAuthor": author._ref == $user,
       "user": *[_type=="user" && _id == $user][0] {
         "isAuthor": ^.author._ref == $user,
         "isSub": $id in subs[]._ref
