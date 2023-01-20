@@ -23,7 +23,9 @@ export default function Search({ tracks }: IProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context.query;
-  const response = await sanityClient.fetch(querySearch(query));
+  const response = await sanityClient.fetch(querySearch(), {
+    query: `*${query}*`,
+  });
 
   return {
     props: {
