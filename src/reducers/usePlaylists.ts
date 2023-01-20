@@ -21,7 +21,7 @@ const usePlaylistsReducer: Reducer<IPlaylist[] | [], ReducerAction> = (state, ac
       return [...state, action.payload];
     }
     case "onDelete": {
-      return state.filter((pls) => pls._id !== action.payload);
+      return state.filter((pls) => pls._id !== action.payload._id);
     }
     case "onRename": {
       return state.map((pls) => (pls._id === action.payload._id ? action.payload : pls));

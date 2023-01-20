@@ -4,7 +4,10 @@ import type { IPlaylist } from "@global/types";
 
 // SSR
 import { getToken } from "next-auth/jwt";
+import { sanityClient } from "@services/sanity/client";
+import { queryPlaylist } from "@services/sanity/queries";
 
+// CSR
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
@@ -12,9 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@context/User";
 import { useModal } from "@hooks/useModal";
-import { sanityClient } from "@services/sanity/client";
-import { queryPlaylist } from "@services/sanity/queries";
 import { ButtonIcon, ButtonText, ConfirmDialog, Modal, TrackList } from "@components/index";
+import { formatDate } from "@global/utils";
 import Image from "next/image";
 import style from "@styles/playlist.module.css";
 
@@ -68,10 +70,21 @@ export default function Playlist({ playlist }: IProps) {
     }
   };
 
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat().format(date);
-  };
+  async function handleSub() {
+    let status;
+
+    if (playlist.user?.isSub) {
+      status = await playlists.unsubscribe(playlist._id);
+    } else {
+      status = await playlists.subscribe(playlist._id);
+    }
+
+    if (status === "success") {
+      router.replace(router.asPath, "", {
+        scroll: false,
+      });
+    }
+  }
 
   return (
     <section>
@@ -84,13 +97,19 @@ export default function Playlist({ playlist }: IProps) {
 
           <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}>
             {status === "authenticated" ? (
-              playlist.isAuthor && (
+              playlist.user?.isAuthor ? (
                 <div>
                   <ButtonText onClick={toggleRenModal} align="left">
                     Rename
                   </ButtonText>
                   <ButtonText onClick={toggleDelModal} align="left">
                     Delete
+                  </ButtonText>
+                </div>
+              ) : (
+                <div>
+                  <ButtonText onClick={handleSub} align="left">
+                    {playlist.user?.isSub ? "Unsubscribe" : "Subscribe"}
                   </ButtonText>
                 </div>
               )
@@ -156,7 +175,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
     user: token?.id || "",
   });
 
-  if (!response.length) {
+  if (!response) {
     return {
       notFound: true,
     };
@@ -164,7 +183,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   return {
     props: {
-      playlist: response[0],
+      playlist: response,
     },
   };
 };
