@@ -18,5 +18,17 @@ export default {
       title: "Image",
       type: "string",
     },
+    {
+      name: "subs",
+      title: "Subscriptions",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "playlist" }],
+        },
+      ],
+      validation: (Rule) => Rule.unique(),
+    },
   ],
 };
