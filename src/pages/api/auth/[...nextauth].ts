@@ -16,8 +16,8 @@ export const authOptions = {
         const sanityUser = { _id: id, name, email, image, subs: [], _type: "user" };
 
         token.id = id;
-        sanityClient.createOrReplace(sanityUser).then((res) => {
-          console.log("Updated user in Sanity.");
+        sanityClient.createIfNotExists(sanityUser).then((res) => {
+          console.log("Created new user in Sanity.");
         });
       }
 
