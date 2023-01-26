@@ -7,6 +7,7 @@ export { Cover } from "./Cover";
 export { Header } from "./Header";
 export { Loading } from "./Loading";
 export { Main } from "./Main";
+export { Menu } from "./Menu";
 export { Modal } from "./Modal";
 export { Search } from "./Search";
 export { Sidebar } from "./Sidebar";
