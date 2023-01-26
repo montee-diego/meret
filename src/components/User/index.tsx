@@ -1,10 +1,10 @@
-import type { FC, FocusEvent, MouseEvent } from "react";
+import type { FC, FocusEvent } from "react";
 
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { ButtonText } from "@components/index";
+import { ButtonText, Menu } from "@components/index";
 import Image from "next/image";
 import style from "./index.module.css";
 
@@ -19,9 +19,6 @@ export const User: FC = () => {
     if (!event.currentTarget.matches(":focus-within")) {
       setIsMenuOpen(false);
     }
-  };
-  const handleMouse = (event: MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
   };
 
   return (
@@ -38,7 +35,7 @@ export const User: FC = () => {
         <FontAwesomeIcon size="xs" icon={faChevronDown} transform="down-3" />
       </button>
 
-      <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}>
+      <Menu align="right" isOpen={isMenuOpen}>
         {session ? (
           <>
             <div className={style.Name}>
@@ -61,7 +58,7 @@ export const User: FC = () => {
             </ButtonText>
           </div>
         )}
-      </div>
+      </Menu>
     </div>
   );
 };
