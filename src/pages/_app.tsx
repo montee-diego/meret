@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
-import { ThemeContext } from "@context/Theme";
 import { AudioPlayerContext } from "@context/AudioPlayer";
 import { UserContext } from "@context/User";
 import { AudioPlayer, Header, Main, Sidebar } from "@components/index";
@@ -21,25 +20,23 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   return (
     <SessionProvider session={session}>
-      <ThemeContext>
-        <UserContext>
-          <AudioPlayerContext>
-            <Head>
-              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            </Head>
+      <UserContext>
+        <AudioPlayerContext>
+          <Head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          </Head>
 
-            <Sidebar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
-            <Header setIsNavOpen={setIsNavOpen} />
+          <Sidebar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+          <Header setIsNavOpen={setIsNavOpen} />
 
-            <Main>
-              <AudioPlayer />
-              <Component {...pageProps} />
-            </Main>
+          <Main>
+            <AudioPlayer />
+            <Component {...pageProps} />
+          </Main>
 
-            <Toaster position="bottom-center" toastOptions={toastOptions} />
-          </AudioPlayerContext>
-        </UserContext>
-      </ThemeContext>
+          <Toaster position="bottom-center" toastOptions={toastOptions} />
+        </AudioPlayerContext>
+      </UserContext>
     </SessionProvider>
   );
 }
