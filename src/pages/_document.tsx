@@ -2,6 +2,21 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class PageDocument extends Document {
   render() {
+    const ohNoDontDoIt = `
+      function getUserTheme() {
+        const isUserSaved = window.localStorage.getItem("theme");
+        const isUserPrefers = window.matchMedia("(prefers-color-scheme: dark)");
+
+        if (isUserSaved) {
+          return isUserSaved;
+        } else {
+          return isUserPrefers.matches ? "dark" : "light";
+        }
+      }
+
+      document.body.dataset.theme = getUserTheme();
+    `;
+
     return (
       <Html>
         <Head>
@@ -14,6 +29,7 @@ class PageDocument extends Document {
           />
         </Head>
         <body>
+          <script dangerouslySetInnerHTML={{ __html: ohNoDontDoIt }} />
           <Main />
           <NextScript />
         </body>
