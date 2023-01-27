@@ -1,33 +1,56 @@
 import type { Reducer } from "react";
-import type { IPlaylist } from "@global/types";
+import type { IPlaylistMin } from "@global/types";
 
 import { useReducer } from "react";
 
-export type ReducerActionType = "onFetch" | "onCreate" | "onDelete" | "onRename";
+type State = {
+  playlists: IPlaylistMin[];
+  subscriptions: IPlaylistMin[];
+};
+
+type ActionType = "onCreate" | "onDelete" | "onFetch" | "onRename" | "onSub";
 
 export type ReducerAction = {
-  type: ReducerActionType;
+  type: ActionType;
   payload?: any;
 };
 
-const initialState: [] = [];
+const initialState: State = {
+  playlists: [],
+  subscriptions: [],
+};
 
-const usePlaylistsReducer: Reducer<IPlaylist[] | [], ReducerAction> = (state, action) => {
-  switch (action.type) {
-    case "onFetch": {
-      return action.payload;
-    }
+const usePlaylistsReducer: Reducer<State, ReducerAction> = (state, { type, payload }) => {
+  switch (type) {
     case "onCreate": {
-      return [...state, action.payload];
+      return {
+        ...state,
+        playlists: [...state.playlists, payload],
+      };
     }
     case "onDelete": {
-      return state.filter((pls) => pls._id !== action.payload._id);
+      return {
+        ...state,
+        playlists: state.playlists.filter((pls) => pls._id !== payload._id),
+      };
+    }
+    case "onFetch": {
+      return payload;
     }
     case "onRename": {
-      return state.map((pls) => (pls._id === action.payload._id ? action.payload : pls));
+      return {
+        ...state,
+        playlists: state.playlists.map((pls) => (pls._id === payload._id ? payload : pls)),
+      };
+    }
+    case "onSub": {
+      return {
+        ...state,
+        subscriptions: payload,
+      };
     }
     default: {
-      throw new Error(`Unknown action: ${action.type}`);
+      throw new Error(`Unknown action: ${type}`);
     }
   }
 };
