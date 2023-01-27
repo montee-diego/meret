@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getToken } from "next-auth/jwt";
 import { sanityClient } from "@services/sanity/client";
-import { queryUserPlaylists } from "@services/sanity/queries";
+import { queryUserData } from "@services/sanity/queries";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = await getToken({ req });
@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "GET") {
-    const response = await sanityClient.fetch(queryUserPlaylists(), {
+    const response = await sanityClient.fetch(queryUserData(), {
       id: token?.id,
     });
 
