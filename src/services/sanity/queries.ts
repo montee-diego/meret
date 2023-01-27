@@ -11,7 +11,25 @@ export function queryHome() {
         author->{name, image},
         "total": count(tracks)
       }
-    }`;
+    }
+  `;
+}
+
+export function queryUserData() {
+  return `
+    {
+      "playlists": *[_type=="playlist" && author._ref == $id] | order(_createdAt asc) {
+        _id,
+        name
+      },
+      ...*[_type=="user" && _id == $id][0] {
+        "subscriptions": subs[]->{
+          _id,
+          name
+        }
+      }
+    }
+  `;
 }
 
 export function queryUserPlaylists() {
