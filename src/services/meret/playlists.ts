@@ -2,17 +2,6 @@ import type { ReducerAction } from "@reducers/usePlaylists";
 
 type Dispatch = (arg0: ReducerAction) => void;
 
-// temp
-
-type ReducerActionType2 = "onFetch" | "onSub" | "onUnsub";
-
-type ReducerAction2 = {
-  type: ReducerActionType2;
-  payload?: any;
-};
-
-type Dispatch2 = (arg0: ReducerAction2) => void;
-
 export async function fetchPls(dispatch: Dispatch): Promise<unknown> {
   return fetch("/api/playlists", {
     method: "GET",
@@ -80,7 +69,7 @@ export async function renamePls(id: string, name: string, dispatch: Dispatch): P
     .catch((error) => Promise.reject(error));
 }
 
-export async function subscribePls(id: string, dispatch2: Dispatch2): Promise<unknown> {
+export async function subscribePls(id: string, dispatch: Dispatch): Promise<unknown> {
   return fetch(`/api/playlists/subscribe/${id}`, {
     method: "POST",
     headers: {
@@ -93,11 +82,11 @@ export async function subscribePls(id: string, dispatch2: Dispatch2): Promise<un
       }
       return Promise.reject(response);
     })
-    .then((data) => dispatch2({ type: "onSub", payload: data.subs }))
+    .then((data) => dispatch({ type: "onSub", payload: data.subs }))
     .catch((error) => Promise.reject(error));
 }
 
-export async function unsubscribePls(id: string, dispatch2: Dispatch2): Promise<unknown> {
+export async function unsubscribePls(id: string, dispatch: Dispatch): Promise<unknown> {
   return fetch(`/api/playlists/subscribe/${id}`, {
     method: "DELETE",
     headers: {
@@ -110,6 +99,6 @@ export async function unsubscribePls(id: string, dispatch2: Dispatch2): Promise<
       }
       return Promise.reject(response);
     })
-    .then((data) => dispatch2({ type: "onSub", payload: data.subs }))
+    .then((data) => dispatch({ type: "onSub", payload: data.subs }))
     .catch((error) => Promise.reject(error));
 }
