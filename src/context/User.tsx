@@ -1,11 +1,10 @@
 import type { FC, ReactNode } from "react";
-import type { IPlaylist } from "@global/types";
+import type { IPlaylistMin } from "@global/types";
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { usePlaylists } from "@reducers/usePlaylists";
-import { useSubscriptions } from "@reducers/useSubscriptions";
 import {
   fetchPls,
   createPls,
@@ -22,7 +21,7 @@ interface IProps {
 
 interface IContext {
   playlists: {
-    data: IPlaylist[];
+    data: IPlaylistMin[];
     fetchError: boolean;
     fetch: () => Promise<any>;
     create: (name: string) => Promise<any>;
@@ -31,7 +30,7 @@ interface IContext {
     subscribe: (id: string) => Promise<any>;
     unsubscribe: (id: string) => Promise<any>;
     addItem: (playlist: string, track: string) => Promise<any>;
-    subs: IPlaylist[];
+    subs: IPlaylistMin[];
   };
 }
 
@@ -55,11 +54,10 @@ const User = createContext<IContext>({
 export const UserContext: FC<IProps> = (props) => {
   const { status } = useSession();
   const [data, dispatch] = usePlaylists();
-  const [subs, dispatch2] = useSubscriptions();
   const [isFetchError, setIsFetchError] = useState<boolean>(false);
 
   const playlists = {
-    data: data,
+    data: data.playlists,
     fetchError: isFetchError,
     fetch: async () => {
       const request = fetchPls(dispatch);
@@ -101,7 +99,7 @@ export const UserContext: FC<IProps> = (props) => {
       return await request.then((done) => "success").catch((error) => "error");
     },
     subscribe: async function (id: string) {
-      const request = toast.promise(subscribePls(id, dispatch2), {
+      const request = toast.promise(subscribePls(id, dispatch), {
         loading: "Subscribing...",
         success: "Done!",
         error: "Failed",
@@ -110,7 +108,7 @@ export const UserContext: FC<IProps> = (props) => {
       return await request.then((done) => "success").catch((error) => "error");
     },
     unsubscribe: async function (id: string) {
-      const request = toast.promise(unsubscribePls(id, dispatch2), {
+      const request = toast.promise(unsubscribePls(id, dispatch), {
         loading: "Unsubscribing...",
         success: "Done!",
         error: "Failed",
@@ -127,7 +125,7 @@ export const UserContext: FC<IProps> = (props) => {
 
       return await request.then((done) => "success").catch((error) => "error");
     },
-    subs: subs,
+    subs: data.subscriptions,
   };
 
   useEffect(() => {
