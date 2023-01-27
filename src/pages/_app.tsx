@@ -9,6 +9,9 @@ import { AudioPlayer, Header, Main, Sidebar } from "@components/index";
 import Head from "next/head";
 import "@styles/globals.css";
 
+// Fix FontAwesome icons size flash on page load
+import "../../node_modules/@fortawesome/fontawesome-svg-core/styles.css";
+
 const toastOptions = {
   style: {
     minWidth: "300px",
