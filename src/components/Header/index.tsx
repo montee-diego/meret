@@ -3,12 +3,17 @@ import type { FC, Dispatch, SetStateAction } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faArrowRightToBracket as faSide } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
-import { ButtonIcon, ThemeToggle, User } from "@components/index";
+import { ButtonIcon, User } from "@components/index";
+import dynamic from "next/dynamic";
 import style from "./index.module.css";
 
 interface IProps {
   setIsNavOpen: Dispatch<SetStateAction<boolean>>;
 }
+
+const ThemeToggle = dynamic(() => import("@components/ThemeToggle"), {
+  ssr: false,
+});
 
 export const Header: FC<IProps> = ({ setIsNavOpen }) => {
   const { playerOpen, setPlayerOpen } = useAudioPlayer();
