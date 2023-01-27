@@ -3,6 +3,11 @@ export interface IDocument {
   _updatedAt: string;
 }
 
+export interface IPlaylistMin {
+  _id: string;
+  name: string;
+}
+
 export interface IPlaylist extends IDocument {
   author: {
     name: string;
