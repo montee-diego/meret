@@ -20,18 +20,16 @@ export const TrackList: FC<IProps> = ({ tracks }) => {
   };
 
   return (
-    <>
-      <div className={style.Container}>
-        {tracks.map((track) => (
-          <Track track={track} openMenu={openModal} key={track._key || track._id} />
-        ))}
-      </div>
+    <div className={style.Container}>
+      {tracks.map((track) => (
+        <Track track={track} openMenu={openModal} key={track._key || track._id} />
+      ))}
 
       {trackModal && (
         <Modal toggleOpen={toggleTrackModal}>
           <TrackMenu track={selected} toggleOpen={toggleTrackModal} />
         </Modal>
       )}
-    </>
+    </div>
   );
 };
