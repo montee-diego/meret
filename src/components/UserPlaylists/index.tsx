@@ -6,7 +6,7 @@ import { useSession, signIn } from "next-auth/react";
 import { useUser } from "@context/User";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { ButtonText } from "@components/index";
+import { ButtonText, Playlists } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -30,8 +30,6 @@ export const UserPlaylists: FC<IProps> = ({ onAdd }) => {
     setIsLoading(true);
 
     const status = await playlists.create(`${input.current?.value}`);
-
-    console.log(status);
 
     if (status === "success") {
       if (input.current) {
@@ -76,21 +74,7 @@ export const UserPlaylists: FC<IProps> = ({ onAdd }) => {
             </button>
           </form>
 
-          <ul className={style.List}>
-            {playlists.data.map((playlist) => (
-              <li key={playlist._id} data-id={playlist._id}>
-                {onAdd ? (
-                  <ButtonText onClick={() => handleAddTrack(playlist._id)} align="left">
-                    {playlist.name}
-                  </ButtonText>
-                ) : (
-                  <ButtonText href={`/playlist/${playlist._id}`} align="left">
-                    {playlist.name}
-                  </ButtonText>
-                )}
-              </li>
-            ))}
-          </ul>
+          <Playlists playlists={playlists.data} onClick={onAdd && handleAddTrack} />
         </>
       ) : (
         <ButtonText onClick={handleLogIn} align="left">

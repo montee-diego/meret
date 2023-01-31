@@ -1,15 +1,8 @@
-.List {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  list-style: none;
-}
-
 .Form {
   background-color: var(--color-panel);
   border-radius: 5px;
   display: flex;
-  margin-bottom: 3px;
+  margin: 3px 0px;
   overflow: hidden;
 }
 
