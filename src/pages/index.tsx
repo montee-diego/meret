@@ -3,7 +3,7 @@ import type { IPlaylist, ITrack } from "@global/types";
 
 import { sanityClient } from "@services/sanity/client";
 import { queryHome } from "@services/sanity/queries";
-import { TrackList } from "@components/TrackList";
+import { TrackList } from "@components/index";
 import Link from "next/link";
 
 interface IProps {
