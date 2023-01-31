@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@context/User";
 import { useModal } from "@hooks/useModal";
-import { ButtonIcon, ButtonText, ConfirmDialog, Modal, TrackList } from "@components/index";
+import { ButtonIcon, ButtonText, ConfirmDialog, Menu, Modal, TrackList } from "@components/index";
 import { formatDate } from "@global/utils";
 import Image from "next/image";
 import style from "@styles/playlist.module.css";
@@ -95,7 +95,8 @@ export default function Playlist({ playlist }: IProps) {
           </ButtonIcon>
           <h2>{playlist.name}</h2>
 
-          <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}>
+          <Menu align="left" isOpen={isMenuOpen}>
+            {/* <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}> */}
             {status === "authenticated" ? (
               playlist.user?.isAuthor ? (
                 <div>
@@ -114,11 +115,14 @@ export default function Playlist({ playlist }: IProps) {
                 </div>
               )
             ) : (
-              <ButtonText onClick={handleLogIn} align="left">
-                Log In
-              </ButtonText>
+              <div>
+                <ButtonText onClick={handleLogIn} align="left">
+                  Log In
+                </ButtonText>
+              </div>
             )}
-          </div>
+            {/* </div> */}
+          </Menu>
         </div>
 
         <div className={style.Subtitle}>
