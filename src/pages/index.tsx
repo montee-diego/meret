@@ -3,8 +3,7 @@ import type { IPlaylist, ITrack } from "@global/types";
 
 import { sanityClient } from "@services/sanity/client";
 import { queryHome } from "@services/sanity/queries";
-import { TrackList } from "@components/index";
-import Link from "next/link";
+import { PlaylistCard, TrackList } from "@components/index";
 
 interface IProps {
   feed: {
@@ -16,13 +15,24 @@ interface IProps {
 export default function Home({ feed }: IProps) {
   return (
     <section>
+      <h1>Latest Tracks</h1>
       <TrackList tracks={feed.tracks} />
 
-      {feed.playlists.map((playlist) => (
-        <Link href={`/playlist/${playlist._id}`} key={playlist._id}>
-          {playlist.name}
-        </Link>
-      ))}
+      <h1>Latest Playlists</h1>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(10rem, 1fr))",
+          gridGap: "10px",
+          justifyContent: "space-between",
+          padding: "1rem",
+        }}
+      >
+        {feed.playlists.map((playlist) => (
+          <PlaylistCard playlist={playlist} key={playlist._id} />
+        ))}
+      </div>
     </section>
   );
 }
