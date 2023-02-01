@@ -9,6 +9,7 @@ export function queryHome() {
       "playlists": *[_type == "playlist"][0...5] | order(_updatedAt desc) {
         ...,
         author->{name, image},
+        "cover": tracks[-1]->cover.asset->url,
         "total": count(tracks)
       }
     }
