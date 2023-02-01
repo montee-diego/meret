@@ -5,7 +5,7 @@ import Image from "next/image";
 import style from "./index.module.css";
 
 interface IProps {
-  cover: string;
+  cover?: string;
   size: string;
 }
 
@@ -20,16 +20,14 @@ export const Cover: FC<IProps> = ({ cover, size }) => {
 
   return (
     <div className={style.Container + loadingClass} style={{ width: size }}>
-      {cover && (
-        <Image
-          src={cover}
-          className={style.Img}
-          onLoadingComplete={handleLoad}
-          alt="No Cover"
-          sizes="320px"
-          fill
-        />
-      )}
+      <Image
+        src={cover || "/img/no-cover.png"}
+        className={style.Img}
+        onLoadingComplete={handleLoad}
+        alt="No Cover"
+        sizes="320px"
+        fill
+      />
     </div>
   );
 };
