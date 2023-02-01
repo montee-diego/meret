@@ -13,6 +13,7 @@ export interface IPlaylist extends IDocument {
     name: string;
     image: string;
   };
+  cover?: string;
   name: string;
   total: number;
   tracks: ITrack[];
