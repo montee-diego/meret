@@ -1,0 +1,20 @@
+.Container {
+  background-color: var(--color-panel);
+  border-radius: 5px;
+  padding: 1rem;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Container:focus {
+  outline: 2px solid var(--color-focus);
+}
+
+.Details {
+  margin-top: 1rem;
+}
+
+@media (hover: hover) {
+  .Container:hover {
+    background-color: var(--color-scroll);
+  }
+}
