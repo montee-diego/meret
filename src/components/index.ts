@@ -10,6 +10,7 @@ export { Main } from "./Main";
 export { Menu } from "./Menu";
 export { Modal } from "./Modal";
 export { PlaylistCard } from "./PlaylistCard";
+export { PlaylistGrid } from "./PlaylistGrid";
 export { Playlists } from "./Playlists";
 export { Search } from "./Search";
 export { Sidebar } from "./Sidebar";
