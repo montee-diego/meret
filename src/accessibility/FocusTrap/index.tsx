@@ -95,7 +95,7 @@ export const FocusTrap: FC<IProps> = ({ active, cancelEvent, className, children
   function addListeners(): void {
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleMouseDown);
-    document.addEventListener("touchstart", handleMouseDown);
+    document.addEventListener("touchend", handleMouseDown);
     document.addEventListener("focus", handleFocus);
     document.addEventListener("focusin", handleFocusIn);
   }
@@ -103,7 +103,7 @@ export const FocusTrap: FC<IProps> = ({ active, cancelEvent, className, children
   function removeListeners(): void {
     document.removeEventListener("keydown", handleKeyDown);
     document.removeEventListener("mousedown", handleMouseDown);
-    document.removeEventListener("touchstart", handleMouseDown);
+    document.removeEventListener("touchend", handleMouseDown);
     document.removeEventListener("focus", handleFocus);
     document.removeEventListener("focusin", handleFocusIn);
   }
