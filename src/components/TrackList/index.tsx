@@ -7,10 +7,12 @@ import { Modal, Track, TrackMenu } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
+  scroll?: string;
+  title?: string;
   tracks: ITrack[];
 }
 
-export const TrackList: FC<IProps> = ({ tracks }) => {
+export const TrackList: FC<IProps> = ({ scroll, title, tracks }) => {
   const [selected, setSelected] = useState<ITrack | null>(null);
   const [trackModal, toggleTrackModal] = useModal();
 
@@ -20,10 +22,13 @@ export const TrackList: FC<IProps> = ({ tracks }) => {
   };
 
   return (
-    <div className={style.Container}>
-      {tracks.map((track) => (
-        <Track track={track} openMenu={openModal} key={track._key || track._id} />
-      ))}
+    <div className={style.Container} data-scroll={scroll}>
+      {title && <h3>{title}</h3>}
+      <div className={style.Content}>
+        {tracks.map((track) => (
+          <Track track={track} openMenu={openModal} key={track._key || track._id} />
+        ))}
+      </div>
 
       {trackModal && (
         <Modal toggleOpen={toggleTrackModal}>
