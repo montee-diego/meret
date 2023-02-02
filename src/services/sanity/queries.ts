@@ -6,7 +6,7 @@ export function queryHome() {
         "audio": audio.asset->url,
         "cover": cover.asset->url
       },
-      "playlists": *[_type == "playlist"][0...5] | order(_updatedAt desc) {
+      "playlists": *[_type == "playlist"][0...10] | order(_updatedAt desc) {
         ...,
         author->{name, image},
         "cover": tracks[-1]->cover.asset->url,
