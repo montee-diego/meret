@@ -40,9 +40,6 @@ export default function Playlist({ playlist }: IProps) {
       setIsMenuOpen(false);
     }
   };
-  const handleMouse = (event: MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
 
   const handleDelete = async () => {
     const status = await playlists.delete(playlist._id);
@@ -87,7 +84,7 @@ export default function Playlist({ playlist }: IProps) {
   }
 
   return (
-    <section>
+    <section data-scroll="false">
       <div className={style.Container}>
         <div className={style.Title} onBlur={handleFocus}>
           <ButtonIcon onClick={handleUserMenu} label="rename playlist">
@@ -96,7 +93,6 @@ export default function Playlist({ playlist }: IProps) {
           <h2>{playlist.name}</h2>
 
           <Menu align="left" isOpen={isMenuOpen}>
-            {/* <div className={style.Menu} onMouseDown={handleMouse} data-open={isMenuOpen}> */}
             {status === "authenticated" ? (
               playlist.user?.isAuthor ? (
                 <div>
@@ -121,7 +117,6 @@ export default function Playlist({ playlist }: IProps) {
                 </ButtonText>
               </div>
             )}
-            {/* </div> */}
           </Menu>
         </div>
 
@@ -144,7 +139,7 @@ export default function Playlist({ playlist }: IProps) {
         </div>
       </div>
 
-      <TrackList tracks={playlist.tracks} />
+      <TrackList scroll="true" tracks={playlist.tracks} />
 
       {delModal && (
         <Modal toggleOpen={toggleDelModal}>
