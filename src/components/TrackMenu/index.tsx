@@ -1,21 +1,23 @@
 import type { FC } from "react";
 import type { ITrack } from "@global/types";
 
+import { signIn, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { ButtonIcon, Cover, UserPlaylists } from "@components/index";
+import { ButtonIcon, ButtonText, Cover, UserPlaylists } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
+  isAuthor?: boolean;
   track: ITrack | null;
   toggleOpen: () => void;
 }
 
-export const TrackMenu: FC<IProps> = ({ track, toggleOpen }) => {
-  const handleAddToPlaylist = () => {
-    // send track to playlist
-    return track;
-  };
+export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
+  const { status } = useSession();
+
+  const handleLogIn = () => signIn("google");
+  const handleAddToPlaylist = () => track;
 
   return (
     <div className={style.Container}>
@@ -32,8 +34,32 @@ export const TrackMenu: FC<IProps> = ({ track, toggleOpen }) => {
         </ButtonIcon>
       </div>
 
-      <div className={style.Playlists}>
-        <UserPlaylists onAdd={handleAddToPlaylist} />
+      <div className={style.Playlists} tabIndex={-1}>
+        {status === "authenticated" ? (
+          <UserPlaylists onAdd={handleAddToPlaylist} />
+        ) : (
+          <div className={style.LogIn}>
+            <div className={style.LogInBtn}>
+              <ButtonText onClick={handleLogIn} align="center">
+                Log In to edit Playlists
+              </ButtonText>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className={style.QuickActions}>
+        <ButtonText onClick={() => {}} align="center">
+          Play
+        </ButtonText>
+        <ButtonText onClick={() => {}} align="center">
+          Queue
+        </ButtonText>
+        {isAuthor && (
+          <ButtonText onClick={() => {}} align="center">
+            Delete
+          </ButtonText>
+        )}
       </div>
     </div>
   );
