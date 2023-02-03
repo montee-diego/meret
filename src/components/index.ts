@@ -1,3 +1,4 @@
+export { Accordion } from "./Accordion";
 export { AudioControls } from "./AudioControls";
 export { AudioPlayer } from "./AudioPlayer";
 export { ButtonIcon } from "./ButtonIcon";
