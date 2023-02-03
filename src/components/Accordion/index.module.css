@@ -1,0 +1,47 @@
+.Container summary {
+  align-items: center;
+  border-radius: 5px;
+  color: var(--color-text-default);
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  line-height: 2.5rem;
+  padding: 0rem 0.5rem;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Container summary:focus {
+  outline: 2px solid var(--color-focus);
+}
+
+.Arrow {
+  transition: transform 0.25s ease;
+}
+
+.Container[open] .Arrow {
+  transform: rotate(180deg);
+}
+
+.Container[open] > div {
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Content {
+  padding-left: calc(0.5rem + 0.875em);
+}
+
+@media (hover: hover) {
+  .Container summary:hover {
+    background-color: var(--color-panel);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
