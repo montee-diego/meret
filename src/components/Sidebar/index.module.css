@@ -66,64 +66,8 @@
   margin: 1rem 0rem;
 }
 
-.LogInStatus {
+.LogInBtn {
   background-color: var(--color-panel);
   border-radius: 5px;
   margin: 1rem 0rem;
-}
-
-.LogInStatus p {
-  color: var(--color-text-secondary);
-  line-height: 1.5rem;
-  padding: 0.5rem;
-}
-
-.Playlists summary {
-  align-items: center;
-  border-radius: 5px;
-  color: var(--color-text-default);
-  cursor: pointer;
-  display: flex;
-  gap: 0.5rem;
-  justify-content: space-between;
-  line-height: 2.5rem;
-  padding: 0rem 0.5rem;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.Playlists summary:focus {
-  outline: 2px solid var(--color-focus);
-}
-
-.Playlists summary svg {
-  transition: transform 0.25s ease;
-}
-
-.Playlists[open] summary svg {
-  transform: rotate(180deg);
-}
-
-.Playlists[open] > div {
-  animation: sweep 0.25s ease-in-out;
-}
-
-.PlaylistsContent {
-  padding-left: calc(0.5rem + 0.875em);
-}
-
-@keyframes sweep {
-  0% {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@media (hover: hover) {
-  .Playlists summary:hover {
-    background-color: var(--color-panel);
-  }
 }
