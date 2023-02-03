@@ -1,4 +1,4 @@
-import type { FocusEvent, MouseEvent } from "react";
+import type { FocusEvent } from "react";
 import type { GetServerSideProps } from "next";
 import type { IPlaylist } from "@global/types";
 
@@ -49,7 +49,7 @@ export default function Playlist({ playlist }: IProps) {
     }
   };
 
-  const handleRename = async () => {
+  async function handleRename(): Promise<unknown> {
     if (
       !renInput.current ||
       renInput.current.value === "" ||
@@ -64,8 +64,10 @@ export default function Playlist({ playlist }: IProps) {
       router.replace(router.asPath, "", {
         scroll: false,
       });
+
+      toggleRenModal();
     }
-  };
+  }
 
   async function handleSub() {
     let status;
@@ -139,7 +141,7 @@ export default function Playlist({ playlist }: IProps) {
         </div>
       </div>
 
-      <TrackList scroll="true" tracks={playlist.tracks} />
+      <TrackList scroll="true" tracks={playlist.tracks} isAuthor={playlist.user?.isAuthor} />
 
       {delModal && (
         <Modal toggleOpen={toggleDelModal}>
