@@ -3,8 +3,11 @@
   display: block;
   font-size: 1rem;
   line-height: 2.5rem;
+  overflow: hidden;
   padding: 0rem 0.5rem;
+  text-overflow: ellipsis;
   transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
   width: 100%;
 }
 
