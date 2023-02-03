@@ -2,11 +2,11 @@ import type { FC, SyntheticEvent } from "react";
 import type { ITrack } from "@global/types";
 
 import { useRef, useState } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useUser } from "@context/User";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { ButtonText, Playlists } from "@components/index";
+import { Playlists } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -19,7 +19,6 @@ export const UserPlaylists: FC<IProps> = ({ onAdd }) => {
   const { playlists } = useUser();
   const input = useRef<HTMLInputElement | null>(null);
 
-  const handleLogIn = () => signIn("google");
   const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -61,26 +60,18 @@ export const UserPlaylists: FC<IProps> = ({ onAdd }) => {
 
   return (
     <>
-      {status === "authenticated" ? (
-        <>
-          <form className={style.Form} onSubmit={handleSubmit}>
-            <input type="text" placeholder="Create Playlist" size={2} ref={input} />
-            <button type="submit" tabIndex={-1} aria-label="create playlist">
-              {isLoading ? (
-                <FontAwesomeIcon icon={faSpinner} size="lg" spin />
-              ) : (
-                <FontAwesomeIcon icon={faPlus} size="lg" />
-              )}
-            </button>
-          </form>
+      <form className={style.Form} onSubmit={handleSubmit}>
+        <input type="text" placeholder="Create Playlist" size={2} ref={input} />
+        <button type="submit" tabIndex={-1} aria-label="create playlist">
+          {isLoading ? (
+            <FontAwesomeIcon icon={faSpinner} size="lg" spin />
+          ) : (
+            <FontAwesomeIcon icon={faPlus} size="lg" />
+          )}
+        </button>
+      </form>
 
-          <Playlists playlists={playlists.data} onClick={onAdd && handleAddTrack} />
-        </>
-      ) : (
-        <ButtonText onClick={handleLogIn} align="left">
-          <strong>Log In</strong> to view playlists
-        </ButtonText>
-      )}
+      <Playlists playlists={playlists.data} onClick={onAdd && handleAddTrack} />
     </>
   );
 };
