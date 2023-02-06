@@ -13,7 +13,7 @@ import {
   subscribePls,
   unsubscribePls,
 } from "@services/meret/playlists";
-import { addItemTo } from "@services/meret/playlistsItems";
+import { addItemTo, removeItemFrom } from "@services/meret/playlistsItems";
 
 interface IProps {
   children: ReactNode;
@@ -30,6 +30,7 @@ interface IContext {
     subscribe: (id: string) => Promise<any>;
     unsubscribe: (id: string) => Promise<any>;
     addItem: (playlist: string, track: string) => Promise<any>;
+    removeItem: (playlist: string, key: string) => Promise<any>;
     subs: IPlaylistMin[];
   };
 }
@@ -47,6 +48,7 @@ const User = createContext<IContext>({
     subscribe: () => DummyPromise,
     unsubscribe: () => DummyPromise,
     addItem: () => DummyPromise,
+    removeItem: () => DummyPromise,
     subs: [],
   },
 });
@@ -121,6 +123,15 @@ export const UserContext: FC<IProps> = (props) => {
         loading: "Adding to playlist...",
         success: "Added to playlist!",
         error: "Failed to add to playlist",
+      });
+
+      return await request.then((done) => "success").catch((error) => "error");
+    },
+    removeItem: async (playlist: string, key: string) => {
+      const request = toast.promise(removeItemFrom(playlist, key), {
+        loading: "Removing track...",
+        success: "Removed from playlist!",
+        error: "Failed to remove from playlist",
       });
 
       return await request.then((done) => "success").catch((error) => "error");
