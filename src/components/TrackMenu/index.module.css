@@ -25,9 +25,29 @@
   font-weight: 700;
 }
 
+.Delete {
+  border-bottom: 1px solid var(--color-panel);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.Delete > button:nth-child(2) {
+  width: 7rem;
+}
+
+.DeleteMsg {
+  line-height: 1.5rem;
+  padding: 0.5rem;
+}
+
 .Playlists {
   height: calc(13.5rem + 15px);
   overflow: hidden auto;
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Playlists[data-collapse="true"] {
+  height: 5rem;
 }
 
 .Playlists > form {
