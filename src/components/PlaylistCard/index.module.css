@@ -13,6 +13,12 @@
   margin-top: 1rem;
 }
 
+.Details * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (hover: hover) {
   .Container:hover {
     background-color: var(--color-scroll);
