@@ -26,6 +26,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     res.status(200).json(response);
+  } else if (req.method === "DELETE") {
+    if (!req.body.key) {
+      res.status(400).send("Bad request");
+    }
+
+    const pid = req.query.pid as string;
+    const tracks = [`tracks[_key=="${req.body.key}"]`];
+    const response = await sanityClient.patch(pid).unset(tracks).commit();
+
+    if (!response) {
+      res.status(500).send("Failed to remove track(s)");
+    }
+
+    res.status(200).json(response);
   } else {
     res.status(405).send("Method not allowed");
   }
