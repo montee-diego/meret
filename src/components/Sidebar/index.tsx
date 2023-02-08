@@ -1,7 +1,7 @@
 import type { FC, Dispatch, SetStateAction } from "react";
 
 import { signIn, useSession } from "next-auth/react";
-import { useUser } from "@context/User";
+import { useMeret } from "@context/Meret";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FocusTrap } from "@accessibility/FocusTrap";
@@ -22,7 +22,7 @@ interface IProps {
 
 export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   const { status } = useSession();
-  const { playlists } = useUser();
+  const { data } = useMeret();
 
   const handleNavClose = () => setIsNavOpen(false);
   const handleLogIn = () => signIn("google");
@@ -55,7 +55,7 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
             </Accordion>
 
             <Accordion summary="Subscriptions">
-              <Playlists playlists={playlists.subs} />
+              <Playlists playlists={data.subscriptions} />
             </Accordion>
           </div>
         ) : (
