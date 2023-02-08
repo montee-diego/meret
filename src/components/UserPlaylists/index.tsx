@@ -1,66 +1,50 @@
 import type { FC, SyntheticEvent } from "react";
-import type { ITrack } from "@global/types";
 
 import { useRef, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useUser } from "@context/User";
+import { useMeret } from "@context/Meret";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Playlists } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
-  onAdd?: () => ITrack | null;
+  getTrackId?: () => string;
 }
 
-export const UserPlaylists: FC<IProps> = ({ onAdd }) => {
+export const UserPlaylists: FC<IProps> = ({ getTrackId }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { status } = useSession();
-  const { playlists } = useUser();
+  const { data, meret } = useMeret();
   const input = useRef<HTMLInputElement | null>(null);
 
-  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
+  async function handleCreate(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+    const name = input.current?.value;
 
-    if (input.current?.value === "" || isLoading) {
+    if (isLoading || !name || name === "") {
       return;
     }
 
     setIsLoading(true);
+    const response = await meret.create(name);
 
-    const status = await playlists.create(`${input.current?.value}`);
-
-    if (status === "success") {
-      if (input.current) {
-        input.current.value = "";
-      }
+    if (response === "OK" && input.current) {
+      input.current.value = "";
     }
 
     setIsLoading(false);
-  };
-  const handleAddTrack = async (id: string) => {
-    if (!onAdd) {
+  }
+
+  function handleAddToPlaylist(pid: string): void {
+    if (!getTrackId || typeof pid !== "string") {
       return;
     }
 
-    const track = onAdd();
-    const status = await playlists.addItem(id, `${track?._id}`);
-
-    if (status === "success") {
-    }
-  };
-
-  if (status === "authenticated" && playlists.fetchError) {
-    return (
-      <div>
-        <p>error</p>
-      </div>
-    );
+    meret.addItem(pid, getTrackId());
   }
 
   return (
     <>
-      <form className={style.Form} onSubmit={handleSubmit}>
+      <form className={style.Form} onSubmit={handleCreate}>
         <input type="text" placeholder="Create Playlist" size={2} ref={input} />
         <button type="submit" tabIndex={-1} aria-label="create playlist">
           {isLoading ? (
@@ -71,7 +55,7 @@ export const UserPlaylists: FC<IProps> = ({ onAdd }) => {
         </button>
       </form>
 
-      <Playlists playlists={playlists.data} onClick={onAdd && handleAddTrack} />
+      <Playlists playlists={data.playlists} onClick={getTrackId && handleAddToPlaylist} />
     </>
   );
 };
