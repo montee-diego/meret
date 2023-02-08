@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { FC, ReactNode, SyntheticEvent } from "react";
 
 import Link from "next/link";
 import style from "./index.module.css";
@@ -7,7 +7,7 @@ interface IProps {
   align: "left" | "center" | "right";
   children: ReactNode;
   href?: string;
-  onClick?: () => void;
+  onClick?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 }
 
 export const ButtonText: FC<IProps> = ({ align, children, href, onClick }) => {

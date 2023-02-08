@@ -15,8 +15,17 @@
   outline: 2px solid var(--color-focus);
 }
 
+.Item:disabled {
+  color: var(--color-text-secondary);
+}
+
 @media (hover: hover) {
   .Item:hover {
     background-color: var(--color-panel);
+  }
+
+  .Item:disabled:hover {
+    background-color: transparent;
+    cursor: default;
   }
 }
