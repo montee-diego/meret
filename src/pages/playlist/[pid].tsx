@@ -1,4 +1,4 @@
-import type { FocusEvent } from "react";
+import type { FocusEvent, SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next";
 import type { IPlaylist } from "@global/types";
 
@@ -9,7 +9,6 @@ import { queryPlaylist } from "@services/sanity/queries";
 
 // CSR
 import { useRef, useState } from "react";
-import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
@@ -25,13 +24,13 @@ interface IProps {
 }
 
 export default function Playlist({ playlist }: IProps) {
-  const router = useRouter();
-  const renInput = useRef<HTMLInputElement | null>(null);
   const { status } = useSession();
   const { playlists } = useUser();
   const [delModal, toggleDelModal] = useModal();
   const [renModal, toggleRenModal] = useModal();
+  const [subModal, toggleSubModal] = useModal();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const input = useRef<HTMLInputElement | null>(null);
 
   const handleUserMenu = () => setIsMenuOpen(!isMenuOpen);
   const handleLogIn = () => signIn("google");
@@ -41,47 +40,53 @@ export default function Playlist({ playlist }: IProps) {
     }
   };
 
-  const handleDelete = async () => {
-    const status = await playlists.delete(playlist._id);
+  async function handleDelete({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
+    currentTarget.disabled = true;
+    const response = await playlists.delete(playlist._id, true);
 
-    if (status === "success") {
-      router.replace("/");
-    }
-  };
-
-  async function handleRename(): Promise<unknown> {
-    if (
-      !renInput.current ||
-      renInput.current.value === "" ||
-      renInput.current.value === playlist.name
-    ) {
-      return;
-    }
-
-    const status = await playlists.rename(playlist._id, `${renInput.current?.value}`);
-
-    if (status === "success") {
-      router.replace(router.asPath, "", {
-        scroll: false,
-      });
-
-      toggleRenModal();
+    if (response === "OK") {
+      toggleDelModal();
+    } else {
+      currentTarget.disabled = false;
     }
   }
 
-  async function handleSub() {
-    let status;
+  async function handleRename({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
+    const name = input.current?.value;
 
-    if (playlist.user?.isSub) {
-      status = await playlists.unsubscribe(playlist._id);
-    } else {
-      status = await playlists.subscribe(playlist._id);
+    if (!name || !name.length || name === playlist.name) {
+      return;
     }
 
-    if (status === "success") {
-      router.replace(router.asPath, "", {
-        scroll: false,
-      });
+    currentTarget.disabled = true;
+    const response = await playlists.rename(playlist._id, name);
+
+    if (response === "OK") {
+      toggleRenModal();
+    } else {
+      currentTarget.disabled = false;
+    }
+  }
+
+  async function handleSub({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
+    currentTarget.disabled = true;
+    const response = await playlists.subscribe(playlist._id);
+
+    if (response === "OK") {
+      toggleSubModal();
+    } else {
+      currentTarget.disabled = false;
+    }
+  }
+
+  async function handleUnsub({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
+    currentTarget.disabled = true;
+    const response = await playlists.unsubscribe(playlist._id);
+
+    if (response === "OK") {
+      toggleSubModal();
+    } else {
+      currentTarget.disabled = false;
     }
   }
 
@@ -107,7 +112,7 @@ export default function Playlist({ playlist }: IProps) {
                 </div>
               ) : (
                 <div>
-                  <ButtonText onClick={handleSub} align="left">
+                  <ButtonText onClick={toggleSubModal} align="left">
                     {playlist.user?.isSub ? "Unsubscribe" : "Subscribe"}
                   </ButtonText>
                 </div>
@@ -147,8 +152,8 @@ export default function Playlist({ playlist }: IProps) {
         <Modal toggleOpen={toggleDelModal}>
           <ConfirmDialog onConfirm={handleDelete} onCancel={toggleDelModal} title="Delete Playlist">
             <p>
-              Are you sure you want to delete playlist "<strong>{playlist.name}</strong>"? This
-              action cannot be undone.
+              Are you sure you want to delete playlist "<b>{playlist.name}</b>"? This action cannot
+              be undone.
             </p>
           </ConfirmDialog>
         </Modal>
@@ -159,9 +164,29 @@ export default function Playlist({ playlist }: IProps) {
           <ConfirmDialog onConfirm={handleRename} onCancel={toggleRenModal} title="Rename Playlist">
             <>
               <p>Enter a new name for this playlist</p>
-              <input type="text" defaultValue={playlist.name} ref={renInput} />
+              <input type="text" defaultValue={playlist.name} ref={input} />
             </>
           </ConfirmDialog>
+        </Modal>
+      )}
+
+      {subModal && (
+        <Modal toggleOpen={toggleSubModal}>
+          {playlist.user?.isSub ? (
+            <ConfirmDialog onConfirm={handleUnsub} onCancel={toggleSubModal} title="Unsubscribe">
+              <p>
+                Are you sure you want to unsubscribe from playlist "<b>{playlist.name}</b>
+                "? You can always subscribe again later.
+              </p>
+            </ConfirmDialog>
+          ) : (
+            <ConfirmDialog onConfirm={handleSub} onCancel={toggleSubModal} title="Subscribe">
+              <p>
+                Are you sure you want to subscribe to playlist "<b>{playlist.name}</b>"? It will be
+                added to your profile.
+              </p>
+            </ConfirmDialog>
+          )}
         </Modal>
       )}
     </section>
@@ -169,10 +194,10 @@ export default function Playlist({ playlist }: IProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
-  const { id } = query;
+  const { pid } = query;
   const token = await getToken({ req });
   const response = await sanityClient.fetch(queryPlaylist(), {
-    id: id || "",
+    id: pid || "",
     user: token?.id || "",
   });
 
