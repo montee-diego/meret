@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { FC, ReactNode, SyntheticEvent } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,7 @@ import style from "./index.module.css";
 interface IProps {
   children: ReactNode;
   onCancel: () => void;
-  onConfirm: () => void;
+  onConfirm: (event: SyntheticEvent<HTMLButtonElement>) => void;
   title: string;
 }
 
