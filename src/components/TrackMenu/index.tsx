@@ -5,7 +5,7 @@ import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useUser } from "@context/User";
+import { useMeret } from "@context/Meret";
 import { ButtonIcon, ButtonText, Cover, UserPlaylists } from "@components/index";
 import style from "./index.module.css";
 
@@ -18,14 +18,13 @@ interface IProps {
 export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { status } = useSession();
-  const { playlists } = useUser();
+  const { meret } = useMeret();
 
   const toggleConfirm = () => setIsConfirm(!isConfirm);
   const handleLogIn = () => signIn("google");
-  const handleAddToPlaylist = () => track;
 
   function handleDelete() {
-    playlists.deleteItem(track?._key);
+    meret.deleteItem(track?._key);
     toggleOpen();
   }
 
@@ -60,7 +59,7 @@ export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
               undone.
             </p>
           ) : (
-            <UserPlaylists onAdd={handleAddToPlaylist} />
+            <UserPlaylists getTrackId={() => track._id} />
           )
         ) : (
           <div className={style.LogIn}>
