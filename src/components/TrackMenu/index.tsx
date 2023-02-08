@@ -2,7 +2,6 @@ import type { FC } from "react";
 import type { ITrack } from "@global/types";
 
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -12,7 +11,7 @@ import style from "./index.module.css";
 
 interface IProps {
   isAuthor?: boolean;
-  track: ITrack | null;
+  track: ITrack;
   toggleOpen: () => void;
 }
 
@@ -20,23 +19,14 @@ export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { status } = useSession();
   const { playlists } = useUser();
-  const router = useRouter();
 
   const toggleConfirm = () => setIsConfirm(!isConfirm);
   const handleLogIn = () => signIn("google");
   const handleAddToPlaylist = () => track;
 
-  async function handleDelete() {
-    const pid = router.query.id as string;
-    const key = `${track?._key}`;
-    const response = await playlists.removeItem(pid, key);
-
-    if (response === "success") {
-      console.log("Removed OK");
-      router.replace(router.asPath, "", {
-        scroll: false,
-      });
-    }
+  function handleDelete() {
+    playlists.deleteItem(track?._key);
+    toggleOpen();
   }
 
   return (
