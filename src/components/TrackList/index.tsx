@@ -31,7 +31,7 @@ export const TrackList: FC<IProps> = ({ isAuthor, scroll, title, tracks }) => {
         ))}
       </div>
 
-      {trackModal && (
+      {trackModal && selected && (
         <Modal toggleOpen={toggleTrackModal}>
           <TrackMenu track={selected} toggleOpen={toggleTrackModal} isAuthor={isAuthor} />
         </Modal>
