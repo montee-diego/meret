@@ -2,18 +2,12 @@ import type { FC, ReactNode } from "react";
 import type { IPlaylistMin } from "@global/types";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { usePlaylists } from "@reducers/usePlaylists";
-import {
-  fetchPls,
-  createPls,
-  deletePls,
-  renamePls,
-  subscribePls,
-  unsubscribePls,
-} from "@services/meret/playlists";
-import { addItemTo, removeItemFrom } from "@services/meret/playlistsItems";
+import { onCreate, onDelete, onFetch, onRename, onSub, onUnsub } from "@services/meret/playlists";
+import { onAddItem, onDeleteItem } from "@services/meret/playlistsItems";
 
 interface IProps {
   children: ReactNode;
@@ -23,14 +17,14 @@ interface IContext {
   playlists: {
     data: IPlaylistMin[];
     fetchError: boolean;
-    fetch: () => Promise<any>;
-    create: (name: string) => Promise<any>;
-    delete: (id: string) => Promise<any>;
-    rename: (id: string, name: string) => Promise<any>;
-    subscribe: (id: string) => Promise<any>;
-    unsubscribe: (id: string) => Promise<any>;
-    addItem: (playlist: string, track: string) => Promise<any>;
-    removeItem: (playlist: string, key: string) => Promise<any>;
+    fetch: () => Promise<unknown>;
+    create: (name: string) => Promise<unknown>;
+    delete: (pid: string, redirect: boolean) => Promise<unknown>;
+    rename: (pid: string, name: string) => Promise<unknown>;
+    subscribe: (pid: string) => Promise<unknown>;
+    unsubscribe: (pid: string) => Promise<unknown>;
+    addItem: (pid: string, trackId: string) => void;
+    deleteItem: (trackId: string | undefined) => void;
     subs: IPlaylistMin[];
   };
 }
@@ -47,8 +41,8 @@ const User = createContext<IContext>({
     rename: () => DummyPromise,
     subscribe: () => DummyPromise,
     unsubscribe: () => DummyPromise,
-    addItem: () => DummyPromise,
-    removeItem: () => DummyPromise,
+    addItem: () => {},
+    deleteItem: () => {},
     subs: [],
   },
 });
@@ -57,12 +51,34 @@ export const UserContext: FC<IProps> = (props) => {
   const { status } = useSession();
   const [data, dispatch] = usePlaylists();
   const [isFetchError, setIsFetchError] = useState<boolean>(false);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const router = useRouter();
+
+  function reload(pid: string, msg: string, redirect: boolean = false) {
+    if (router.query.pid && router.query.pid === pid) {
+      if (redirect) {
+        router.replace("/");
+      } else {
+        router.replace(router.asPath, "", {
+          scroll: false,
+        });
+      }
+    }
+
+    setIsRunning(false);
+    return msg;
+  }
+
+  function error(msg: string) {
+    setIsRunning(false);
+    return msg;
+  }
 
   const playlists = {
     data: data.playlists,
     fetchError: isFetchError,
     fetch: async () => {
-      const request = fetchPls(dispatch);
+      const request = onFetch(dispatch);
       const status = await request.then((done) => "success").catch((error) => "error");
 
       if (status === "success") {
@@ -74,67 +90,97 @@ export const UserContext: FC<IProps> = (props) => {
       //return await request.then((done) => "success").catch((error) => "error");
     },
     create: async (name: string) => {
-      const request = toast.promise(createPls(name, dispatch), {
+      if (typeof name !== "string") {
+        return;
+      }
+
+      const request = toast.promise(onCreate(name, dispatch), {
         loading: "Creating playlist...",
         success: "Playlist created!",
         error: "Failed to create playlist",
       });
 
-      return await request.then((done) => "success").catch((error) => "error");
+      return await request.then(() => "OK").catch(() => "NOK");
     },
-    delete: async (id: string) => {
-      const request = toast.promise(deletePls(id, dispatch), {
+    delete: async (pid: string, redirect: boolean) => {
+      if (isRunning || typeof pid !== "string") {
+        return;
+      }
+
+      const request = toast.promise(onDelete(pid, dispatch), {
         loading: "Deleting playlist...",
-        success: "Playlist deleted!",
+        success: () => reload(pid, "Playlist deleted!", redirect),
         error: "Failed to delete playlist",
       });
 
-      return await request.then((done) => "success").catch((error) => "error");
+      return await request.then(() => "OK").catch(() => "NOK");
     },
-    rename: async (id: string, name: string) => {
-      const request = toast.promise(renamePls(id, name, dispatch), {
+    rename: async (pid: string, name: string) => {
+      if (isRunning || typeof pid !== "string" || typeof name !== "string") {
+        return;
+      }
+
+      const request = toast.promise(onRename(pid, name, dispatch), {
         loading: "Renaming playlist...",
-        success: "Playlist renamed!",
-        error: "Failed to rename playlist",
+        success: () => reload(pid, "Playlist renamed!"),
+        error: () => error("Failed to rename playlist"),
       });
 
-      return await request.then((done) => "success").catch((error) => "error");
+      return await request.then(() => "OK").catch(() => "NOK");
     },
-    subscribe: async function (id: string) {
-      const request = toast.promise(subscribePls(id, dispatch), {
+    subscribe: async (pid: string) => {
+      if (isRunning || typeof pid !== "string") {
+        return;
+      }
+
+      setIsRunning(true);
+      const request = toast.promise(onSub(pid, dispatch), {
         loading: "Subscribing...",
-        success: "Done!",
-        error: "Failed",
+        success: () => reload(pid, "Subscribed!"),
+        error: () => error("Failed to subscribe"),
       });
 
-      return await request.then((done) => "success").catch((error) => "error");
+      return await request.then(() => "OK").catch(() => "NOK");
     },
-    unsubscribe: async function (id: string) {
-      const request = toast.promise(unsubscribePls(id, dispatch), {
+    unsubscribe: async (pid: string) => {
+      if (isRunning || typeof pid !== "string") {
+        return;
+      }
+
+      setIsRunning(true);
+      const request = toast.promise(onUnsub(pid, dispatch), {
         loading: "Unsubscribing...",
-        success: "Done!",
-        error: "Failed",
+        success: () => reload(pid, "Unsubscribed!"),
+        error: () => error("Failed to unsubscribe"),
       });
 
-      return await request.then((done) => "success").catch((error) => "error");
+      return await request.then(() => "OK").catch(() => "NOK");
     },
-    addItem: async (playlist: string, track: string) => {
-      const request = toast.promise(addItemTo(playlist, track), {
+    addItem: (pid: string, trackId: string) => {
+      if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
+        return;
+      }
+
+      setIsRunning(true);
+      toast.promise(onAddItem(pid, trackId), {
         loading: "Adding to playlist...",
-        success: "Added to playlist!",
-        error: "Failed to add to playlist",
+        success: () => reload(pid, "Added to playlist!"),
+        error: () => error("Failed to add to playlist"),
       });
-
-      return await request.then((done) => "success").catch((error) => "error");
     },
-    removeItem: async (playlist: string, key: string) => {
-      const request = toast.promise(removeItemFrom(playlist, key), {
-        loading: "Removing track...",
-        success: "Removed from playlist!",
-        error: "Failed to remove from playlist",
-      });
+    deleteItem: (trackId: string | undefined) => {
+      const { pid } = router.query;
 
-      return await request.then((done) => "success").catch((error) => "error");
+      if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
+        return;
+      }
+
+      setIsRunning(true);
+      toast.promise(onDeleteItem(pid, trackId), {
+        loading: "Removing track...",
+        success: () => reload(pid, "Removed from playlist!"),
+        error: () => error("Failed to remove from playlist"),
+      });
     },
     subs: data.subscriptions,
   };
