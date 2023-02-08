@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { AudioPlayerContext } from "@context/AudioPlayer";
-import { UserContext } from "@context/User";
+import { MeretContext } from "@context/Meret";
 import { AudioPlayer, Header, Main, Sidebar } from "@components/index";
 import Head from "next/head";
 import "@styles/globals.css";
@@ -23,7 +23,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   return (
     <SessionProvider session={session}>
-      <UserContext>
+      <MeretContext>
         <AudioPlayerContext>
           <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,7 +39,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
           <Toaster position="bottom-center" toastOptions={toastOptions} />
         </AudioPlayerContext>
-      </UserContext>
+      </MeretContext>
     </SessionProvider>
   );
 }

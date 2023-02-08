@@ -12,7 +12,7 @@ import { useRef, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { useUser } from "@context/User";
+import { useMeret } from "@context/Meret";
 import { useModal } from "@hooks/useModal";
 import { ButtonIcon, ButtonText, ConfirmDialog, Menu, Modal, TrackList } from "@components/index";
 import { formatDate } from "@global/utils";
@@ -25,7 +25,7 @@ interface IProps {
 
 export default function Playlist({ playlist }: IProps) {
   const { status } = useSession();
-  const { playlists } = useUser();
+  const { meret } = useMeret();
   const [delModal, toggleDelModal] = useModal();
   const [renModal, toggleRenModal] = useModal();
   const [subModal, toggleSubModal] = useModal();
@@ -42,7 +42,7 @@ export default function Playlist({ playlist }: IProps) {
 
   async function handleDelete({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
     currentTarget.disabled = true;
-    const response = await playlists.delete(playlist._id, true);
+    const response = await meret.delete(playlist._id, true);
 
     if (response === "OK") {
       toggleDelModal();
@@ -59,7 +59,7 @@ export default function Playlist({ playlist }: IProps) {
     }
 
     currentTarget.disabled = true;
-    const response = await playlists.rename(playlist._id, name);
+    const response = await meret.rename(playlist._id, name);
 
     if (response === "OK") {
       toggleRenModal();
@@ -70,7 +70,7 @@ export default function Playlist({ playlist }: IProps) {
 
   async function handleSub({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
     currentTarget.disabled = true;
-    const response = await playlists.subscribe(playlist._id);
+    const response = await meret.subscribe(playlist._id);
 
     if (response === "OK") {
       toggleSubModal();
@@ -81,7 +81,7 @@ export default function Playlist({ playlist }: IProps) {
 
   async function handleUnsub({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
     currentTarget.disabled = true;
-    const response = await playlists.unsubscribe(playlist._id);
+    const response = await meret.unsubscribe(playlist._id);
 
     if (response === "OK") {
       toggleSubModal();
