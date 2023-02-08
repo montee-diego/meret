@@ -38,11 +38,7 @@
 }
 
 .Actions {
+  border-top: 1px solid var(--color-panel);
   display: flex;
   gap: 0.5rem;
-  justify-content: flex-end;
-}
-
-.Actions > button {
-  width: 5rem;
 }
