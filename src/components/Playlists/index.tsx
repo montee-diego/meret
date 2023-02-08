@@ -5,7 +5,7 @@ import { ButtonText } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
-  onClick?: (id: string) => Promise<unknown>;
+  onClick?: (id: string) => void;
   playlists: IPlaylistMin[];
 }
 
