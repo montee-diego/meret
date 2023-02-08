@@ -1,4 +1,4 @@
-export async function addItemTo(playlist: string, track: string): Promise<unknown> {
+export async function onAddItem(playlist: string, track: string): Promise<unknown> {
   return fetch(`/api/playlists/edit/${playlist}`, {
     method: "POST",
     headers: {
@@ -16,7 +16,7 @@ export async function addItemTo(playlist: string, track: string): Promise<unknow
     .catch((error) => Promise.reject(error));
 }
 
-export async function removeItemFrom(playlist: string, key: string): Promise<unknown> {
+export async function onDeleteItem(playlist: string, key: string): Promise<unknown> {
   return fetch(`/api/playlists/edit/${playlist}`, {
     method: "DELETE",
     headers: {

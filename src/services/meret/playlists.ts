@@ -2,7 +2,7 @@ import type { ReducerAction } from "@reducers/usePlaylists";
 
 type Dispatch = (arg0: ReducerAction) => void;
 
-export async function fetchPls(dispatch: Dispatch): Promise<unknown> {
+export async function onFetch(dispatch: Dispatch): Promise<unknown> {
   return fetch("/api/playlists", {
     method: "GET",
   })
@@ -16,7 +16,7 @@ export async function fetchPls(dispatch: Dispatch): Promise<unknown> {
     .catch((error) => Promise.reject(error));
 }
 
-export async function createPls(name: string, dispatch: Dispatch): Promise<unknown> {
+export async function onCreate(name: string, dispatch: Dispatch): Promise<unknown> {
   return fetch("/api/playlists", {
     method: "POST",
     headers: {
@@ -34,7 +34,7 @@ export async function createPls(name: string, dispatch: Dispatch): Promise<unkno
     .catch((error) => Promise.reject(error));
 }
 
-export async function deletePls(id: string, dispatch: Dispatch): Promise<unknown> {
+export async function onDelete(id: string, dispatch: Dispatch): Promise<unknown> {
   return fetch(`/api/playlists/${id}`, {
     method: "DELETE",
     headers: {
@@ -51,7 +51,7 @@ export async function deletePls(id: string, dispatch: Dispatch): Promise<unknown
     .catch((error) => Promise.reject(error));
 }
 
-export async function renamePls(id: string, name: string, dispatch: Dispatch): Promise<unknown> {
+export async function onRename(id: string, name: string, dispatch: Dispatch): Promise<unknown> {
   return fetch(`/api/playlists/${id}`, {
     method: "PATCH",
     headers: {
@@ -69,7 +69,7 @@ export async function renamePls(id: string, name: string, dispatch: Dispatch): P
     .catch((error) => Promise.reject(error));
 }
 
-export async function subscribePls(id: string, dispatch: Dispatch): Promise<unknown> {
+export async function onSub(id: string, dispatch: Dispatch): Promise<unknown> {
   return fetch(`/api/playlists/subscribe/${id}`, {
     method: "POST",
     headers: {
@@ -86,7 +86,7 @@ export async function subscribePls(id: string, dispatch: Dispatch): Promise<unkn
     .catch((error) => Promise.reject(error));
 }
 
-export async function unsubscribePls(id: string, dispatch: Dispatch): Promise<unknown> {
+export async function onUnsub(id: string, dispatch: Dispatch): Promise<unknown> {
   return fetch(`/api/playlists/subscribe/${id}`, {
     method: "DELETE",
     headers: {
