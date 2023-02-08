@@ -13,28 +13,35 @@ interface IProps {
   children: ReactNode;
 }
 
+interface IData {
+  playlists: IPlaylistMin[];
+  subscriptions: IPlaylistMin[];
+}
+
+interface IMeret {
+  fetch: () => Promise<unknown>;
+  create: (name: string) => Promise<unknown>;
+  delete: (pid: string, redirect: boolean) => Promise<unknown>;
+  rename: (pid: string, name: string) => Promise<unknown>;
+  subscribe: (pid: string) => Promise<unknown>;
+  unsubscribe: (pid: string) => Promise<unknown>;
+  addItem: (pid: string, trackId: string) => void;
+  deleteItem: (trackId: string | undefined) => void;
+}
+
 interface IContext {
-  playlists: {
-    data: IPlaylistMin[];
-    fetchError: boolean;
-    fetch: () => Promise<unknown>;
-    create: (name: string) => Promise<unknown>;
-    delete: (pid: string, redirect: boolean) => Promise<unknown>;
-    rename: (pid: string, name: string) => Promise<unknown>;
-    subscribe: (pid: string) => Promise<unknown>;
-    unsubscribe: (pid: string) => Promise<unknown>;
-    addItem: (pid: string, trackId: string) => void;
-    deleteItem: (trackId: string | undefined) => void;
-    subs: IPlaylistMin[];
-  };
+  data: IData;
+  meret: IMeret;
 }
 
 const DummyPromise = new Promise((resolve, reject) => {});
 
-const User = createContext<IContext>({
-  playlists: {
-    data: [],
-    fetchError: false,
+const Meret = createContext<IContext>({
+  data: {
+    playlists: [],
+    subscriptions: [],
+  },
+  meret: {
     fetch: () => DummyPromise,
     create: () => DummyPromise,
     delete: () => DummyPromise,
@@ -43,14 +50,12 @@ const User = createContext<IContext>({
     unsubscribe: () => DummyPromise,
     addItem: () => {},
     deleteItem: () => {},
-    subs: [],
   },
 });
 
-export const UserContext: FC<IProps> = (props) => {
+export const MeretContext: FC<IProps> = (props) => {
   const { status } = useSession();
-  const [data, dispatch] = usePlaylists();
-  const [isFetchError, setIsFetchError] = useState<boolean>(false);
+  const [meretData, dispatch] = usePlaylists();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const router = useRouter();
 
@@ -74,22 +79,43 @@ export const UserContext: FC<IProps> = (props) => {
     return msg;
   }
 
-  const playlists = {
-    data: data.playlists,
-    fetchError: isFetchError,
+  const data: IData = meretData;
+  const meret: IMeret = {
     fetch: async () => {
       const request = onFetch(dispatch);
-      const status = await request.then((done) => "success").catch((error) => "error");
+      const response = await request.then(() => "OK").catch(() => "NOK");
 
-      if (status === "success") {
-        setIsFetchError(false);
+      if (response === "NOK") {
+        toast.error(
+          (t) => {
+            const buttonStyles = { color: "inherit", fontSize: "inherit", fontWeight: "700" };
+
+            function handleRetry() {
+              meret.fetch();
+              toast.dismiss(t.id);
+            }
+
+            return (
+              <div style={{ display: "flex", gap: "5px" }}>
+                <span>Failed to fetch user data.</span>
+                <button onClick={handleRetry} style={buttonStyles}>
+                  Retry
+                </button>
+              </div>
+            );
+          },
+          {
+            id: "fetch",
+            duration: Infinity,
+          }
+        );
       } else {
-        setIsFetchError(true);
+        try {
+          toast.dismiss("fetch");
+        } catch {}
       }
-
-      //return await request.then((done) => "success").catch((error) => "error");
     },
-    create: async (name: string) => {
+    create: async (name) => {
       if (typeof name !== "string") {
         return;
       }
@@ -102,7 +128,7 @@ export const UserContext: FC<IProps> = (props) => {
 
       return await request.then(() => "OK").catch(() => "NOK");
     },
-    delete: async (pid: string, redirect: boolean) => {
+    delete: async (pid, redirect) => {
       if (isRunning || typeof pid !== "string") {
         return;
       }
@@ -115,7 +141,7 @@ export const UserContext: FC<IProps> = (props) => {
 
       return await request.then(() => "OK").catch(() => "NOK");
     },
-    rename: async (pid: string, name: string) => {
+    rename: async (pid, name) => {
       if (isRunning || typeof pid !== "string" || typeof name !== "string") {
         return;
       }
@@ -128,7 +154,7 @@ export const UserContext: FC<IProps> = (props) => {
 
       return await request.then(() => "OK").catch(() => "NOK");
     },
-    subscribe: async (pid: string) => {
+    subscribe: async (pid) => {
       if (isRunning || typeof pid !== "string") {
         return;
       }
@@ -142,7 +168,7 @@ export const UserContext: FC<IProps> = (props) => {
 
       return await request.then(() => "OK").catch(() => "NOK");
     },
-    unsubscribe: async (pid: string) => {
+    unsubscribe: async (pid) => {
       if (isRunning || typeof pid !== "string") {
         return;
       }
@@ -156,7 +182,7 @@ export const UserContext: FC<IProps> = (props) => {
 
       return await request.then(() => "OK").catch(() => "NOK");
     },
-    addItem: (pid: string, trackId: string) => {
+    addItem: (pid, trackId) => {
       if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
         return;
       }
@@ -168,7 +194,7 @@ export const UserContext: FC<IProps> = (props) => {
         error: () => error("Failed to add to playlist"),
       });
     },
-    deleteItem: (trackId: string | undefined) => {
+    deleteItem: (trackId) => {
       const { pid } = router.query;
 
       if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
@@ -182,16 +208,19 @@ export const UserContext: FC<IProps> = (props) => {
         error: () => error("Failed to remove from playlist"),
       });
     },
-    subs: data.subscriptions,
   };
 
   useEffect(() => {
     if (status === "authenticated") {
-      playlists.fetch();
+      meret.fetch();
     }
   }, [status]);
 
-  return <User.Provider value={{ playlists }}>{props.children}</User.Provider>;
+  return (
+    <Meret.Provider value={{ data, meret }}>
+      {props.children}
+    </Meret.Provider>
+  );
 };
 
-export const useUser = () => useContext(User);
+export const useMeret = () => useContext(Meret);
