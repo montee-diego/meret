@@ -147,7 +147,7 @@ export default function Playlist({ playlist }: IProps) {
       </div>
 
       <List scroll="true" view="list">
-        <Tracks tracks={playlist.tracks} isAuthor={playlist.user?.isAuthor} />
+        <Tracks tracks={playlist.tracks} isAuthor={playlist.user?.isAuthor} isPlaylist />
       </List>
 
       {delModal && (
