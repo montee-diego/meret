@@ -1,9 +1,12 @@
 import type { GetServerSideProps } from "next";
 import type { IPlaylist, ITrack } from "@global/types";
 
+// SSR
 import { sanityClient } from "@services/sanity/client";
 import { queryHome } from "@services/sanity/queries";
-import { PlaylistGrid, TrackList } from "@components/index";
+
+// CSR
+import { List, Playlists, Tracks } from "@components/index";
 
 interface IProps {
   feed: {
@@ -13,10 +16,16 @@ interface IProps {
 }
 
 export default function Home({ feed }: IProps) {
+  const { tracks, playlists } = feed;
+
   return (
     <section>
-      <TrackList title="Latest Tracks" tracks={feed.tracks} />
-      <PlaylistGrid title="Latest Playlists" playlists={feed.playlists} />
+      <List href="/discover/songs" title="Latest Tracks" view="list">
+        <Tracks tracks={tracks} />
+      </List>
+      <List href="/discover/playlists" title="Last Updated" view="grid">
+        <Playlists playlists={playlists} />
+      </List>
     </section>
   );
 }

@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useMeret } from "@context/Meret";
 import { useModal } from "@hooks/useModal";
-import { ButtonIcon, ButtonText, ConfirmDialog, Menu, Modal, TrackList } from "@components/index";
+import { Button, ButtonLink, ConfirmDialog, List, Menu, Modal, Tracks } from "@components/index";
 import { formatDate } from "@global/utils";
 import Image from "next/image";
 import style from "@styles/playlist.module.css";
@@ -94,34 +94,34 @@ export default function Playlist({ playlist }: IProps) {
     <section data-scroll="false">
       <div className={style.Container}>
         <div className={style.Title} onBlur={handleFocus}>
-          <ButtonIcon onClick={handleUserMenu} label="rename playlist">
+          <Button onClick={handleUserMenu} label="rename playlist">
             <FontAwesomeIcon icon={faEllipsisVertical} size="xl" />
-          </ButtonIcon>
+          </Button>
           <h2>{playlist.name}</h2>
 
           <Menu align="left" isOpen={isMenuOpen}>
             {status === "authenticated" ? (
               playlist.user?.isAuthor ? (
                 <div>
-                  <ButtonText onClick={toggleRenModal} align="left">
+                  <ButtonLink onClick={toggleRenModal} align="left">
                     Rename
-                  </ButtonText>
-                  <ButtonText onClick={toggleDelModal} align="left">
+                  </ButtonLink>
+                  <ButtonLink onClick={toggleDelModal} align="left">
                     Delete
-                  </ButtonText>
+                  </ButtonLink>
                 </div>
               ) : (
                 <div>
-                  <ButtonText onClick={toggleSubModal} align="left">
+                  <ButtonLink onClick={toggleSubModal} align="left">
                     {playlist.user?.isSub ? "Unsubscribe" : "Subscribe"}
-                  </ButtonText>
+                  </ButtonLink>
                 </div>
               )
             ) : (
               <div>
-                <ButtonText onClick={handleLogIn} align="left">
+                <ButtonLink onClick={handleLogIn} align="left">
                   Log In
-                </ButtonText>
+                </ButtonLink>
               </div>
             )}
           </Menu>
@@ -146,7 +146,9 @@ export default function Playlist({ playlist }: IProps) {
         </div>
       </div>
 
-      <TrackList scroll="true" tracks={playlist.tracks} isAuthor={playlist.user?.isAuthor} />
+      <List scroll="true" view="list">
+        <Tracks tracks={playlist.tracks} isAuthor={playlist.user?.isAuthor} />
+      </List>
 
       {delModal && (
         <Modal toggleOpen={toggleDelModal}>
