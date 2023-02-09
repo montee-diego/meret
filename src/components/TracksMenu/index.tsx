@@ -6,7 +6,7 @@ import { signIn, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useMeret } from "@context/Meret";
-import { ButtonIcon, ButtonText, Cover, UserPlaylists } from "@components/index";
+import { Button, ButtonLink, Cover, PlaylistsMenu } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -15,10 +15,10 @@ interface IProps {
   toggleOpen: () => void;
 }
 
-export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
+export const TracksMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { status } = useSession();
-  const { meret } = useMeret();
+  const { data, meret } = useMeret();
 
   const toggleConfirm = () => setIsConfirm(!isConfirm);
   const handleLogIn = () => signIn("google");
@@ -38,16 +38,16 @@ export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
           <p>{track?.artist}</p>
         </div>
 
-        <ButtonIcon onClick={toggleOpen} label="close modal">
+        <Button onClick={toggleOpen} label="close modal">
           <FontAwesomeIcon icon={faXmark} size={"xl"} />
-        </ButtonIcon>
+        </Button>
       </div>
 
       {isAuthor && (
         <div className={style.Delete}>
-          <ButtonText onClick={() => setIsConfirm(true)} align="left">
+          <ButtonLink onClick={() => setIsConfirm(true)} align="left">
             Delete from Playlist
-          </ButtonText>
+          </ButtonLink>
         </div>
       )}
 
@@ -59,14 +59,14 @@ export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
               undone.
             </p>
           ) : (
-            <UserPlaylists getTrackId={() => track._id} />
+            <PlaylistsMenu playlists={data.playlists} getTrackId={() => track._id} showInput />
           )
         ) : (
           <div className={style.LogIn}>
             <div className={style.LogInBtn}>
-              <ButtonText onClick={handleLogIn} align="center">
+              <ButtonLink onClick={handleLogIn} align="center">
                 Log In to edit Playlists
-              </ButtonText>
+              </ButtonLink>
             </div>
           </div>
         )}
@@ -75,21 +75,21 @@ export const TrackMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
       <div className={style.QuickActions}>
         {isConfirm ? (
           <>
-            <ButtonText onClick={handleDelete} align="center">
+            <ButtonLink onClick={handleDelete} align="center">
               Confirm
-            </ButtonText>
-            <ButtonText onClick={toggleConfirm} align="center">
+            </ButtonLink>
+            <ButtonLink onClick={toggleConfirm} align="center">
               Cancel
-            </ButtonText>
+            </ButtonLink>
           </>
         ) : (
           <>
-            <ButtonText onClick={() => {}} align="center">
+            <ButtonLink onClick={() => {}} align="center">
               Play
-            </ButtonText>
-            <ButtonText onClick={() => {}} align="center">
+            </ButtonLink>
+            <ButtonLink onClick={() => {}} align="center">
               Queue
-            </ButtonText>
+            </ButtonLink>
           </>
         )}
       </div>

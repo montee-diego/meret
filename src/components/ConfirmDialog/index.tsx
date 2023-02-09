@@ -2,7 +2,7 @@ import type { FC, ReactNode, SyntheticEvent } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { ButtonIcon, ButtonText } from "@components/index";
+import { Button, ButtonLink } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -18,22 +18,20 @@ export const ConfirmDialog: FC<IProps> = ({ children, onCancel, onConfirm, title
       <div className={style.Title}>
         <h3>{title}</h3>
 
-        <ButtonIcon onClick={onCancel} label="close modal">
+        <Button onClick={onCancel} label="close modal">
           <FontAwesomeIcon icon={faXmark} size={"xl"} />
-        </ButtonIcon>
+        </Button>
       </div>
 
-      <div className={style.Message}>
-        {children}
-      </div>
+      <div className={style.Message}>{children}</div>
 
       <div className={style.Actions}>
-        <ButtonText onClick={onConfirm} align="center">
+        <ButtonLink onClick={onConfirm} align="center">
           Confirm
-        </ButtonText>
-        <ButtonText onClick={onCancel} align="center">
+        </ButtonLink>
+        <ButtonLink onClick={onCancel} align="center">
           Cancel
-        </ButtonText>
+        </ButtonLink>
       </div>
     </div>
   );

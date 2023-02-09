@@ -1,30 +1,30 @@
 import type { FC } from "react";
-import type { IPlaylistMin } from "@global/types";
+import type { IPlaylist } from "@global/types";
 
-import { ButtonText } from "@components/index";
+import { Cover } from "@components/index";
+import Link from "next/link";
 import style from "./index.module.css";
 
 interface IProps {
-  onClick?: (id: string) => void;
-  playlists: IPlaylistMin[];
+  playlists: IPlaylist[];
 }
 
-export const Playlists: FC<IProps> = ({ onClick, playlists }) => {
+export const Playlists: FC<IProps> = ({ playlists }) => {
   return (
-    <ul className={style.List}>
+    <>
       {playlists.map((playlist) => (
-        <li key={playlist._id}>
-          {onClick ? (
-            <ButtonText onClick={() => onClick(playlist._id)} align="left">
-              {playlist.name}
-            </ButtonText>
-          ) : (
-            <ButtonText href={`/playlist/${playlist._id}`} align="left">
-              {playlist.name}
-            </ButtonText>
-          )}
-        </li>
+        <Link className={style.Container} href={`/playlist/${playlist._id}`} key={playlist._id}>
+          <Cover cover={playlist.cover} size="100%" />
+
+          <div className={style.Details}>
+            <h4>{playlist.name}</h4>
+            <p>
+              {playlist.total}
+              {playlist.total === 1 ? " track" : " tracks"}
+            </p>
+          </div>
+        </Link>
       ))}
-    </ul>
+    </>
   );
 };

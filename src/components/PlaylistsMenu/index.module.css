@@ -29,3 +29,10 @@
 .Form button:focus {
   outline: none;
 }
+
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  list-style: none;
+}

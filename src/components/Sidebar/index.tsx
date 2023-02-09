@@ -5,14 +5,7 @@ import { useMeret } from "@context/Meret";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FocusTrap } from "@accessibility/FocusTrap";
-import {
-  Accordion,
-  ButtonIcon,
-  ButtonText,
-  Playlists,
-  Search,
-  UserPlaylists,
-} from "@components/index";
+import { Accordion, Button, ButtonLink, Search, PlaylistsMenu } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
@@ -32,37 +25,42 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
       <FocusTrap active={isNavOpen} className={style.Menu} cancelEvent={handleNavClose}>
         <div className={style.Logo}>
           <h1>Meret</h1>
-          <ButtonIcon onClick={handleNavClose} label="close sidebar">
+          <Button onClick={handleNavClose} label="close sidebar">
             <FontAwesomeIcon icon={faXmark} size="xl" />
-          </ButtonIcon>
+          </Button>
         </div>
 
         <Search setIsNavOpen={setIsNavOpen} />
 
         <div className={style.Links}>
-          <ButtonText href="/" align="left">
+          <ButtonLink href="/" align="left">
             Home
-          </ButtonText>
-          <ButtonText href="/discover" align="left">
-            Discover
-          </ButtonText>
+          </ButtonLink>
+          <Accordion summary="Discover">
+            <ButtonLink href="/discover/songs" align="left">
+              Songs
+            </ButtonLink>
+            <ButtonLink href="/discover/playlists" align="left">
+              Playlists
+            </ButtonLink>
+          </Accordion>
         </div>
 
         {status === "authenticated" ? (
           <div className={style.UserData}>
             <Accordion summary="Playlists">
-              <UserPlaylists />
+              <PlaylistsMenu playlists={data.playlists} showInput />
             </Accordion>
 
             <Accordion summary="Subscriptions">
-              <Playlists playlists={data.subscriptions} />
+              <PlaylistsMenu playlists={data.subscriptions} />
             </Accordion>
           </div>
         ) : (
           <div className={style.LogInBtn}>
-            <ButtonText onClick={handleLogIn} align="center">
+            <ButtonLink onClick={handleLogIn} align="center">
               Log In to view Playlists
-            </ButtonText>
+            </ButtonLink>
           </div>
         )}
       </FocusTrap>

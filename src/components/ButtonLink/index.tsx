@@ -10,7 +10,7 @@ interface IProps {
   onClick?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 }
 
-export const ButtonText: FC<IProps> = ({ align, children, href, onClick }) => {
+export const ButtonLink: FC<IProps> = ({ align, children, href, onClick }) => {
   const styles = {
     textAlign: align,
   };

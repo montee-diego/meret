@@ -9,7 +9,7 @@ interface IProps {
   onClick: () => void;
 }
 
-export const ButtonIcon = forwardRef<HTMLButtonElement, IProps>(function ButtonIcon(props, ref) {
+export const Button = forwardRef<HTMLButtonElement, IProps>(function Button(props, ref) {
   const { children, label, onClick } = props;
 
   return (

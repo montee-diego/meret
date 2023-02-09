@@ -9,7 +9,7 @@
   padding: 0.5rem;
 }
 
-.Button {
+.Container button {
   border-radius: 50%;
   flex-shrink: 0;
   height: 2rem;
@@ -17,7 +17,7 @@
   width: 2rem;
 }
 
-.Button:focus {
+.Container button:focus {
   outline: 2px solid var(--color-focus);
 }
 
@@ -51,7 +51,7 @@
 }
 
 @media (hover: hover) {
-  .Button:hover {
+  .Container button:hover {
     background-color: var(--color-panel);
   }
 }

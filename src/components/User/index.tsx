@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { ButtonText, Menu } from "@components/index";
+import { ButtonLink, Menu } from "@components/index";
 import Image from "next/image";
 import style from "./index.module.css";
 
@@ -43,19 +43,19 @@ export const User: FC = () => {
             </div>
 
             <div className={style.Actions}>
-              <ButtonText href="/profile" align="left">
+              <ButtonLink href="/profile" align="left">
                 Profile
-              </ButtonText>
-              <ButtonText onClick={handleLogOut} align="left">
+              </ButtonLink>
+              <ButtonLink onClick={handleLogOut} align="left">
                 Log Out
-              </ButtonText>
+              </ButtonLink>
             </div>
           </>
         ) : (
           <div className={style.Actions}>
-            <ButtonText onClick={handleLogIn} align="left">
+            <ButtonLink onClick={handleLogIn} align="left">
               Log In
-            </ButtonText>
+            </ButtonLink>
           </div>
         )}
       </Menu>
