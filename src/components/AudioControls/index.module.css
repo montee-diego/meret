@@ -9,6 +9,7 @@
   font-size: 1rem;
   height: 3rem;
   padding: 5px;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   width: 3rem;
 }
 
@@ -26,7 +27,7 @@
 }
 
 @media (hover: hover) {
-  .Button:hover svg {
-    transform: rotate(360deg) scale(125%);
+  .Button:hover {
+    background-color: var(--color-panel);
   }
 }
