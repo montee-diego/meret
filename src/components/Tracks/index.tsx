@@ -12,26 +12,32 @@ import style from "./index.module.css";
 
 interface IProps {
   isAuthor?: boolean;
+  isPlaylist?: boolean;
   tracks: ITrack[];
 }
 
-export const Tracks: FC<IProps> = ({ isAuthor, tracks }) => {
+export const Tracks: FC<IProps> = ({ isAuthor, isPlaylist, tracks }) => {
   const [selected, setSelected] = useState<ITrack | null>(null);
   const [trackModal, toggleTrackModal] = useModal();
-  const { setPlaylist } = useAudioPlayer();
+  const { player } = useAudioPlayer();
 
   function handleModal(track: ITrack | null): void {
     setSelected(track);
     toggleTrackModal();
   }
 
+  function handlePlay(track: ITrack, index: number): void {
+    player.setPlaylist(isPlaylist ? tracks : [track]);
+    player.setIndex(isPlaylist ? index : 0);
+  }
+
   return (
     <>
-      {tracks.map((track) => (
+      {tracks.map((track, index) => (
         <div className={style.Container} key={track._key || track._id}>
           <Cover cover={track.cover} size="3rem" />
 
-          <button onClick={() => setPlaylist([track])} aria-label="play">
+          <button onClick={() => handlePlay(track, index)} aria-label="play">
             <FontAwesomeIcon size="lg" icon={faPlay} transform="right-1 up-0.5" />
           </button>
 
