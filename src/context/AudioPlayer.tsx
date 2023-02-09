@@ -8,25 +8,43 @@ interface IProps {
 }
 
 interface IContext {
-  playerOpen: boolean;
-  playlist: ITrack[];
-  setPlayerOpen: Dispatch<SetStateAction<boolean>>;
-  setPlaylist: Dispatch<SetStateAction<ITrack[]>>;
+  player: {
+    index: number;
+    isOpen: boolean;
+    playlist: ITrack[];
+    setIndex: Dispatch<SetStateAction<number>>;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setPlaylist: Dispatch<SetStateAction<ITrack[]>>;
+  }
 }
 
 const AudioPlayer = createContext<IContext>({
-  playerOpen: false,
-  playlist: [],
-  setPlayerOpen: () => {},
-  setPlaylist: () => {},
+  player: {
+    index: 0,
+    isOpen: false,
+    playlist: [],
+    setIndex: () => {},
+    setIsOpen: () => {},
+    setPlaylist: () => {},
+  }
 });
 
 export const AudioPlayerContext: FC<IProps> = (props) => {
-  const [playerOpen, setPlayerOpen] = useState<boolean>(false);
+  const [index, setIndex] = useState<number>(-1);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [playlist, setPlaylist] = useState<ITrack[]>([]);
 
+  const player = {
+    index,
+    isOpen,
+    playlist,
+    setIndex,
+    setIsOpen,
+    setPlaylist,
+  }
+
   return (
-    <AudioPlayer.Provider value={{ playerOpen, playlist, setPlayerOpen, setPlaylist }}>
+    <AudioPlayer.Provider value={{ player }}>
       {props.children}
     </AudioPlayer.Provider>
   );
