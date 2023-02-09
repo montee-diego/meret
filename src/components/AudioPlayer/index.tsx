@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { ChangeEvent, FC } from "react";
 
 import { useEffect, useRef, useState } from "react";
 import { useAudioPlayer } from "@context/AudioPlayer";
@@ -7,54 +7,84 @@ import { AudioControls, Cover } from "@components/index";
 import style from "./index.module.css";
 
 export const AudioPlayer: FC = () => {
-  const [trackIndex, setTrackIndex] = useState<number>(0);
   const [trackProgress, setTrackProgress] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  const { playerOpen, playlist } = useAudioPlayer();
-  const { artist, audio, cover, title, length } = playlist[trackIndex] || {};
-
+  const { player } = useAudioPlayer();
+  const { artist, audio, cover, title, length } = player.playlist[player.index] || {};
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const intervalRef = useRef<NodeJS.Timer>();
+  const isReady = useRef<boolean>(false);
   const handleControls = {
     Play: () => {
-      const track = audioRef.current;
-
-      if (track) {
-        isPlaying ? track.pause() : track.play();
+      if (audioRef.current) {
+        isPlaying ? audioRef.current.pause() : audioRef.current.play();
         setIsPlaying(!isPlaying);
       }
     },
-    Prev: () => {},
-    Next: () => {},
+    Prev: () => {
+      if (player.index > 0) {
+        player.setIndex(player.index - 1);
+      }
+    },
+    Next: () => {
+      if (player.index < player.playlist.length - 1) {
+        player.setIndex(player.index + 1);
+      }
+    },
   };
-  const handleSeek = (e: any) => {
-    if (audioRef.current && isPlaying) {
-      audioRef.current.currentTime = e.target.value;
-      setTrackProgress(e.target.value);
+
+  function handleSeek(event: ChangeEvent<HTMLInputElement>) {
+    clearInterval(intervalRef.current);
+
+    if (audioRef.current) {
+      audioRef.current.currentTime = Number(event.currentTarget.value);
+      setTrackProgress(audioRef.current.currentTime);
+      startTimer();
     }
-  };
+  }
+
+  function startTimer() {
+    clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      if (!audioRef.current) return;
+
+      setTrackProgress(audioRef.current.currentTime);
+
+      if (audioRef.current.ended) {
+        setTrackProgress(0);
+        setIsPlaying(false);
+        handleControls.Next();
+      }
+    }, 1000);
+  }
 
   useEffect(() => {
-    if (audio) {
-      audioRef.current = new Audio(audio);
+    return () => {
+      audioRef.current?.pause();
+      clearInterval(intervalRef.current);
+    };
+  }, []);
 
-      audioRef.current.ontimeupdate = (e: any) => {
-        const currentTime = Math.floor(e.target.currentTime);
-
-        if (trackProgress !== currentTime) {
-          setTrackProgress(currentTime);
-        }
-      };
-
-      audioRef.current.onended = (e: any) => {
-        setIsPlaying(false);
-        setTrackProgress(0);
-      };
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      clearInterval(intervalRef.current);
+      setTrackProgress(0);
     }
-  }, [audio]);
+
+    if (isReady.current) {
+      audioRef.current = new Audio(audio);
+      audioRef.current.play();
+      setIsPlaying(true);
+      startTimer();
+    } else {
+      isReady.current = true;
+    }
+  }, [player.index]);
 
   return (
-    <aside className={style.Container} data-open={playerOpen}>
+    <aside className={style.Container} data-open={player.isOpen}>
       <Cover cover={cover} size="60%" />
 
       <div className={style.Time}>

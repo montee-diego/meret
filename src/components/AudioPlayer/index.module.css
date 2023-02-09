@@ -1,6 +1,6 @@
 .Container {
   align-items: center;
-  border-left: 1px solid var(--color-focus);
+  border-left: 1px solid var(--color-panel);
   display: none;
   flex-direction: column;
   gap: 1.5rem;
@@ -10,6 +10,7 @@
 }
 
 .Container[data-open="true"] {
+  background-color: var(--color-panel);
   display: flex;
 }
 
@@ -56,5 +57,9 @@
   .Container {
     border-left: none;
     width: 100%;
+  }
+
+  .Container[data-open="true"] {
+    background-color: transparent;
   }
 }
