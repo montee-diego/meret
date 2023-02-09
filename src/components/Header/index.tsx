@@ -16,10 +16,10 @@ const ThemeToggle = dynamic(() => import("@components/ThemeToggle"), {
 });
 
 export const Header: FC<IProps> = ({ setIsNavOpen }) => {
-  const { playerOpen, setPlayerOpen } = useAudioPlayer();
+  const { player } = useAudioPlayer();
 
   const handleNavState = () => setIsNavOpen(true);
-  const handlePlayerState = () => setPlayerOpen(!playerOpen);
+  const handlePlayerState = () => player.setIsOpen(!player.isOpen);
 
   return (
     <header className={style.Container}>
@@ -33,7 +33,11 @@ export const Header: FC<IProps> = ({ setIsNavOpen }) => {
       <div className={style.Actions}>
         <ThemeToggle />
         <Button onClick={handlePlayerState} label="toggle audio player">
-          <FontAwesomeIcon icon={faSide} size="xl" flip={playerOpen ? undefined : "horizontal"} />
+          <FontAwesomeIcon
+            icon={faSide}
+            size="xl"
+            flip={player.isOpen ? undefined : "horizontal"}
+          />
         </Button>
         <User />
       </div>
