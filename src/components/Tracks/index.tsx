@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { ITrack } from "@global/types";
+import type { IPlaylist, ITrack } from "@global/types";
 
 import { useState } from "react";
 import { useAudioPlayer } from "@context/AudioPlayer";
@@ -12,32 +12,30 @@ import style from "./index.module.css";
 
 interface IProps {
   isAuthor?: boolean;
-  isPlaylist?: boolean;
   tracks: ITrack[];
 }
 
-export const Tracks: FC<IProps> = ({ isAuthor, isPlaylist, tracks }) => {
-  const [selected, setSelected] = useState<ITrack | null>(null);
-  const [trackModal, toggleTrackModal] = useModal();
-  const { player } = useAudioPlayer();
+type Data = { playlist: IPlaylist; tracks?: never } | { playlist?: never; tracks: ITrack[] };
 
-  function handleModal(track: ITrack | null): void {
-    setSelected(track);
-    toggleTrackModal();
-  }
+export type Selected = {
+  index: number;
+  track: ITrack;
+};
 
-  function handlePlay(track: ITrack, index: number): void {
-    player.setPlaylist(isPlaylist ? tracks : [track]);
-    player.setIndex(isPlaylist ? index : 0);
-  }
+interface ITrackList {
+  onMenu: (data: Selected | null) => void;
+  onPlay: (data: Selected) => void;
+  tracks: ITrack[];
+}
 
+const TrackList: FC<ITrackList> = ({ onMenu, onPlay, tracks }) => {
   return (
     <>
       {tracks.map((track, index) => (
         <div className={style.Container} key={track._key || track._id}>
           <Cover cover={track.cover} size="3rem" />
 
-          <button onClick={() => handlePlay(track, index)} aria-label="play">
+          <button onClick={() => onPlay({ track, index })} aria-label="play">
             <FontAwesomeIcon size="lg" icon={faPlay} transform="right-1 up-0.5" />
           </button>
 
@@ -52,15 +50,56 @@ export const Tracks: FC<IProps> = ({ isAuthor, isPlaylist, tracks }) => {
             <p className={style.Length}>{formatTime(track.length)}</p>
           </div>
 
-          <button aria-label="track menu" onClick={() => handleModal(track)}>
+          <button onClick={() => onMenu({ track, index })} aria-label="track menu">
             <FontAwesomeIcon size="xl" icon={faEllipsisVertical} />
           </button>
         </div>
       ))}
+    </>
+  );
+};
+
+export const Tracks: FC<Data> = ({ playlist, tracks }) => {
+  const [selected, setSelected] = useState<Selected | null>(null);
+  const [trackModal, toggleTrackModal] = useModal();
+  const { player } = useAudioPlayer();
+  const { isAuthor } = playlist?.user || {};
+
+  function handleModal(data: Selected | null): void {
+    setSelected(data);
+    toggleTrackModal();
+  }
+
+  function handlePlay(data: Selected): void {
+    if (selected) {
+      player.setData({
+        index: playlist ? selected.index : 0,
+        playlistId: playlist ? playlist._id : null,
+        tracks: playlist ? playlist.tracks : [selected.track],
+      });
+    } else {
+      player.setData({
+        index: playlist ? data.index : 0,
+        playlistId: playlist ? playlist._id : null,
+        tracks: playlist ? playlist.tracks : [data.track],
+      });
+    }
+  }
+
+  return (
+    <>
+      {playlist && <TrackList onMenu={handleModal} onPlay={handlePlay} tracks={playlist.tracks} />}
+
+      {tracks && <TrackList onMenu={handleModal} onPlay={handlePlay} tracks={tracks} />}
 
       {trackModal && selected && (
         <Modal toggleOpen={() => handleModal(null)}>
-          <TracksMenu track={selected} toggleOpen={() => handleModal(null)} isAuthor={isAuthor} />
+          <TracksMenu
+            selected={selected}
+            toggleOpen={() => handleModal(null)}
+            isAuthor={isAuthor}
+            handlePlay={handlePlay}
+          />
         </Modal>
       )}
     </>
