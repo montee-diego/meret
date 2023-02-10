@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import type { ITrack } from "@global/types";
+import type { Selected } from "../Tracks";
 
 import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
@@ -10,15 +11,17 @@ import { Button, ButtonLink, Cover, PlaylistsMenu } from "@components/index";
 import style from "./index.module.css";
 
 interface IProps {
+  handlePlay: (data: Selected) => void;
   isAuthor?: boolean;
-  track: ITrack;
+  selected: Selected;
   toggleOpen: () => void;
 }
 
-export const TracksMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
+export const TracksMenu: FC<IProps> = ({ handlePlay, isAuthor, selected, toggleOpen }) => {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { status } = useSession();
   const { data, meret } = useMeret();
+  const { track } = selected;
 
   const toggleConfirm = () => setIsConfirm(!isConfirm);
   const handleLogIn = () => signIn("google");
@@ -31,11 +34,11 @@ export const TracksMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
   return (
     <div className={style.Container}>
       <div className={style.Track}>
-        <Cover cover={`${track?.cover}`} size={"50px"} />
+        <Cover cover={`${track.cover}`} size={"50px"} />
 
         <div className={style.Data}>
-          <p>{track?.title}</p>
-          <p>{track?.artist}</p>
+          <p>{track.title}</p>
+          <p>{track.artist}</p>
         </div>
 
         <Button onClick={toggleOpen} label="close modal">
@@ -84,7 +87,7 @@ export const TracksMenu: FC<IProps> = ({ isAuthor, track, toggleOpen }) => {
           </>
         ) : (
           <>
-            <ButtonLink onClick={() => {}} align="center">
+            <ButtonLink onClick={() => handlePlay(selected)} align="center">
               Play
             </ButtonLink>
             <ButtonLink onClick={() => {}} align="center">
