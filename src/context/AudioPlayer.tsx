@@ -7,40 +7,43 @@ interface IProps {
   children: ReactNode;
 }
 
+interface IData {
+  index: number;
+  playlistId: string | null;
+  tracks: ITrack[];
+}
+
 interface IContext {
   player: {
-    index: number;
+    data: IData;
     isOpen: boolean;
-    playlist: ITrack[];
-    setIndex: Dispatch<SetStateAction<number>>;
+    setData: Dispatch<SetStateAction<IData>>;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    setPlaylist: Dispatch<SetStateAction<ITrack[]>>;
   }
 }
 
 const AudioPlayer = createContext<IContext>({
   player: {
-    index: 0,
+    data: {
+      index: 0,
+      playlistId: null,
+      tracks: [],
+    },
     isOpen: false,
-    playlist: [],
-    setIndex: () => {},
+    setData: () => {},
     setIsOpen: () => {},
-    setPlaylist: () => {},
   }
 });
 
 export const AudioPlayerContext: FC<IProps> = (props) => {
-  const [index, setIndex] = useState<number>(-1);
+  const [data, setData] = useState<IData>({ index: 0, playlistId: null, tracks: [] });
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [playlist, setPlaylist] = useState<ITrack[]>([]);
 
   const player = {
-    index,
+    data,
     isOpen,
-    playlist,
-    setIndex,
+    setData,
     setIsOpen,
-    setPlaylist,
   }
 
   return (
