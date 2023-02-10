@@ -53,6 +53,12 @@
   font-weight: 700;
 }
 
+.ViewPlaylist {
+  background-color: var(--color-panel);
+  border-radius: 5px;
+  width: 75%;
+}
+
 @media screen and (max-width: 768px) {
   .Container {
     border-left: none;

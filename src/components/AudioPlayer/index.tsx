@@ -3,17 +3,21 @@ import type { ChangeEvent, FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { formatTime } from "@global/utils";
-import { AudioControls, Cover } from "@components/index";
+import { AudioControls, ButtonLink, Cover } from "@components/index";
 import style from "./index.module.css";
 
 export const AudioPlayer: FC = () => {
   const [trackProgress, setTrackProgress] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
   const { player } = useAudioPlayer();
-  const { artist, audio, cover, title, length } = player.playlist[player.index] || {};
+  const { index, playlistId, tracks } = player.data;
+  const { artist, audio, cover, title, length } = tracks[index] || {};
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const intervalRef = useRef<NodeJS.Timer>();
   const isReady = useRef<boolean>(false);
+
   const handleControls = {
     Play: () => {
       if (audioRef.current) {
@@ -22,13 +26,13 @@ export const AudioPlayer: FC = () => {
       }
     },
     Prev: () => {
-      if (player.index > 0) {
-        player.setIndex(player.index - 1);
+      if (index > 0) {
+        player.setData({ ...player.data, index: index - 1 });
       }
     },
     Next: () => {
-      if (player.index < player.playlist.length - 1) {
-        player.setIndex(player.index + 1);
+      if (index < tracks.length - 1) {
+        player.setData({ ...player.data, index: index + 1 });
       }
     },
   };
@@ -81,7 +85,7 @@ export const AudioPlayer: FC = () => {
     } else {
       isReady.current = true;
     }
-  }, [player.index]);
+  }, [player.data]);
 
   return (
     <aside className={style.Container} data-open={player.isOpen}>
@@ -99,6 +103,14 @@ export const AudioPlayer: FC = () => {
       </div>
 
       <AudioControls handleControls={handleControls} isPlaying={isPlaying} />
+
+      {playlistId && (
+        <div className={style.ViewPlaylist}>
+          <ButtonLink href={`/playlist/${playlistId}`} align="center">
+            View Playlist
+          </ButtonLink>
+        </div>
+      )}
     </aside>
   );
 };
