@@ -1,6 +1,8 @@
 import type { ChangeEvent, FC } from "react";
 
 import { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { formatTime } from "@global/utils";
 import { AudioControls, ButtonLink, Cover } from "@components/index";
@@ -27,12 +29,12 @@ export const AudioPlayer: FC = () => {
     },
     Prev: () => {
       if (index > 0) {
-        player.setData({ ...player.data, index: index - 1 });
+        player.setData({ ...player.data, index: index - 1, isSync: false });
       }
     },
     Next: () => {
       if (index < tracks.length - 1) {
-        player.setData({ ...player.data, index: index + 1 });
+        player.setData({ ...player.data, index: index + 1, isSync: false });
       }
     },
   };
@@ -71,6 +73,10 @@ export const AudioPlayer: FC = () => {
   }, []);
 
   useEffect(() => {
+    if (player.data.isSync) {
+      return;
+    }
+
     if (audioRef.current) {
       audioRef.current.pause();
       clearInterval(intervalRef.current);
@@ -78,6 +84,12 @@ export const AudioPlayer: FC = () => {
     }
 
     if (isReady.current) {
+      if (!tracks.length) {
+        audioRef.current = null;
+        setIsPlaying(false);
+        return;
+      }
+
       audioRef.current = new Audio(audio);
       audioRef.current.play();
       setIsPlaying(true);
@@ -106,9 +118,20 @@ export const AudioPlayer: FC = () => {
 
       {playlistId && (
         <div className={style.ViewPlaylist}>
-          <ButtonLink href={`/playlist/${playlistId}`} align="center">
-            View Playlist
-          </ButtonLink>
+          {player.isSyncing ? (
+            <div className={style.Syncing}>
+              <FontAwesomeIcon icon={faRotate} spin />
+              <p>Syncing...</p>
+            </div>
+          ) : player.isSyncError ? (
+            <ButtonLink onClick={() => player.syncPlaylist(playlistId, index)} align="center">
+              Sync Playlist
+            </ButtonLink>
+          ) : (
+            <ButtonLink href={`/playlist/${playlistId}`} align="center">
+              View Playlist
+            </ButtonLink>
+          )}
         </div>
       )}
     </aside>

@@ -59,6 +59,14 @@
   width: 75%;
 }
 
+.Syncing {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  line-height: 2.5rem;
+}
+
 @media screen and (max-width: 768px) {
   .Container {
     border-left: none;
