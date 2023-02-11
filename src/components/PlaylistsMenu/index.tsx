@@ -3,6 +3,7 @@ import type { IPlaylistMin } from "@global/types";
 
 import { useRef, useState } from "react";
 import { useMeret } from "@context/Meret";
+import { useAudioPlayer } from "@context/AudioPlayer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { ButtonLink } from "@components/index";
@@ -17,6 +18,7 @@ interface IProps {
 export const PlaylistsMenu: FC<IProps> = ({ getTrackId, showInput, playlists }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { meret } = useMeret();
+  const { player } = useAudioPlayer();
   const input = useRef<HTMLInputElement | null>(null);
 
   async function handleCreate(event: SyntheticEvent<HTMLFormElement>) {
@@ -37,12 +39,16 @@ export const PlaylistsMenu: FC<IProps> = ({ getTrackId, showInput, playlists }) 
     setIsLoading(false);
   }
 
-  function handleAddToPlaylist(pid: string): void {
+  async function handleAddToPlaylist(pid: string) {
     if (!getTrackId || typeof pid !== "string") {
       return;
     }
 
-    meret.addItem(pid, getTrackId());
+    const response = await meret.addItem(pid, getTrackId());
+
+    if (response === "OK") {
+      player.syncPlaylist(pid, player.data.index);
+    }
   }
 
   return (
