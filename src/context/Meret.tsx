@@ -25,8 +25,8 @@ interface IMeret {
   rename: (pid: string, name: string) => Promise<unknown>;
   subscribe: (pid: string) => Promise<unknown>;
   unsubscribe: (pid: string) => Promise<unknown>;
-  addItem: (pid: string, trackId: string) => void;
-  deleteItem: (trackId: string | undefined) => void;
+  addItem: (pid: string, trackId: string) => Promise<unknown>;
+  deleteItem: (trackId: string | undefined) => Promise<unknown>;
 }
 
 interface IContext {
@@ -48,8 +48,8 @@ const Meret = createContext<IContext>({
     rename: () => DummyPromise,
     subscribe: () => DummyPromise,
     unsubscribe: () => DummyPromise,
-    addItem: () => {},
-    deleteItem: () => {},
+    addItem: () => DummyPromise,
+    deleteItem: () => DummyPromise,
   },
 });
 
@@ -182,19 +182,21 @@ export const MeretContext: FC<IProps> = (props) => {
 
       return await request.then(() => "OK").catch(() => "NOK");
     },
-    addItem: (pid, trackId) => {
+    addItem: async (pid, trackId) => {
       if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
         return;
       }
 
       setIsRunning(true);
-      toast.promise(onAddItem(pid, trackId), {
+      const request = toast.promise(onAddItem(pid, trackId), {
         loading: "Adding to playlist...",
         success: () => reload(pid, "Added to playlist!"),
         error: () => error("Failed to add to playlist"),
       });
+
+      return await request.then(() => "OK").catch(() => "NOK");
     },
-    deleteItem: (trackId) => {
+    deleteItem: async (trackId) => {
       const { pid } = router.query;
 
       if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
@@ -202,11 +204,13 @@ export const MeretContext: FC<IProps> = (props) => {
       }
 
       setIsRunning(true);
-      toast.promise(onDeleteItem(pid, trackId), {
+      const request = toast.promise(onDeleteItem(pid, trackId), {
         loading: "Removing track...",
         success: () => reload(pid, "Removed from playlist!"),
         error: () => error("Failed to remove from playlist"),
       });
+
+      return await request.then(() => "OK").catch(() => "NOK");
     },
   };
 
@@ -216,11 +220,7 @@ export const MeretContext: FC<IProps> = (props) => {
     }
   }, [status]);
 
-  return (
-    <Meret.Provider value={{ data, meret }}>
-      {props.children}
-    </Meret.Provider>
-  );
+  return <Meret.Provider value={{ data, meret }}>{props.children}</Meret.Provider>;
 };
 
 export const useMeret = () => useContext(Meret);
