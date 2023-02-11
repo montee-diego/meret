@@ -74,12 +74,14 @@ export const Tracks: FC<Data> = ({ playlist, tracks }) => {
     if (selected) {
       player.setData({
         index: playlist ? selected.index : 0,
+        isSync: false,
         playlistId: playlist ? playlist._id : null,
         tracks: playlist ? playlist.tracks : [selected.track],
       });
     } else {
       player.setData({
         index: playlist ? data.index : 0,
+        isSync: false,
         playlistId: playlist ? playlist._id : null,
         tracks: playlist ? playlist.tracks : [data.track],
       });
