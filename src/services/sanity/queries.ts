@@ -91,3 +91,18 @@ export function queryPlaylist() {
     }
   `;
 }
+
+export function querySyncPlaylist() {
+  return `
+    *[_type=="playlist" && _id == $id][0] {
+      tracks[] {
+        _key,
+        ...@->{
+          ...,
+          "audio": audio.asset->url,
+          "cover": cover.asset->url
+        }
+      }
+    }
+  `;
+}
