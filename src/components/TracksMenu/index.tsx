@@ -1,12 +1,13 @@
 import type { FC } from "react";
-import type { ITrack } from "@global/types";
 import type { Selected } from "../Tracks";
 
 import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useMeret } from "@context/Meret";
+import { useAudioPlayer } from "@context/AudioPlayer";
 import { Button, ButtonLink, Cover, PlaylistsMenu } from "@components/index";
 import style from "./index.module.css";
 
@@ -21,13 +22,21 @@ export const TracksMenu: FC<IProps> = ({ handlePlay, isAuthor, selected, toggleO
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { status } = useSession();
   const { data, meret } = useMeret();
+  const { player } = useAudioPlayer();
   const { track } = selected;
+  const router = useRouter();
 
   const toggleConfirm = () => setIsConfirm(!isConfirm);
   const handleLogIn = () => signIn("google");
 
-  function handleDelete() {
-    meret.deleteItem(track?._key);
+  async function handleDelete() {
+    const response = await meret.deleteItem(track?._key);
+    const pid = router.query.pid;
+
+    if (response === "OK") {
+      player.syncPlaylist(typeof pid === "string" ? pid : "", selected.index);
+    }
+
     toggleOpen();
   }
 
