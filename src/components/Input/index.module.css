@@ -1,0 +1,26 @@
+.Form {
+  background-color: var(--color-panel);
+  border-radius: 5px;
+  display: flex;
+  overflow: hidden;
+}
+
+.Form:focus-within {
+  outline: 2px solid var(--color-focus);
+}
+
+.Form input {
+  background-color: transparent;
+  border: none;
+  flex: 1;
+  line-height: 2.5rem;
+  padding-left: 0.5rem;
+}
+
+.Form button {
+  width: 2rem;
+}
+
+.Form button:focus {
+  outline: none;
+}
