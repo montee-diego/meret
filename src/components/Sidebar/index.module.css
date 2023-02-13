@@ -58,6 +58,10 @@
   padding-left: 0.5rem;
 }
 
+.Search {
+  margin: 1rem 0rem;
+}
+
 .Links,
 .UserData {
   display: flex;

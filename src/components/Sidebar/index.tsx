@@ -1,11 +1,13 @@
 import type { FC, Dispatch, SetStateAction } from "react";
 
+import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { useMeret } from "@context/Meret";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FocusTrap } from "@accessibility/FocusTrap";
-import { Accordion, Button, ButtonLink, Search, PlaylistsMenu } from "@components/index";
+import { Accordion, Button, ButtonLink, PlaylistsMenu } from "@components/index";
+import Input from "@components/Input";
 import style from "./index.module.css";
 
 interface IProps {
@@ -14,11 +16,17 @@ interface IProps {
 }
 
 export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
+  const { push } = useRouter();
   const { status } = useSession();
   const { data } = useMeret();
 
   const handleNavClose = () => setIsNavOpen(false);
   const handleLogIn = () => signIn("google");
+
+  function handleSubmit(input: string): void {
+    push(`/search?query=${input}`);
+    setIsNavOpen(false);
+  }
 
   return (
     <div className={style.Container} data-open={isNavOpen}>
@@ -30,7 +38,11 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
           </Button>
         </div>
 
-        <Search setIsNavOpen={setIsNavOpen} />
+        <div className={style.Search}>
+          <Input onSubmit={handleSubmit} placeholder="Search">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </Input>
+        </div>
 
         <div className={style.Links}>
           <ButtonLink href="/" align="left">
