@@ -1,6 +1,7 @@
 import type { ChangeEvent, FC } from "react";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import { useAudioPlayer } from "@context/AudioPlayer";
@@ -20,6 +21,8 @@ export const AudioPlayer: FC = () => {
   const intervalRef = useRef<NodeJS.Timer>();
   const isReady = useRef<boolean>(false);
 
+  const router = useRouter();
+
   const handleControls = {
     Play: () => {
       if (audioRef.current) {
@@ -38,6 +41,14 @@ export const AudioPlayer: FC = () => {
       }
     },
   };
+
+  function handleViewPlaylist() {
+    router.push(`/playlist/${playlistId}`);
+
+    if (window.innerWidth <= 768) {
+      player.setIsOpen(false);
+    }
+  }
 
   function handleSeek(event: ChangeEvent<HTMLInputElement>) {
     clearInterval(intervalRef.current);
@@ -128,7 +139,8 @@ export const AudioPlayer: FC = () => {
               Sync Playlist
             </ButtonLink>
           ) : (
-            <ButtonLink href={`/playlist/${playlistId}`} align="center">
+            // <ButtonLink href={`/playlist/${playlistId}`} align="center">
+            <ButtonLink onClick={handleViewPlaylist} align="center">
               View Playlist
             </ButtonLink>
           )}
