@@ -13,7 +13,6 @@ export { Menu } from "./Menu";
 export { Modal } from "./Modal";
 export { Playlists } from "./Playlists";
 export { PlaylistsMenu } from "./PlaylistsMenu";
-export { Search } from "./Search";
 export { Sidebar } from "./Sidebar";
 export { Tracks } from "./Tracks";
 export { TracksMenu } from "./TracksMenu";
