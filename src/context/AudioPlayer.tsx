@@ -71,10 +71,10 @@ export const AudioPlayerContext: FC<IProps> = (props) => {
         const playingIndex = data.index;
         let newIndex = playingIndex;
 
-        if (tracks.length) {
+        if (tracks.length && playingIndex > 0) {
           if (tracks.length <= playingIndex) {
             newIndex = tracks.length - 1;
-          } else if (removeIndex < playingIndex) {
+          } else if (removeIndex <= playingIndex) {
             newIndex = playingIndex - 1;
           }
           // if (tracks.length === playingIndex || removeIndex < playingIndex) {
@@ -103,11 +103,7 @@ export const AudioPlayerContext: FC<IProps> = (props) => {
     syncPlaylist,
   };
 
-  return (
-    <AudioPlayer.Provider value={{ player }}>
-      {props.children}
-    </AudioPlayer.Provider>
-  );
+  return <AudioPlayer.Provider value={{ player }}>{props.children}</AudioPlayer.Provider>;
 };
 
 export const useAudioPlayer = () => useContext(AudioPlayer);
