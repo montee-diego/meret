@@ -1,6 +1,6 @@
 .Container {
   align-items: center;
-  animation: fadeIn 0.25s ease-in-out;
+  animation: fadeIn 0.25s var(--ease);
   background-color: rgba(0, 0, 0, 0.5);
   bottom: 0;
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .Content {
-  animation: popIn 0.25s ease-in-out;
+  animation: popIn 0.25s var(--ease);
   background-color: var(--color-panel-solid);
   backdrop-filter: blur(10px);
   border-radius: 5px;
