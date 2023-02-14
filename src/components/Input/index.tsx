@@ -3,13 +3,13 @@ import type { ChangeEvent, FormEvent, ReactNode } from "react";
 import { useState } from "react";
 import css from "./index.module.css";
 
-type Props = {
+interface IProps {
   children: ReactNode;
   onSubmit: (input: string) => void;
   placeholder: string;
-};
+}
 
-export default function Input({ children, onSubmit, placeholder }: Props) {
+export default function Input({ children, onSubmit, placeholder }: IProps) {
   const [input, setInput] = useState<string>("");
 
   function handleChange(e: ChangeEvent<HTMLInputElement>): void {
