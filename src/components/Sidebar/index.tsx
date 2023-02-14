@@ -1,4 +1,4 @@
-import type { FC, Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
@@ -6,16 +6,18 @@ import { useMeret } from "@context/Meret";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FocusTrap } from "@accessibility/FocusTrap";
-import { Accordion, Button, ButtonLink, PlaylistsMenu } from "@components/index";
+import { Button, ButtonLink } from "@components/index";
+import Accordion from "@components/Accordion";
+import PlaylistCreate from "@components/PlaylistCreate";
 import Input from "@components/Input";
-import style from "./index.module.css";
+import css from "./index.module.css";
 
 interface IProps {
   isNavOpen: boolean;
   setIsNavOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
+export default function Sidebar({ isNavOpen, setIsNavOpen }: IProps) {
   const { push } = useRouter();
   const { status } = useSession();
   const { data } = useMeret();
@@ -29,47 +31,71 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
   }
 
   return (
-    <div className={style.Container} data-open={isNavOpen}>
-      <FocusTrap active={isNavOpen} className={style.Menu} cancelEvent={handleNavClose}>
-        <div className={style.Logo}>
+    <div className={css.Container} data-open={isNavOpen}>
+      <FocusTrap active={isNavOpen} className={css.Menu} cancelEvent={handleNavClose}>
+        <div className={css.Logo}>
           <h1>Meret</h1>
           <Button onClick={handleNavClose} label="close sidebar">
             <FontAwesomeIcon icon={faXmark} size="xl" />
           </Button>
         </div>
 
-        <div className={style.Search}>
+        <div className={css.Search}>
           <Input onSubmit={handleSubmit} placeholder="Search">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Input>
         </div>
 
-        <div className={style.Links}>
+        <div className={css.Navigate}>
           <ButtonLink href="/" align="left">
             Home
           </ButtonLink>
           <Accordion summary="Discover">
-            <ButtonLink href="/discover/songs" align="left">
-              Songs
-            </ButtonLink>
-            <ButtonLink href="/discover/playlists" align="left">
-              Playlists
-            </ButtonLink>
+            <ul className={css.List}>
+              <li>
+                <ButtonLink href="/discover/songs" align="left">
+                  Songs
+                </ButtonLink>
+              </li>
+              <li>
+                <ButtonLink href="/discover/playlists" align="left">
+                  Playlists
+                </ButtonLink>
+              </li>
+            </ul>
           </Accordion>
         </div>
 
         {status === "authenticated" ? (
-          <div className={style.UserData}>
+          <div className={css.UserPlaylists}>
             <Accordion summary="Playlists">
-              <PlaylistsMenu playlists={data.playlists} showInput />
+              <PlaylistCreate />
+
+              <ul className={css.List}>
+                {data.playlists.map((playlist) => (
+                  <li key={playlist._id}>
+                    <ButtonLink href={`/playlist/${playlist._id}`} align="left">
+                      {playlist.name}
+                    </ButtonLink>
+                  </li>
+                ))}
+              </ul>
             </Accordion>
 
             <Accordion summary="Subscriptions">
-              <PlaylistsMenu playlists={data.subscriptions} />
+              <ul className={css.List}>
+                {data.subscriptions.map((playlist) => (
+                  <li key={playlist._id}>
+                    <ButtonLink href={`/playlist/${playlist._id}`} align="left">
+                      {playlist.name}
+                    </ButtonLink>
+                  </li>
+                ))}
+              </ul>
             </Accordion>
           </div>
         ) : (
-          <div className={style.LogInBtn}>
+          <div className={css.LogInBtn}>
             <ButtonLink onClick={handleLogIn} align="center">
               Log In to view Playlists
             </ButtonLink>
@@ -78,4 +104,4 @@ export const Sidebar: FC<IProps> = ({ isNavOpen, setIsNavOpen }) => {
       </FocusTrap>
     </div>
   );
-};
+}

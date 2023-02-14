@@ -58,20 +58,25 @@
   padding-left: 0.5rem;
 }
 
-.Search {
+.Search,
+.Navigate,
+.UserPlaylists,
+.LogInBtn {
   margin: 1rem 0rem;
 }
 
-.Links,
-.UserData {
+.List {
+  list-style: none;
+}
+
+.Navigate,
+.UserPlaylists {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  margin: 1rem 0rem;
 }
 
 .LogInBtn {
   background-color: var(--color-panel);
   border-radius: 5px;
-  margin: 1rem 0rem;
 }
