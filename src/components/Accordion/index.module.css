@@ -1,4 +1,12 @@
-.Container summary {
+.Container[open] .Icon {
+  transform: rotate(180deg);
+}
+
+.Container[open] > div {
+  animation: fadeIn 0.5s var(--ease);
+}
+
+.Summary {
   align-items: center;
   border-radius: 5px;
   color: var(--color-text-default);
@@ -8,31 +16,27 @@
   justify-content: space-between;
   line-height: 2.5rem;
   padding: 0rem 0.5rem;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.2s var(--ease);
 }
 
-.Container summary:focus {
+.Summary:focus {
   outline: 2px solid var(--color-focus);
 }
 
-.Arrow {
+.Icon {
   transition: transform 0.25s ease;
 }
 
-.Container[open] .Arrow {
-  transform: rotate(180deg);
-}
-
-.Container[open] > div {
-  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 .Content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 3px;
   padding-left: calc(0.5rem + 0.875em);
 }
 
 @media (hover: hover) {
-  .Container summary:hover {
+  .Summary:hover {
     background-color: var(--color-panel);
   }
 }
