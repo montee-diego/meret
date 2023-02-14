@@ -5,8 +5,10 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { AudioPlayerContext } from "@context/AudioPlayer";
 import { MeretContext } from "@context/Meret";
-import { AudioPlayer, Header, Main, Sidebar } from "@components/index";
+import { AudioPlayer, Header } from "@components/index";
 import Head from "next/head";
+import Main from "@components/Main";
+import Sidebar from "@components/Sidebar";
 import "@styles/globals.css";
 
 // Fix FontAwesome icons size flash on page load
