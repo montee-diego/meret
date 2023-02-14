@@ -1,11 +1,9 @@
-import type { FC } from "react";
-
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@components/index";
 
-const ThemeToggle: FC = () => {
+export default function ThemeToggle() {
   const [theme, setTheme] = useState<string>(`${document.body.dataset.theme}`);
 
   const handleThemeToggle = () => {
@@ -25,6 +23,4 @@ const ThemeToggle: FC = () => {
       <FontAwesomeIcon size="xl" icon={theme === "light" ? faMoon : faSun} />
     </Button>
   );
-};
-
-export default ThemeToggle;
+}
