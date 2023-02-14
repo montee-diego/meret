@@ -8,7 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useMeret } from "@context/Meret";
 import { useAudioPlayer } from "@context/AudioPlayer";
-import { Button, ButtonLink, Cover, PlaylistsMenu } from "@components/index";
+import { Button, ButtonLink, Cover } from "@components/index";
+import PlaylistCreate from "@components/PlaylistCreate";
+import PlaylistAddTrack from "@components/PlaylistAddTrack";
 import style from "./index.module.css";
 
 interface IProps {
@@ -21,7 +23,7 @@ interface IProps {
 export const TracksMenu: FC<IProps> = ({ handlePlay, isAuthor, selected, toggleOpen }) => {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { status } = useSession();
-  const { data, meret } = useMeret();
+  const { meret } = useMeret();
   const { player } = useAudioPlayer();
   const { track } = selected;
   const router = useRouter();
@@ -71,7 +73,10 @@ export const TracksMenu: FC<IProps> = ({ handlePlay, isAuthor, selected, toggleO
               undone.
             </p>
           ) : (
-            <PlaylistsMenu playlists={data.playlists} getTrackId={() => track._id} showInput />
+            <>
+              <PlaylistCreate />
+              <PlaylistAddTrack trackId={track._id} />
+            </>
           )
         ) : (
           <div className={style.LogIn}>

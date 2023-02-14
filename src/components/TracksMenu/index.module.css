@@ -31,9 +31,9 @@
   gap: 0.5rem;
 }
 
-.Delete > button:nth-child(2) {
+/* .Delete > button:nth-child(2) {
   width: 7rem;
-}
+} */
 
 .DeleteMsg {
   line-height: 1.5rem;
