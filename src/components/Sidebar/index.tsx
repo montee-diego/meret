@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SyntheticEvent, SetStateAction } from "react";
 
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
@@ -30,8 +30,16 @@ export default function Sidebar({ isNavOpen, setIsNavOpen }: IProps) {
     setIsNavOpen(false);
   }
 
+  function handleAutoClose(e: SyntheticEvent) {
+    const target = e.target as HTMLElement;
+
+    if (target.tagName.toLowerCase() === "a") {
+      setIsNavOpen(false);
+    }
+  }
+
   return (
-    <div className={css.Container} data-open={isNavOpen}>
+    <div className={css.Container} onClick={handleAutoClose} data-open={isNavOpen}>
       <FocusTrap active={isNavOpen} className={css.Menu} cancelEvent={handleNavClose}>
         <div className={css.Logo}>
           <h1>Meret</h1>
