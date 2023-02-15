@@ -17,11 +17,9 @@ interface IData {
 interface IContext {
   player: {
     data: IData;
-    isOpen: boolean;
     isSyncError: boolean;
     isSyncing: boolean;
     setData: Dispatch<SetStateAction<IData>>;
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
     syncPlaylist: (pid: string, removeIndex: number) => {};
   };
 }
@@ -36,18 +34,15 @@ const initialData: IData = {
 const AudioPlayer = createContext<IContext>({
   player: {
     data: initialData,
-    isOpen: false,
     isSyncError: false,
     isSyncing: false,
     setData: () => {},
-    setIsOpen: () => {},
     syncPlaylist: async () => {},
   },
 });
 
 export const AudioPlayerContext: FC<IProps> = (props) => {
   const [data, setData] = useState<IData>(initialData);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSyncError, setIsSyncError] = useState<boolean>(false);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
 
@@ -95,11 +90,9 @@ export const AudioPlayerContext: FC<IProps> = (props) => {
 
   const player = {
     data,
-    isOpen,
     isSyncError,
     isSyncing,
     setData,
-    setIsOpen,
     syncPlaylist,
   };
 
