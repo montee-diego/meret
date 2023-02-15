@@ -1,0 +1,82 @@
+.Container {
+  background-color: rgba(0, 0, 0, 0);
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: 0.25s ease-in-out;
+  transition-property: background-color, visibility;
+  visibility: hidden;
+  z-index: 900;
+}
+
+.Container[data-open="true"] {
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: all;
+  visibility: visible;
+}
+
+.Container[data-open="true"] .Menu {
+  transform: translateX(0%);
+  transition-delay: 0s;
+  visibility: visible;
+}
+
+.Menu {
+  background-color: var(--color-panel-solid);
+  backdrop-filter: blur(15px);
+  bottom: 0;
+  box-shadow: 1px 0px rgba(0, 0, 0, 0.3), 5px 0px 10px rgba(0, 0, 0, 0.2);
+  left: 0;
+  max-width: 75%;
+  overflow: hidden auto;
+  padding: 0.5rem;
+  position: absolute;
+  top: 0;
+  transform: translateX(-105%);
+  transition-property: transform, visibility;
+  transition-delay: 0s, 0.25s;
+  transition-duration: 0.25s, 0s;
+  transition-timing-function: ease-in-out;
+  visibility: hidden;
+  width: 20rem;
+  z-index: 1000;
+}
+
+.Logo {
+  align-items: center;
+  border-bottom: 1px solid var(--color-focus);
+  display: flex;
+  flex-shrink: 0;
+  height: 3.5rem;
+  justify-content: space-between;
+}
+
+.Logo h1 {
+  padding-left: 0.5rem;
+}
+
+.Search,
+.Navigate,
+.UserPlaylists,
+.LogInBtn {
+  margin: 1rem 0rem;
+}
+
+.List {
+  list-style: none;
+}
+
+.Navigate,
+.UserPlaylists {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.LogInBtn {
+  background-color: var(--color-panel);
+  border-radius: 5px;
+}

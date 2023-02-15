@@ -1,0 +1,11 @@
+.Container {
+  display: flex;
+  flex-direction: row-reverse;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .Container[data-open="true"] section {
+    display: none;
+  }
+}

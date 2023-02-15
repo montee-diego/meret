@@ -1,0 +1,79 @@
+.Container {
+  align-items: center;
+  border-left: 1px solid var(--color-panel);
+  display: none;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow: hidden auto;
+  padding: 1rem;
+  width: 356px;
+}
+
+.Container[data-open="true"] {
+  background-color: var(--color-panel);
+  display: flex;
+}
+
+.Time {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.Time span {
+  width: 2.5rem;
+}
+
+.Time span:last-child {
+  text-align: right;
+}
+
+.Time input {
+  flex: 1;
+  width: 1px;
+}
+
+.Tags {
+  flex-shrink: 0;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+}
+
+.Tags p {
+  line-height: 1.7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.ViewPlaylist {
+  background-color: var(--color-panel);
+  border-radius: 5px;
+  width: 75%;
+}
+
+.Syncing {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  line-height: 2.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .Container {
+    border-left: none;
+    width: 100%;
+  }
+
+  .Container[data-open="true"] {
+    background-color: transparent;
+  }
+}
