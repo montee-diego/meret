@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "@components/index";
+
+import ButtonIcon from "@components/ButtonIcon";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<string>(`${document.body.dataset.theme}`);
+  const [theme, setTheme] = useState<string>(document.body.dataset.theme || "light");
 
   const handleThemeToggle = () => {
     const activeTheme = theme === "light" ? "dark" : "light";
@@ -19,8 +20,8 @@ export default function ThemeToggle() {
   };
 
   return (
-    <Button onClick={handleThemeToggle} label="toggle theme">
-      <FontAwesomeIcon size="xl" icon={theme === "light" ? faMoon : faSun} />
-    </Button>
+    <ButtonIcon onClick={handleThemeToggle} aria-label="toggle theme">
+      <Icon size="xl" icon={theme === "light" ? faMoon : faSun} />
+    </ButtonIcon>
   );
 }
