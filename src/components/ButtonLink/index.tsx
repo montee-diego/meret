@@ -1,31 +1,21 @@
-import type { FC, ReactNode, SyntheticEvent } from "react";
-
+import type { ReactNode } from "react";
+import type { LinkProps } from "next/link";
+import { forwardRef } from "react";
 import Link from "next/link";
-import style from "./index.module.css";
 
-interface IProps {
+import css from "./index.module.css";
+
+interface IProps extends LinkProps {
   align: "left" | "center" | "right";
   children: ReactNode;
-  href?: string;
-  onClick?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 }
 
-export const ButtonLink: FC<IProps> = ({ align, children, href, onClick }) => {
-  const styles = {
-    textAlign: align,
-  };
+export default forwardRef<HTMLAnchorElement, IProps>(function ButtonLink(props, ref) {
+  const { align, children } = props;
 
   return (
-    <>
-      {href ? (
-        <Link className={style.Item} href={href} style={styles}>
-          {children}
-        </Link>
-      ) : (
-        <button className={style.Item} onClick={onClick} style={styles} type="button">
-          {children}
-        </button>
-      )}
-    </>
+    <Link {...props} className={css.Link} data-align={align} ref={ref}>
+      {children}
+    </Link>
   );
-};
+});

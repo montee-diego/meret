@@ -1,18 +1,43 @@
 .Button {
   border-radius: 5px;
-  height: 2rem;
-  min-height: 2rem;
-  min-width: 2rem;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 2rem;
+  display: block;
+  font-size: 1rem;
+  line-height: 2.5rem;
+  overflow: hidden;
+  padding: 0rem 0.5rem;
+  text-overflow: ellipsis;
+  transition: background-color 0.2s var(--ease);
+  white-space: nowrap;
+  width: 100%;
 }
 
 .Button:focus {
   outline: 2px solid var(--color-focus);
 }
 
+.Button:disabled {
+  color: var(--color-text-secondary);
+}
+
+.Button[data-align="left"] {
+  text-align: left;
+}
+
+.Button[data-align="center"] {
+  text-align: center;
+}
+
+.Button[data-align="right"] {
+  text-align: right;
+}
+
 @media (hover: hover) {
   .Button:hover {
     background-color: var(--color-panel);
+  }
+
+  .Button:disabled:hover {
+    background-color: transparent;
+    cursor: default;
   }
 }

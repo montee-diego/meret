@@ -1,4 +1,4 @@
-.Item {
+.Link {
   border-radius: 5px;
   display: block;
   font-size: 1rem;
@@ -6,25 +6,37 @@
   overflow: hidden;
   padding: 0rem 0.5rem;
   text-overflow: ellipsis;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.2s var(--ease);
   white-space: nowrap;
   width: 100%;
 }
 
-.Item:focus {
+.Link:focus {
   outline: 2px solid var(--color-focus);
 }
 
-.Item:disabled {
+.Link:disabled {
   color: var(--color-text-secondary);
 }
 
+.Link[data-align="left"] {
+  text-align: left;
+}
+
+.Link[data-align="center"] {
+  text-align: center;
+}
+
+.Link[data-align="right"] {
+  text-align: right;
+}
+
 @media (hover: hover) {
-  .Item:hover {
+  .Link:hover {
     background-color: var(--color-panel);
   }
 
-  .Item:disabled:hover {
+  .Link:disabled:hover {
     background-color: transparent;
     cursor: default;
   }
