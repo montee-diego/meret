@@ -1,6 +1,6 @@
-import type { FC, MouseEvent, ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 
-import style from "./index.module.css";
+import css from "./index.module.css";
 
 interface IProps {
   align: "left" | "right";
@@ -8,14 +8,14 @@ interface IProps {
   isOpen: boolean;
 }
 
-export const Menu: FC<IProps> = ({ align, children, isOpen }) => {
-  function handleMouse(event: MouseEvent<HTMLDivElement>) {
-    event.preventDefault();
+export default function Menu({ align, children, isOpen }: IProps) {
+  function handleMouse(e: MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
   }
 
   return (
-    <div className={style.Menu} onMouseDown={handleMouse} data-open={isOpen} data-align={align}>
+    <div className={css.Menu} onMouseDown={handleMouse} data-open={isOpen} data-align={align}>
       {children}
     </div>
   );
-};
+}
