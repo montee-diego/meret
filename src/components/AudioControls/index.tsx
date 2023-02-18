@@ -1,12 +1,7 @@
-import type { FC } from "react";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBackwardStep,
-  faForwardStep,
-  faCirclePlay,
-  faCirclePause,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBackwardStep, faForwardStep } from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
+
 import style from "./index.module.css";
 
 interface IProps {
@@ -18,7 +13,7 @@ interface IProps {
   isPlaying: boolean;
 }
 
-export const AudioControls: FC<IProps> = ({ handleControls, isPlaying }) => {
+export default function AudioControls({ handleControls, isPlaying }: IProps) {
   return (
     <div className={style.Container}>
       <button className={style.Button} onClick={handleControls.Prev} aria-label="previous">
@@ -34,4 +29,4 @@ export const AudioControls: FC<IProps> = ({ handleControls, isPlaying }) => {
       </button>
     </div>
   );
-};
+}
