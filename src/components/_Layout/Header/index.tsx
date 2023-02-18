@@ -1,10 +1,10 @@
 import type { Dispatch, SetStateAction } from "react";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faBars, faArrowRightToBracket as faSide } from "@fortawesome/free-solid-svg-icons";
-
-import { User } from "@components/index";
-import ButtonIcon from "@components/ButtonIcon";
 import dynamic from "next/dynamic";
+
+import ButtonIcon from "@components/ButtonIcon";
+import User from "@components/User";
 import css from "./index.module.css";
 
 interface IProps {

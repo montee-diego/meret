@@ -6,8 +6,9 @@ import { faRotate } from "@fortawesome/free-solid-svg-icons";
 
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { formatTime } from "@global/utils";
-import { AudioControls, Cover } from "@components/index";
+import AudioControls from "@components/AudioControls";
 import Button from "@components/Button";
+import Cover from "@components/Cover";
 import css from "./index.module.css";
 
 interface IProps {
