@@ -2,20 +2,8 @@
   padding: 0.5rem;
 }
 
-.Title {
-  align-items: center;
-  border-bottom: 1px solid var(--color-panel);
-  display: flex;
-  justify-content: space-between;
-}
-
-.Title h3,
 .Message p {
   padding-left: 0.5rem;
-}
-
-.Title h3 {
-  line-height: 2.5rem;
 }
 
 .Message p {
@@ -38,7 +26,18 @@
 }
 
 .Actions {
-  border-top: 1px solid var(--color-panel);
+  /* border-top: 1px solid var(--color-panel); */
   display: flex;
   gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.Actions button {
+  width: 7rem;
+}
+
+@media screen and (max-width: 768px) {
+  .Actions button {
+    width: 100%;
+  }
 }

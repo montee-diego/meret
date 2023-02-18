@@ -1,29 +1,17 @@
-import type { FC, ReactNode, SyntheticEvent } from "react";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import type { ReactNode, SyntheticEvent } from "react";
 
 import Button from "@components/Button";
-import ButtonIcon from "@components/ButtonIcon";
 import style from "./index.module.css";
 
 interface IProps {
   children: ReactNode;
   onCancel: () => void;
   onConfirm: (event: SyntheticEvent<HTMLButtonElement>) => void;
-  title: string;
 }
 
-export const ConfirmDialog: FC<IProps> = ({ children, onCancel, onConfirm, title }) => {
+export default function ConfirmDialog({ children, onCancel, onConfirm }: IProps) {
   return (
     <div className={style.Container}>
-      <div className={style.Title}>
-        <h3>{title}</h3>
-
-        <ButtonIcon onClick={onCancel} aria-label="close modal">
-          <Icon icon={faXmark} size={"xl"} />
-        </ButtonIcon>
-      </div>
-
       <div className={style.Message}>{children}</div>
 
       <div className={style.Actions}>
@@ -36,4 +24,4 @@ export const ConfirmDialog: FC<IProps> = ({ children, onCancel, onConfirm, title
       </div>
     </div>
   );
-};
+}
