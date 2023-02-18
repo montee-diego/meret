@@ -1,109 +1,78 @@
-import type { FC } from "react";
-import type { IPlaylist, ITrack } from "@global/types";
-
+import type { MouseEvent } from "react";
+import type { IPlaylistTrack, ISelected, ITrack } from "@global/types";
 import { useState } from "react";
-import { useAudioPlayer } from "@context/AudioPlayer";
+
+import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { formatTime } from "@global/utils";
-import { Cover, Modal, TracksMenu } from "@components/index";
-import style from "./index.module.css";
+import AddToPlaylist from "@components/AddToPlaylist";
+import Button from "@components/Button";
+import ConfirmDialog from "@components/ConfirmDialog";
+import CreatePlaylist from "@components/CreatePlaylist";
+import Track from "@components/Track";
+import TrackModalTitle from "@components/TrackModalTitle";
+import css from "./index.module.css";
 
 interface IProps {
-  isAuthor?: boolean;
-  tracks: ITrack[];
+  tracks: IPlaylistTrack[] | ITrack[];
+  play: (track: ISelected) => void;
+  remove?: (track: ISelected) => void;
 }
 
-type Data = { playlist: IPlaylist; tracks?: never } | { playlist?: never; tracks: ITrack[] };
+export default function Tracks({ tracks, play, remove }: IProps) {
+  const [selected, setSelected] = useState<ISelected | null>(null);
+  const [toggleMenu, TrackMenu] = useMenu();
+  const [toggleAddTo, AddToModal] = useModal();
+  const [toggleDeleteFrom, DeleteFromModal] = useModal();
 
-export type Selected = {
-  index: number;
-  track: ITrack;
-};
+  function menuTrack(e: MouseEvent<HTMLButtonElement>, track: ISelected) {
+    setSelected(track);
+    toggleMenu(e);
+  }
 
-interface ITrackList {
-  onMenu: (data: Selected | null) => void;
-  onPlay: (data: Selected) => void;
-  tracks: ITrack[];
-}
-
-const TrackList: FC<ITrackList> = ({ onMenu, onPlay, tracks }) => {
   return (
-    <>
+    <div className={css.List}>
       {tracks.map((track, index) => (
-        <div className={style.Container} key={track._key || track._id}>
-          <Cover cover={track.cover} size="3rem" />
-
-          <button onClick={() => onPlay({ track, index })} aria-label="play">
-            <FontAwesomeIcon size="lg" icon={faPlay} transform="right-1 up-0.5" />
-          </button>
-
-          <div className={style.Data}>
-            <p>{track.title}</p>
-            <p>{track.artist}</p>
-          </div>
-
-          <div className={style.Metadata}>
-            <p>{track.genres.join(", ")}</p>
-            <p>{track.date}</p>
-            <p className={style.Length}>{formatTime(track.length)}</p>
-          </div>
-
-          <button onClick={() => onMenu({ track, index })} aria-label="track menu">
-            <FontAwesomeIcon size="xl" icon={faEllipsisVertical} />
-          </button>
-        </div>
+        <Track
+          track={track}
+          index={index}
+          onPlay={play}
+          onMenu={menuTrack}
+          key={track._key || track._id}
+        />
       ))}
-    </>
-  );
-};
 
-export const Tracks: FC<Data> = ({ playlist, tracks }) => {
-  const [selected, setSelected] = useState<Selected | null>(null);
-  const [trackModal, toggleTrackModal] = useModal();
-  const { player } = useAudioPlayer();
-  const { isAuthor } = playlist?.user || {};
+      <TrackMenu align="right">
+        <Button onClick={toggleAddTo} align="left">
+          Add to Playlist...
+        </Button>
+        {remove && (
+          <Button onClick={toggleDeleteFrom} align="left">
+            Remove from Playlist
+          </Button>
+        )}
+        <Button onClick={() => {}} align="left">
+          Queue
+        </Button>
+      </TrackMenu>
 
-  function handleModal(data: Selected | null): void {
-    setSelected(data);
-    toggleTrackModal();
-  }
-
-  function handlePlay(data: Selected): void {
-    if (selected) {
-      player.setData({
-        index: playlist ? selected.index : 0,
-        isSync: false,
-        playlistId: playlist ? playlist._id : null,
-        tracks: playlist ? playlist.tracks : [selected.track],
-      });
-    } else {
-      player.setData({
-        index: playlist ? data.index : 0,
-        isSync: false,
-        playlistId: playlist ? playlist._id : null,
-        tracks: playlist ? playlist.tracks : [data.track],
-      });
-    }
-  }
-
-  return (
-    <>
-      {playlist && <TrackList onMenu={handleModal} onPlay={handlePlay} tracks={playlist.tracks} />}
-
-      {tracks && <TrackList onMenu={handleModal} onPlay={handlePlay} tracks={tracks} />}
-
-      {trackModal && selected && (
-        <Modal toggleOpen={() => handleModal(null)}>
-          <TracksMenu
-            selected={selected}
-            toggleOpen={() => handleModal(null)}
-            isAuthor={isAuthor}
-            handlePlay={handlePlay}
-          />
-        </Modal>
+      {selected && (
+        <AddToModal>
+          <TrackModalTitle track={selected.track} toggleOpen={toggleAddTo} />
+          <div className={css.AddTo}>
+            <CreatePlaylist />
+            <AddToPlaylist trackId={selected.track._id} />
+          </div>
+        </AddToModal>
       )}
-    </>
+
+      {remove && selected && (
+        <DeleteFromModal>
+          <TrackModalTitle track={selected.track} toggleOpen={toggleDeleteFrom} />
+          <ConfirmDialog onCancel={toggleDeleteFrom} onConfirm={() => {}} title="delete">
+            <p>Are you sure you want to delete this track? This action cannot be undone.</p>
+          </ConfirmDialog>
+        </DeleteFromModal>
+      )}
+    </div>
   );
-};
+}

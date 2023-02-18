@@ -1,63 +1,16 @@
-.Container {
-  align-items: center;
-  background-color: var(--color-panel);
-  border-radius: 5px;
+.List {
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
-  height: 1px;
-  min-height: 4rem;
+  padding: 1rem;
+}
+
+.AddTo {
   padding: 0.5rem;
 }
 
-.Container button {
-  border-radius: 50%;
-  flex-shrink: 0;
-  height: 2rem;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 2rem;
-}
-
-.Container button:focus {
-  outline: 2px solid var(--color-focus);
-}
-
-.Data {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.Data p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.Data p:first-of-type {
-  font-weight: 700;
-}
-
-.Metadata {
-  color: var(--color-text-secondary);
-  column-gap: 0.5rem;
-  display: grid;
-  flex: 2;
-  grid-template-columns: 2fr 1fr 1fr;
-}
-
-.Length {
-  text-align: right;
-}
-
-@media (hover: hover) {
-  .Container button:hover {
-    background-color: var(--color-panel);
-  }
-}
-
 @media screen and (max-width: 768px) {
-  .Metadata {
-    display: none;
+  .List {
+    padding: 1rem 0.5rem;
   }
 }
