@@ -1,30 +1,27 @@
-import type { FC } from "react";
-import type { IPlaylist } from "@global/types";
-
-import { Cover } from "@components/index";
+import type { IPlaylistCard } from "@global/types";
 import Link from "next/link";
-import style from "./index.module.css";
+
+import { formatTrackCount } from "@global/utils";
+import Cover from "@components/Cover";
+import css from "./index.module.css";
 
 interface IProps {
-  playlists: IPlaylist[];
+  playlists: IPlaylistCard[];
 }
 
-export const Playlists: FC<IProps> = ({ playlists }) => {
+export default function Playlists({ playlists }: IProps) {
   return (
     <>
       {playlists.map((playlist) => (
-        <Link className={style.Container} href={`/playlist/${playlist._id}`} key={playlist._id}>
+        <Link className={css.Container} href={`/playlist/${playlist._id}`} key={playlist._id}>
           <Cover cover={playlist.cover} size="100%" />
 
-          <div className={style.Details}>
+          <div className={css.Details}>
             <h4>{playlist.name}</h4>
-            <p>
-              {playlist.total}
-              {playlist.total === 1 ? " track" : " tracks"}
-            </p>
+            <p>{formatTrackCount(playlist.total)}</p>
           </div>
         </Link>
       ))}
     </>
   );
-};
+}

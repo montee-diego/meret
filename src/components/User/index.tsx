@@ -1,14 +1,16 @@
-import type { FC, FocusEvent } from "react";
-
+import type { FocusEvent } from "react";
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { ButtonLink, Menu } from "@components/index";
 import Image from "next/image";
+
+import Button from "@components/Button";
+import ButtonLink from "@components/ButtonLink";
+import Menu from "@components/Menu";
 import style from "./index.module.css";
 
-export const User: FC = () => {
+export default function User() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { data: session } = useSession();
 
@@ -29,10 +31,10 @@ export const User: FC = () => {
             <Image src={`${session.user?.image}`} alt="U" sizes="64px" fill />
           </div>
         ) : (
-          <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: "2rem" }} />
+          <Icon icon={faCircleUser} style={{ fontSize: "2rem" }} />
         )}
 
-        <FontAwesomeIcon size="xs" icon={faChevronDown} transform="down-3" />
+        <Icon size="xs" icon={faChevronDown} transform="down-3" />
       </button>
 
       <Menu align="right" isOpen={isMenuOpen}>
@@ -46,19 +48,19 @@ export const User: FC = () => {
               <ButtonLink href="/profile" align="left">
                 Profile
               </ButtonLink>
-              <ButtonLink onClick={handleLogOut} align="left">
+              <Button onClick={handleLogOut} align="left">
                 Log Out
-              </ButtonLink>
+              </Button>
             </div>
           </>
         ) : (
           <div className={style.Actions}>
-            <ButtonLink onClick={handleLogIn} align="left">
+            <Button onClick={handleLogIn} align="left">
               Log In
-            </ButtonLink>
+            </Button>
           </div>
         )}
       </Menu>
     </div>
   );
-};
+}

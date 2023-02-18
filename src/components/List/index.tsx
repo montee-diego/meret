@@ -11,7 +11,7 @@ interface IProps {
   view: "list" | "grid";
 }
 
-export const List: FC<IProps> = ({ children, href, scroll, title, view }) => {
+export default function List({ children, href, scroll, title, view }: IProps) {
   return (
     <div className={style.Container} data-scroll={scroll}>
       {title && (
@@ -20,9 +20,7 @@ export const List: FC<IProps> = ({ children, href, scroll, title, view }) => {
           {href && <Link href={href}>SHOW ALL</Link>}
         </div>
       )}
-      <div className={view === "list" ? style.List : style.Grid}>
-        {children}
-      </div>
+      <div className={view === "list" ? style.List : style.Grid}>{children}</div>
     </div>
   );
-};
+}
