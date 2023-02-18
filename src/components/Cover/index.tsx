@@ -1,28 +1,27 @@
-import type { FC } from "react";
-
 import { useState } from "react";
 import Image from "next/image";
-import style from "./index.module.css";
+
+import css from "./index.module.css";
 
 interface IProps {
   cover?: string;
   size: string;
 }
 
-export const Cover: FC<IProps> = ({ cover, size }) => {
+export default function Cover({ cover, size }: IProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const loadingClass = isLoading ? " " + style.Loading : "";
+  const loadingClass = isLoading ? " " + css.Loading : "";
   const handleLoad = (image: HTMLImageElement) => {
-    image.classList.add(style.ImgLoaded);
+    image.classList.add(css.ImgLoaded);
     setIsLoading(false);
   };
 
   return (
-    <div className={style.Container + loadingClass} style={{ width: size }}>
+    <div className={css.Container + loadingClass} style={{ width: size }}>
       <Image
         src={cover || "/img/no-cover.png"}
-        className={style.Img}
+        className={css.Img}
         onLoadingComplete={handleLoad}
         alt="No Cover"
         sizes="320px"
@@ -30,4 +29,4 @@ export const Cover: FC<IProps> = ({ cover, size }) => {
       />
     </div>
   );
-};
+}
