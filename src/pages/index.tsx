@@ -1,17 +1,20 @@
 import type { GetServerSideProps } from "next";
-import type { IPlaylist, ITrack } from "@global/types";
+import type { IPlaylistCard, ITrack } from "@global/types";
 
 // SSR
 import { sanityClient } from "@services/sanity/client";
 import { queryHome } from "@services/sanity/queries";
 
 // CSR
-import { List, Playlists, Tracks } from "@components/index";
+import List from "@components/List";
+import Playlists from "@components/Playlists";
+import Title from "@components/Title";
+import Tracklist from "@components/Tracklist";
 
 interface IProps {
   feed: {
     tracks: ITrack[];
-    playlists: IPlaylist[];
+    playlists: IPlaylistCard[];
   };
 }
 
@@ -20,9 +23,13 @@ export default function Home({ feed }: IProps) {
 
   return (
     <section>
-      <List href="/discover/songs" title="Latest Tracks" view="list">
+      {/* <List href="/discover/songs" title="Latest Tracks" view="list">
         <Tracks tracks={tracks} />
-      </List>
+      </List> */}
+
+      <Tracklist tracks={tracks}>
+        <Title title="Latest Tracks" href="/discover/songs" />
+      </Tracklist>
       <List href="/discover/playlists" title="Last Updated" view="grid">
         <Playlists playlists={playlists} />
       </List>

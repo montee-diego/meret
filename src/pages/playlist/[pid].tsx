@@ -1,4 +1,4 @@
-import type { FocusEvent, SyntheticEvent } from "react";
+import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next";
 import type { IPlaylist } from "@global/types";
 
@@ -10,35 +10,36 @@ import { queryPlaylist } from "@services/sanity/queries";
 // CSR
 import { useRef, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useMeret } from "@context/Meret";
+import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
-import { Button, ButtonLink, ConfirmDialog, List, Menu, Modal, Tracks } from "@components/index";
-import { formatDate } from "@global/utils";
+import { formatDate, formatTrackCount } from "@global/utils";
+import Button from "@components/Button";
+import ButtonIcon from "@components/ButtonIcon";
+import ConfirmDialog from "@components/ConfirmDialog";
 import Image from "next/image";
+
 import style from "@styles/playlist.module.css";
+
+import Playlist from "@components/Playlist";
+import ModalTitle from "@components/ModalTitle";
 
 interface IProps {
   playlist: IPlaylist;
 }
 
-export default function Playlist({ playlist }: IProps) {
+export default function PlaylistPage({ playlist }: IProps) {
   const { status } = useSession();
   const { meret } = useMeret();
-  const [delModal, toggleDelModal] = useModal();
-  const [renModal, toggleRenModal] = useModal();
-  const [subModal, toggleSubModal] = useModal();
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [toggleDelModal, DeleteModal] = useModal();
+  const [toggleRenModal, RenameModal] = useModal();
+  const [toggleSubModal, SubscriptionModal] = useModal();
+  const [togglePlaylistMenu, PlaylistMenu] = useMenu();
   const input = useRef<HTMLInputElement | null>(null);
 
-  const handleUserMenu = () => setIsMenuOpen(!isMenuOpen);
   const handleLogIn = () => signIn("google");
-  const handleFocus = (event: FocusEvent<HTMLDivElement>) => {
-    if (!event.currentTarget.matches(":focus-within")) {
-      setIsMenuOpen(false);
-    }
-  };
 
   async function handleDelete({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
     currentTarget.disabled = true;
@@ -93,38 +94,38 @@ export default function Playlist({ playlist }: IProps) {
   return (
     <section data-scroll="false">
       <div className={style.Container}>
-        <div className={style.Title} onBlur={handleFocus}>
-          <Button onClick={handleUserMenu} label="rename playlist">
-            <FontAwesomeIcon icon={faEllipsisVertical} size="xl" />
-          </Button>
+        <div className={style.Title}>
+          <ButtonIcon onClick={togglePlaylistMenu} aria-label="playlist menu">
+            <Icon icon={faEllipsisVertical} size="xl" />
+          </ButtonIcon>
           <h2>{playlist.name}</h2>
 
-          <Menu align="left" isOpen={isMenuOpen}>
+          <PlaylistMenu align="left">
             {status === "authenticated" ? (
               playlist.user?.isAuthor ? (
-                <div>
-                  <ButtonLink onClick={toggleRenModal} align="left">
+                <>
+                  <Button onClick={toggleRenModal} align="left">
                     Rename
-                  </ButtonLink>
-                  <ButtonLink onClick={toggleDelModal} align="left">
+                  </Button>
+                  <Button onClick={toggleDelModal} align="left">
                     Delete
-                  </ButtonLink>
-                </div>
+                  </Button>
+                </>
               ) : (
-                <div>
-                  <ButtonLink onClick={toggleSubModal} align="left">
+                <>
+                  <Button onClick={toggleSubModal} align="left">
                     {playlist.user?.isSub ? "Unsubscribe" : "Subscribe"}
-                  </ButtonLink>
-                </div>
+                  </Button>
+                </>
               )
             ) : (
-              <div>
-                <ButtonLink onClick={handleLogIn} align="left">
+              <>
+                <Button onClick={handleLogIn} align="left">
                   Log In
-                </ButtonLink>
-              </div>
+                </Button>
+              </>
             )}
-          </Menu>
+          </PlaylistMenu>
         </div>
 
         <div className={style.Subtitle}>
@@ -137,7 +138,7 @@ export default function Playlist({ playlist }: IProps) {
           </div>
 
           <div className={style.Total}>
-            <p>{playlist.total === 1 ? `${playlist.total} Track` : `${playlist.total} Tracks`}</p>
+            <p>{formatTrackCount(playlist.total)}</p>
           </div>
 
           <div className={style.Updated}>
@@ -146,51 +147,55 @@ export default function Playlist({ playlist }: IProps) {
         </div>
       </div>
 
-      <List scroll="true" view="list">
+      <Playlist playlist={playlist} />
+      {/* <List scroll="true" view="list">
         <Tracks playlist={playlist} />
-      </List>
+      </List> */}
 
-      {delModal && (
-        <Modal toggleOpen={toggleDelModal}>
-          <ConfirmDialog onConfirm={handleDelete} onCancel={toggleDelModal} title="Delete Playlist">
-            <p>
-              Are you sure you want to delete playlist "<b>{playlist.name}</b>"? This action cannot
-              be undone.
-            </p>
-          </ConfirmDialog>
-        </Modal>
-      )}
+      {/* DeleteModal is the way it should be done for all the modals */}
+      <DeleteModal>
+        <ModalTitle title="Delete Playlist" toggleOpen={toggleDelModal} />
+        <ConfirmDialog onConfirm={handleDelete} onCancel={toggleDelModal}>
+          <p>
+            Are you sure you want to delete playlist "<b>{playlist.name}</b>"? This action cannot be
+            undone.
+          </p>
+        </ConfirmDialog>
+      </DeleteModal>
 
-      {renModal && (
-        <Modal toggleOpen={toggleRenModal}>
-          <ConfirmDialog onConfirm={handleRename} onCancel={toggleRenModal} title="Rename Playlist">
-            <>
-              <p>Enter a new name for this playlist</p>
-              <input type="text" defaultValue={playlist.name} ref={input} />
-            </>
-          </ConfirmDialog>
-        </Modal>
-      )}
+      <RenameModal>
+        <ModalTitle title="Rename Playlist" toggleOpen={toggleRenModal} />
+        <ConfirmDialog onConfirm={handleRename} onCancel={toggleRenModal}>
+          <>
+            <p>Enter a new name for this playlist</p>
+            <input type="text" defaultValue={playlist.name} ref={input} />
+          </>
+        </ConfirmDialog>
+      </RenameModal>
 
-      {subModal && (
-        <Modal toggleOpen={toggleSubModal}>
-          {playlist.user?.isSub ? (
-            <ConfirmDialog onConfirm={handleUnsub} onCancel={toggleSubModal} title="Unsubscribe">
+      <SubscriptionModal>
+        {playlist.user?.isSub ? (
+          <>
+            <ModalTitle title="Unsubscribe" toggleOpen={toggleSubModal} />
+            <ConfirmDialog onConfirm={handleUnsub} onCancel={toggleSubModal}>
               <p>
                 Are you sure you want to unsubscribe from playlist "<b>{playlist.name}</b>
                 "? You can always subscribe again later.
               </p>
             </ConfirmDialog>
-          ) : (
-            <ConfirmDialog onConfirm={handleSub} onCancel={toggleSubModal} title="Subscribe">
+          </>
+        ) : (
+          <>
+            <ModalTitle title="Subscribe" toggleOpen={toggleSubModal} />
+            <ConfirmDialog onConfirm={handleSub} onCancel={toggleSubModal}>
               <p>
                 Are you sure you want to subscribe to playlist "<b>{playlist.name}</b>"? It will be
                 added to your profile.
               </p>
             </ConfirmDialog>
-          )}
-        </Modal>
-      )}
+          </>
+        )}
+      </SubscriptionModal>
     </section>
   );
 }

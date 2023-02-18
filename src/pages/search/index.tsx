@@ -7,7 +7,8 @@ import { querySearch } from "@services/sanity/queries";
 
 // CSR
 import { useRouter } from "next/router";
-import { List, Tracks } from "@components/index";
+import Title from "@components/Title";
+import Tracklist from "@components/Tracklist";
 
 interface IProps {
   tracks: ITrack[];
@@ -18,9 +19,12 @@ export default function Search({ tracks }: IProps) {
 
   return (
     <section>
-      <List title={`Search: ${query.query}`} view="list">
+      <Tracklist tracks={tracks}>
+        <Title title={`Search: ${query.query}`} />
+      </Tracklist>
+      {/* <List title={`Search: ${query.query}`} view="list">
         <Tracks tracks={tracks} />
-      </List>
+      </List> */}
     </section>
   );
 }
