@@ -41,18 +41,20 @@ export default function Tracks({ tracks, play, remove }: IProps) {
         />
       ))}
 
-      <TrackMenu align="right">
-        <Button onClick={toggleAddTo} align="left">
-          Add to Playlist...
-        </Button>
-        {remove && (
-          <Button onClick={toggleDeleteFrom} align="left">
-            Remove from Playlist
+      <TrackMenu>
+        <div>
+          <Button onClick={toggleAddTo} align="left">
+            Add to Playlist...
           </Button>
-        )}
-        <Button onClick={() => {}} align="left">
-          Queue
-        </Button>
+          {remove && (
+            <Button onClick={toggleDeleteFrom} align="left">
+              Remove from Playlist
+            </Button>
+          )}
+          <Button onClick={() => {}} align="left">
+            Queue
+          </Button>
+        </div>
       </TrackMenu>
 
       {selected && (
@@ -68,7 +70,7 @@ export default function Tracks({ tracks, play, remove }: IProps) {
       {remove && selected && (
         <DeleteFromModal>
           <TrackModalTitle track={selected.track} toggleOpen={toggleDeleteFrom} />
-          <ConfirmDialog onCancel={toggleDeleteFrom} onConfirm={() => {}} title="delete">
+          <ConfirmDialog onCancel={toggleDeleteFrom} onConfirm={() => {}}>
             <p>Are you sure you want to delete this track? This action cannot be undone.</p>
           </ConfirmDialog>
         </DeleteFromModal>
