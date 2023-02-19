@@ -1,4 +1,15 @@
+.Container {
+  background-color: rgba(0, 0, 0, 0);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 900;
+}
+
 .Menu {
+  animation: fadeIn 0.25s var(--ease) forwards;
   background-color: var(--color-panel-solid);
   backdrop-filter: blur(10px);
   border-radius: 5px;
@@ -7,29 +18,23 @@
   opacity: 0;
   position: absolute;
   top: 100%;
-  transform: translateY(0);
-  transition-property: opacity, transform, visibility;
-  transition-duration: 0.25s;
-  transition-timing-function: var(--ease);
-  visibility: hidden;
   white-space: nowrap;
-  z-index: 700;
+  z-index: 1000;
 }
 
-.Menu[data-open="true"] {
-  opacity: 1;
-  transform: translateY(0.5rem);
-  visibility: visible;
-}
-
-.Menu[data-align="left"] {
-  left: 0;
-}
-
-.Menu[data-align="right"] {
-  right: 0;
-}
-
-.Menu > div {
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   padding: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
