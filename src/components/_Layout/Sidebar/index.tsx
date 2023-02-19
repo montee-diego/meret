@@ -5,12 +5,12 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import { useMeret } from "@context/Meret";
-import { FocusTrap } from "@accessibility/FocusTrap";
+import FocusTrap from "@accessibility/FocusTrap";
 import Accordion from "@components/Accordion";
 import Button from "@components/Button";
 import ButtonIcon from "@components/ButtonIcon";
 import ButtonLink from "@components/ButtonLink";
-import PlaylistCreate from "@components/PlaylistCreate";
+import CreatePlaylist from "@components/CreatePlaylist";
 import Input from "@components/Input";
 import css from "./index.module.css";
 
@@ -82,7 +82,7 @@ export default function Sidebar({ navState }: IProps) {
         {status === "authenticated" ? (
           <div className={css.UserPlaylists}>
             <Accordion summary="Playlists">
-              <PlaylistCreate />
+              <CreatePlaylist />
 
               <ul className={css.List}>
                 {data.playlists.map((playlist) => (

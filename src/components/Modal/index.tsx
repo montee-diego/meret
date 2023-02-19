@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-import { FocusTrap } from "@accessibility/FocusTrap";
+import FocusTrap from "@accessibility/FocusTrap";
 import css from "./index.module.css";
 
 interface IProps {
