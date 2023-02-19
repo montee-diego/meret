@@ -1,10 +1,9 @@
 import type { MouseEvent, ReactElement, ReactNode } from "react";
-import { Children, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import Menu from "@components/Menu_v2";
+import Menu from "@components/Menu";
 
 interface IProps {
-  align: "left" | "right";
   children: ReactNode;
 }
 
@@ -29,58 +28,61 @@ export const useMenu = (): ModalTuple => {
     setIsOpen(false);
   }
 
-  // TO-DO: Refactor this function for readability
-  function calculateMenuPosition(align: "left" | "right", children: ReactNode): {} {
+  function calcXPosition(parent: Element, menuWidth: number) {
     if (!trigger) return {};
 
-    const { clientHeight, clientWidth, offsetLeft, offsetTop, offsetParent } = trigger;
+    const { clientWidth, offsetLeft } = trigger;
+
+    if (offsetLeft + menuWidth > parent.clientWidth) {
+      return { right: parent.clientWidth - (offsetLeft + clientWidth) };
+    } else {
+      return { left: offsetLeft };
+    }
+  }
+
+  function calcYPosition(parent: Element, menuHeight: number) {
+    if (!trigger) return {};
+
+    const { clientHeight, offsetTop } = trigger;
+
+    if (offsetTop + clientHeight + menuHeight > parent.clientHeight + parent.scrollTop) {
+      return { top: offsetTop - menuHeight };
+    } else {
+      return { top: clientHeight + offsetTop };
+    }
+  }
+
+  function calcMenuStyle(menuHeight: number, menuWidth: number): {} {
+    if (!trigger) return {};
+
+    const { offsetParent } = trigger;
     let computed = {};
 
     if (offsetParent) {
-      const fontSize = Number(getComputedStyle(document.body).fontSize.slice(0, -2));
-      const childrenCount = Children.toArray(children).length;
-      // line-height * children + padding + distance
-      const menuHeightInRems = 2.5 * childrenCount + 1 + 0.5;
-      const parentHeight = offsetParent.clientHeight;
-      const parentScroll = offsetParent.scrollTop;
-      const parentWidth = offsetParent.clientWidth;
+      const alignX = calcXPosition(offsetParent, menuWidth);
+      const alignY = calcYPosition(offsetParent, menuHeight);
 
-      if (offsetTop + clientHeight + fontSize * menuHeightInRems > parentHeight + parentScroll) {
-        if (align === "left") {
-          computed = {
-            left: offsetLeft,
-            top: offsetTop - fontSize * menuHeightInRems,
-          };
-        } else {
-          computed = {
-            right: parentWidth - (offsetLeft + clientWidth),
-            top: offsetTop - fontSize * menuHeightInRems,
-          };
-        }
-      } else {
-        if (align === "left") {
-          computed = {
-            left: offsetLeft,
-            top: clientHeight + offsetTop + fontSize * 0.5,
-          };
-        } else {
-          computed = {
-            right: parentWidth - (offsetLeft + clientWidth),
-            top: clientHeight + offsetTop + fontSize * 0.5,
-          };
-        }
-      }
+      computed = { ...alignX, ...alignY };
     }
 
     return computed;
   }
 
-  function RenderMenu({ align, children }: IProps) {
-    const computedStyle = calculateMenuPosition(align, children);
+  function RenderMenu({ children }: IProps) {
+    const [style, setStyle] = useState<{}>({});
+    const menuRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      const menuHeight = menuRef.current?.clientHeight || 0;
+      const menuWidth = menuRef.current?.clientWidth || 0;
+      const computedStyle = calcMenuStyle(menuHeight, menuWidth);
+
+      setStyle(computedStyle);
+    }, []);
 
     if (isOpen) {
       return (
-        <Menu toggleOpen={closeMenu} style={computedStyle}>
+        <Menu toggleOpen={closeMenu} style={style} ref={menuRef}>
           {children}
         </Menu>
       );
