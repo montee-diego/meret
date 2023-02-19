@@ -30,20 +30,29 @@ export default function User() {
         <Icon size="xs" icon={faChevronDown} transform="down-3" />
       </button>
 
-      <UserMenu align="right">
+      <UserMenu>
         {session ? (
           <Fragment>
-            <ButtonLink href="/profile" align="left">
-              Profile
-            </ButtonLink>
-            <Button onClick={handleLogOut} align="left" aria-label="log out">
-              Log Out
-            </Button>
+            <div className={style.User}>
+              <p>{session.user.name}</p>
+              <span>{session.user.email}</span>
+            </div>
+
+            <div>
+              <ButtonLink href="/profile" align="left">
+                Profile
+              </ButtonLink>
+              <Button onClick={handleLogOut} align="left" aria-label="log out">
+                Log Out
+              </Button>
+            </div>
           </Fragment>
         ) : (
-          <Button onClick={handleLogIn} align="left" aria-label="log in">
-            Log In
-          </Button>
+          <div>
+            <Button onClick={handleLogIn} align="left" aria-label="log in">
+              Log In
+            </Button>
+          </div>
         )}
       </UserMenu>
     </Fragment>
