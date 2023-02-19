@@ -1,4 +1,4 @@
-const elements = [
+const selectors = [
   "a[href]",
   "button:not([disabled])",
   "input",
@@ -7,14 +7,14 @@ const elements = [
   "details > summary:first-of-type",
 ];
 
-export function tabbable(target: HTMLDivElement | null): HTMLElement[] {
+export function getTabbable(target: HTMLDivElement | null): HTMLElement[] {
   if (!target) return [];
 
-  const nodes = target.querySelectorAll(elements.join(",")) as NodeListOf<HTMLElement>;
+  const nodes = target.querySelectorAll(selectors.join(",")) as NodeListOf<HTMLElement>;
   const focusable: HTMLElement[] = [];
 
   for (var i = 0; i < nodes.length; i++) {
-    if (nodes[i].getAttribute("tabIndex") === "-1") {
+    if (nodes[i].tabIndex < 0) {
       continue;
     }
 
@@ -28,4 +28,12 @@ export function tabbable(target: HTMLDivElement | null): HTMLElement[] {
   }
 
   return focusable;
+}
+
+export function getIsFocusable(target: HTMLElement): boolean {
+  if (target.tabIndex < 0) {
+    return false;
+  }
+
+  return target.matches(selectors.join(","));
 }
