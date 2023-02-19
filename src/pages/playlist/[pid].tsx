@@ -8,7 +8,7 @@ import { sanityClient } from "@services/sanity/client";
 import { queryPlaylist } from "@services/sanity/queries";
 
 // CSR
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
@@ -100,30 +100,30 @@ export default function PlaylistPage({ playlist }: IProps) {
           </ButtonIcon>
           <h2>{playlist.name}</h2>
 
-          <PlaylistMenu align="left">
+          <PlaylistMenu>
             {status === "authenticated" ? (
               playlist.user?.isAuthor ? (
-                <>
+                <div>
                   <Button onClick={toggleRenModal} align="left">
                     Rename
                   </Button>
                   <Button onClick={toggleDelModal} align="left">
                     Delete
                   </Button>
-                </>
+                </div>
               ) : (
-                <>
+                <div>
                   <Button onClick={toggleSubModal} align="left">
                     {playlist.user?.isSub ? "Unsubscribe" : "Subscribe"}
                   </Button>
-                </>
+                </div>
               )
             ) : (
-              <>
+              <div>
                 <Button onClick={handleLogIn} align="left">
                   Log In
                 </Button>
-              </>
+              </div>
             )}
           </PlaylistMenu>
         </div>
@@ -148,9 +148,6 @@ export default function PlaylistPage({ playlist }: IProps) {
       </div>
 
       <Playlist playlist={playlist} />
-      {/* <List scroll="true" view="list">
-        <Tracks playlist={playlist} />
-      </List> */}
 
       {/* DeleteModal is the way it should be done for all the modals */}
       <DeleteModal>
