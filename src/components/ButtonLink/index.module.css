@@ -15,6 +15,10 @@
   outline: 2px solid var(--color-focus);
 }
 
+.Link:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .Link:disabled {
   color: var(--color-text-secondary);
 }

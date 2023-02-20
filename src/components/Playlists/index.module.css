@@ -9,6 +9,10 @@
   outline: 2px solid var(--color-focus);
 }
 
+.Container:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .Details {
   margin-top: 1rem;
 }

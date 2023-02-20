@@ -12,6 +12,10 @@
   outline: 2px solid var(--color-focus);
 }
 
+.Button:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .Button * {
   pointer-events: none;
 }
