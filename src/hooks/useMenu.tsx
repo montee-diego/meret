@@ -7,12 +7,12 @@ interface IProps {
   children: ReactNode;
 }
 
-type ModalTuple = [
+type MenuTuple = [
   (e: MouseEvent<HTMLButtonElement>) => void,
   (props: IProps) => ReactElement | null
 ];
 
-export const useMenu = (): ModalTuple => {
+export const useMenu = (): MenuTuple => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [trigger, setTrigger] = useState<HTMLElement | null>(null);
 
