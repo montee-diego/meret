@@ -4,7 +4,7 @@ import Image from "next/image";
 import css from "./index.module.css";
 
 interface IProps {
-  cover?: string;
+  cover: string | null;
   size: string;
 }
 
