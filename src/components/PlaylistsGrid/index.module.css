@@ -1,15 +1,23 @@
 .Container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  grid-gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.Item {
   background-color: var(--color-panel);
   border-radius: 5px;
   padding: 1rem;
   transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.Container:focus {
+.Item:focus {
   outline: 2px solid var(--color-focus);
 }
 
-.Container:focus:not(:focus-visible) {
+.Item:focus:not(:focus-visible) {
   outline: none;
 }
 
@@ -24,7 +32,13 @@
 }
 
 @media (hover: hover) {
-  .Container:hover {
+  .Item:hover {
     background-color: var(--color-scroll);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Container {
+    padding: 1rem 0.5rem;
   }
 }
