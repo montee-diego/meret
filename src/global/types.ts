@@ -8,38 +8,21 @@ export interface IPlaylistMin {
   name: string;
 }
 
-// temp interface, needs updating
 export interface IPlaylistCard extends IDocument {
-  author: {
-    name: string;
-    image: string;
-  };
-  cover?: string;
+  cover: string | null;
   name: string;
   total: number;
-  tracks: ITrack[];
-  user?: {
-    isAuthor: boolean;
-    isSub: boolean;
-  };
 }
 
 export interface ITrack extends IDocument {
-  // _key?: string;
+  _key?: string;
   artist: string;
   audio: string;
   cover: string;
   date: string;
   genres: string[];
   length: number;
-  // slug: {
-  //   current: string;
-  // };
   title: string;
-}
-
-export interface IPlaylistTrack extends ITrack {
-  _key: string;
 }
 
 export interface IPlaylist extends IDocument {
@@ -49,7 +32,7 @@ export interface IPlaylist extends IDocument {
   };
   name: string;
   total: number;
-  tracks: IPlaylistTrack[];
+  tracks: ITrack[];
   user: {
     isAuthor: boolean;
     isSub: boolean;
@@ -58,5 +41,5 @@ export interface IPlaylist extends IDocument {
 
 export interface ISelected {
   index: number;
-  track: IPlaylistTrack | ITrack;
+  track: ITrack;
 }
