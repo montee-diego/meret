@@ -6,8 +6,7 @@ import { sanityClient } from "@services/sanity/client";
 import { queryHome } from "@services/sanity/queries";
 
 // CSR
-import List from "@components/List";
-import Playlists from "@components/Playlists";
+import PlaylistsGrid from "@components/PlaylistsGrid";
 import Title from "@components/Title";
 import Tracklist from "@components/Tracklist";
 
@@ -23,16 +22,13 @@ export default function Home({ feed }: IProps) {
 
   return (
     <section>
-      {/* <List href="/discover/songs" title="Latest Tracks" view="list">
-        <Tracks tracks={tracks} />
-      </List> */}
-
       <Tracklist tracks={tracks}>
         <Title title="Latest Tracks" href="/discover/songs" />
       </Tracklist>
-      <List href="/discover/playlists" title="Last Updated" view="grid">
-        <Playlists playlists={playlists} />
-      </List>
+
+      <PlaylistsGrid playlists={playlists}>
+        <Title title="Last Updated" href="/discover/playlists" />
+      </PlaylistsGrid>
     </section>
   );
 }
