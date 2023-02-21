@@ -1,4 +1,4 @@
-import type { MouseEvent } from "react";
+import type { MouseEvent, SyntheticEvent } from "react";
 import type { ISelected, ITrack } from "@global/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -17,7 +17,7 @@ import css from "./index.module.css";
 interface IProps {
   tracks: ITrack[];
   play: (track: ISelected) => void;
-  remove?: (track: ISelected) => void;
+  remove?: (track: ISelected, toggleModal: () => void, e: HTMLButtonElement) => void;
 }
 
 export default function Tracks({ tracks, play, remove }: IProps) {
@@ -35,6 +35,14 @@ export default function Tracks({ tracks, play, remove }: IProps) {
     } else {
       toggleLoginModal();
     }
+  }
+
+  function removeTrack(e: SyntheticEvent<HTMLButtonElement>) {
+    if (!remove || !selected) return;
+
+    const btn = e.target as HTMLButtonElement;
+
+    remove(selected, toggleRemoveFrom, btn);
   }
 
   return (
@@ -62,7 +70,7 @@ export default function Tracks({ tracks, play, remove }: IProps) {
       {selected && (
         <AddToModal>
           <TrackModalTitle track={selected.track} toggleOpen={toggleAddTo} />
-          <div className={css.AddTo}>
+          <div className={css.AddTo} tabIndex={-1}>
             <CreatePlaylist />
             <AddToPlaylist trackId={selected.track._id} />
           </div>
@@ -72,7 +80,7 @@ export default function Tracks({ tracks, play, remove }: IProps) {
       {remove && selected && (
         <RemoveFromModal>
           <TrackModalTitle track={selected.track} toggleOpen={toggleRemoveFrom} />
-          <ConfirmDialog onCancel={toggleRemoveFrom} onConfirm={() => {}}>
+          <ConfirmDialog onCancel={toggleRemoveFrom} onConfirm={removeTrack}>
             <p>Are you sure you want to delete this track? This action cannot be undone.</p>
           </ConfirmDialog>
         </RemoveFromModal>

@@ -67,14 +67,12 @@ export const AudioPlayerContext: FC<IProps> = (props) => {
         let newIndex = playingIndex;
 
         if (tracks.length && playingIndex > 0) {
-          if (tracks.length <= playingIndex) {
-            newIndex = tracks.length - 1;
-          } else if (removeIndex <= playingIndex) {
-            newIndex = playingIndex - 1;
+          // Removed track
+          if (tracks.length < data.tracks.length) {
+            if (tracks.length <= playingIndex || removeIndex <= playingIndex) {
+              newIndex = playingIndex - 1;
+            }
           }
-          // if (tracks.length === playingIndex || removeIndex < playingIndex) {
-          //   newIndex = playingIndex - 1;
-          // }
 
           setData({ ...data, index: newIndex, isSync: true, tracks });
         } else {

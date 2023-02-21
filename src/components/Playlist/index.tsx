@@ -23,13 +23,19 @@ export default function Playlist({ playlist }: IProps) {
     });
   }
 
-  async function remove({ index, track }: ISelected) {
-    // if (!isAuthor || !track._key) return;
-    // const response = await meret.deleteItem(track._key);
-    // if (response === "OK") {
-    //   player.syncPlaylist(_id, index);
-    // }
-    // toggleOpen();
+  async function remove(selected: ISelected, toggleModal: () => void, btn: HTMLButtonElement) {
+    if (!isAuthor || !selected.track._key) return;
+
+    btn.disabled = true;
+    const { index, track } = selected;
+    const response = await meret.deleteItem(track._key);
+
+    if (response === "OK") {
+      player.syncPlaylist(_id, index);
+      toggleModal();
+    } else {
+      btn.disabled = false;
+    }
   }
 
   return <Tracks tracks={tracks} play={play} remove={isAuthor ? remove : undefined} />;

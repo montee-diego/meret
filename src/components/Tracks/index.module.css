@@ -6,6 +6,8 @@
 }
 
 .AddTo {
+  max-height: calc(16rem + 15px);
+  overflow: hidden auto;
   padding: 0.5rem;
 }
 
