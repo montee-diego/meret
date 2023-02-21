@@ -1,14 +1,15 @@
 import type { MouseEvent } from "react";
 import type { IPlaylistTrack, ISelected, ITrack } from "@global/types";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
-import { useLogin } from "@hooks/useLogin";
 import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
 import AddToPlaylist from "@components/AddToPlaylist";
 import Button from "@components/Button";
 import ConfirmDialog from "@components/ConfirmDialog";
 import CreatePlaylist from "@components/CreatePlaylist";
+import Login from "@components/Login";
 import Track from "@components/Track";
 import TrackModalTitle from "@components/TrackModalTitle";
 import css from "./index.module.css";
@@ -21,19 +22,19 @@ interface IProps {
 
 export default function Tracks({ tracks, play, remove }: IProps) {
   const [selected, setSelected] = useState<ISelected | null>(null);
-  const [isLoggedIn, toggleLogIn, LogInModal] = useLogin();
   const [toggleMenu, TrackMenu] = useMenu();
   const [toggleAddTo, AddToModal] = useModal();
-  const [toggleDeleteFrom, DeleteFromModal] = useModal();
+  const [toggleRemoveFrom, RemoveFromModal] = useModal();
+  const [toggleLoginModal, LoginModal] = useModal();
+  const { status } = useSession();
 
   function menu(e: MouseEvent<HTMLButtonElement>, track: ISelected) {
-    if (!isLoggedIn) {
-      toggleLogIn();
-      return;
+    if (status === "authenticated") {
+      setSelected(track);
+      toggleMenu(e);
+    } else {
+      toggleLoginModal();
     }
-
-    setSelected(track);
-    toggleMenu(e);
   }
 
   return (
@@ -48,7 +49,7 @@ export default function Tracks({ tracks, play, remove }: IProps) {
             Add to Playlist...
           </Button>
           {remove && (
-            <Button onClick={toggleDeleteFrom} align="left">
+            <Button onClick={toggleRemoveFrom} align="left">
               Remove from Playlist
             </Button>
           )}
@@ -69,15 +70,17 @@ export default function Tracks({ tracks, play, remove }: IProps) {
       )}
 
       {remove && selected && (
-        <DeleteFromModal>
-          <TrackModalTitle track={selected.track} toggleOpen={toggleDeleteFrom} />
-          <ConfirmDialog onCancel={toggleDeleteFrom} onConfirm={() => {}}>
+        <RemoveFromModal>
+          <TrackModalTitle track={selected.track} toggleOpen={toggleRemoveFrom} />
+          <ConfirmDialog onCancel={toggleRemoveFrom} onConfirm={() => {}}>
             <p>Are you sure you want to delete this track? This action cannot be undone.</p>
           </ConfirmDialog>
-        </DeleteFromModal>
+        </RemoveFromModal>
       )}
 
-      <LogInModal />
+      <LoginModal>
+        <Login toggleOpen={toggleLoginModal} />
+      </LoginModal>
     </div>
   );
 }
