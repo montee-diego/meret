@@ -1,4 +1,4 @@
-import type { IPlaylistTrack, ITrack } from "@global/types";
+import type { ITrack } from "@global/types";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,7 +7,7 @@ import ButtonIcon from "@components/ButtonIcon";
 import css from "./index.module.css";
 
 interface IProps {
-  track: IPlaylistTrack | ITrack;
+  track: ITrack;
   toggleOpen: () => void;
 }
 

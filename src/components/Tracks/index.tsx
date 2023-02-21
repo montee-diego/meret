@@ -1,5 +1,5 @@
 import type { MouseEvent } from "react";
-import type { IPlaylistTrack, ISelected, ITrack } from "@global/types";
+import type { ISelected, ITrack } from "@global/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
@@ -15,7 +15,7 @@ import TrackModalTitle from "@components/TrackModalTitle";
 import css from "./index.module.css";
 
 interface IProps {
-  tracks: IPlaylistTrack[] | ITrack[];
+  tracks: ITrack[];
   play: (track: ISelected) => void;
   remove?: (track: ISelected) => void;
 }
