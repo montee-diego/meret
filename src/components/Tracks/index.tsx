@@ -2,6 +2,7 @@ import type { MouseEvent } from "react";
 import type { IPlaylistTrack, ISelected, ITrack } from "@global/types";
 import { useState } from "react";
 
+import { useLogin } from "@hooks/useLogin";
 import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
 import AddToPlaylist from "@components/AddToPlaylist";
@@ -20,11 +21,17 @@ interface IProps {
 
 export default function Tracks({ tracks, play, remove }: IProps) {
   const [selected, setSelected] = useState<ISelected | null>(null);
+  const [isLoggedIn, toggleLogIn, LogInModal] = useLogin();
   const [toggleMenu, TrackMenu] = useMenu();
   const [toggleAddTo, AddToModal] = useModal();
   const [toggleDeleteFrom, DeleteFromModal] = useModal();
 
-  function menuTrack(e: MouseEvent<HTMLButtonElement>, track: ISelected) {
+  function menu(e: MouseEvent<HTMLButtonElement>, track: ISelected) {
+    if (!isLoggedIn) {
+      toggleLogIn();
+      return;
+    }
+
     setSelected(track);
     toggleMenu(e);
   }
@@ -32,13 +39,7 @@ export default function Tracks({ tracks, play, remove }: IProps) {
   return (
     <div className={css.List}>
       {tracks.map((track, index) => (
-        <Track
-          track={track}
-          index={index}
-          onPlay={play}
-          onMenu={menuTrack}
-          key={track._key || track._id}
-        />
+        <Track data={{ track, index }} play={play} menu={menu} key={track._key || track._id} />
       ))}
 
       <TrackMenu>
@@ -75,6 +76,8 @@ export default function Tracks({ tracks, play, remove }: IProps) {
           </ConfirmDialog>
         </DeleteFromModal>
       )}
+
+      <LogInModal />
     </div>
   );
 }

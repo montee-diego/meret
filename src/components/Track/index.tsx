@@ -1,5 +1,5 @@
 import type { MouseEvent } from "react";
-import type { IPlaylistTrack, ISelected, ITrack } from "@global/types";
+import type { ISelected } from "@global/types";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPlay, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,18 +9,19 @@ import Cover from "@components/Cover";
 import css from "./index.module.css";
 
 interface IProps {
-  index: number;
-  onPlay: (data: ISelected) => void;
-  onMenu: (e: MouseEvent<HTMLButtonElement>, track: ISelected) => void;
-  track: IPlaylistTrack | ITrack;
+  data: ISelected;
+  menu: (e: MouseEvent<HTMLButtonElement>, track: ISelected) => void;
+  play: (data: ISelected) => void;
 }
 
-export default function Track({ index, onPlay, onMenu, track }: IProps) {
+export default function Track({ data, play, menu }: IProps) {
+  const { track } = data;
+
   return (
     <div className={css.Container}>
       <Cover cover={track.cover} size="3rem" />
 
-      <ButtonIcon onClick={() => onPlay({ track, index })} aria-label="play">
+      <ButtonIcon onClick={() => play(data)} aria-label="play">
         <Icon size="lg" icon={faPlay} transform="right-1 up-0.5" />
       </ButtonIcon>
 
@@ -35,7 +36,7 @@ export default function Track({ index, onPlay, onMenu, track }: IProps) {
         <p className={css.Length}>{formatTime(track.length)}</p>
       </div>
 
-      <ButtonIcon onClick={(e) => onMenu(e, { track, index })} aria-label="track menu">
+      <ButtonIcon onClick={(e) => menu(e, data)} aria-label="track menu">
         <Icon size="xl" icon={faEllipsisVertical} />
       </ButtonIcon>
     </div>
