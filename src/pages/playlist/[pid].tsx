@@ -1,17 +1,18 @@
-import type { SyntheticEvent } from "react";
-import type { GetServerSideProps } from "next";
-import type { IPlaylist } from "@global/types";
-
 // SSR
 import { getToken } from "next-auth/jwt";
 import { sanityClient } from "@services/sanity/client";
 import { queryPlaylist } from "@services/sanity/queries";
 
 // CSR
+import type { MouseEvent, SyntheticEvent } from "react";
+import type { GetServerSideProps } from "next";
+import type { IPlaylist } from "@global/types";
 import { useRef } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+
 import { useMeret } from "@context/Meret";
 import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
@@ -19,12 +20,10 @@ import { formatDate, formatTrackCount } from "@global/utils";
 import Button from "@components/Button";
 import ButtonIcon from "@components/ButtonIcon";
 import ConfirmDialog from "@components/ConfirmDialog";
-import Image from "next/image";
-
-import style from "@styles/playlist.module.css";
-
-import Playlist from "@components/Playlist";
+import Login from "@components/Login";
 import ModalTitle from "@components/ModalTitle";
+import Playlist from "@components/Playlist";
+import style from "@styles/playlist.module.css";
 
 interface IProps {
   playlist: IPlaylist;
@@ -36,10 +35,9 @@ export default function PlaylistPage({ playlist }: IProps) {
   const [toggleDelModal, DeleteModal] = useModal();
   const [toggleRenModal, RenameModal] = useModal();
   const [toggleSubModal, SubscriptionModal] = useModal();
+  const [toggleLoginModal, LoginModal] = useModal();
   const [togglePlaylistMenu, PlaylistMenu] = useMenu();
   const input = useRef<HTMLInputElement | null>(null);
-
-  const handleLogIn = () => signIn("google");
 
   async function handleDelete({ currentTarget }: SyntheticEvent<HTMLButtonElement>) {
     currentTarget.disabled = true;
@@ -91,37 +89,37 @@ export default function PlaylistPage({ playlist }: IProps) {
     }
   }
 
+  function openPlaylistMenu(e: MouseEvent<HTMLButtonElement>) {
+    if (status === "authenticated") {
+      togglePlaylistMenu(e);
+    } else {
+      toggleLoginModal();
+    }
+  }
+
   return (
     <section data-scroll="false">
       <div className={style.Container}>
         <div className={style.Title}>
-          <ButtonIcon onClick={togglePlaylistMenu} aria-label="playlist menu">
+          <ButtonIcon onClick={openPlaylistMenu} aria-label="playlist menu">
             <Icon icon={faEllipsisVertical} size="xl" />
           </ButtonIcon>
           <h2>{playlist.name}</h2>
 
           <PlaylistMenu>
-            {status === "authenticated" ? (
-              playlist.user?.isAuthor ? (
-                <div>
-                  <Button onClick={toggleRenModal} align="left">
-                    Rename
-                  </Button>
-                  <Button onClick={toggleDelModal} align="left">
-                    Delete
-                  </Button>
-                </div>
-              ) : (
-                <div>
-                  <Button onClick={toggleSubModal} align="left">
-                    {playlist.user?.isSub ? "Unsubscribe" : "Subscribe"}
-                  </Button>
-                </div>
-              )
+            {playlist.user?.isAuthor ? (
+              <div>
+                <Button onClick={toggleRenModal} align="left">
+                  Rename
+                </Button>
+                <Button onClick={toggleDelModal} align="left">
+                  Delete
+                </Button>
+              </div>
             ) : (
               <div>
-                <Button onClick={handleLogIn} align="left">
-                  Log In
+                <Button onClick={toggleSubModal} align="left">
+                  {playlist.user?.isSub ? "Unsubscribe" : "Subscribe"}
                 </Button>
               </div>
             )}
@@ -149,7 +147,6 @@ export default function PlaylistPage({ playlist }: IProps) {
 
       <Playlist playlist={playlist} />
 
-      {/* DeleteModal is the way it should be done for all the modals */}
       <DeleteModal>
         <ModalTitle title="Delete Playlist" toggleOpen={toggleDelModal} />
         <ConfirmDialog onConfirm={handleDelete} onCancel={toggleDelModal}>
@@ -193,6 +190,10 @@ export default function PlaylistPage({ playlist }: IProps) {
           </>
         )}
       </SubscriptionModal>
+
+      <LoginModal>
+        <Login toggleOpen={toggleLoginModal} />
+      </LoginModal>
     </section>
   );
 }
