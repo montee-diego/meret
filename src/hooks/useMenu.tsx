@@ -1,5 +1,5 @@
 import type { MouseEvent, ReactElement, ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import Menu from "@components/Menu";
 
@@ -11,6 +11,26 @@ type MenuTuple = [
   (e: MouseEvent<HTMLButtonElement>) => void,
   (props: IProps) => ReactElement | null
 ];
+
+function calcXPosition(trigger: HTMLElement, parent: Element, menuWidth: number) {
+  const { clientWidth, offsetLeft } = trigger;
+
+  if (offsetLeft + menuWidth > parent.clientWidth) {
+    return { right: parent.clientWidth - (offsetLeft + clientWidth) };
+  } else {
+    return { left: offsetLeft };
+  }
+}
+
+function calcYPosition(trigger: HTMLElement, parent: Element, menuHeight: number) {
+  const { clientHeight, offsetTop } = trigger;
+
+  if (offsetTop + clientHeight + menuHeight > parent.clientHeight + parent.scrollTop) {
+    return { top: offsetTop - menuHeight };
+  } else {
+    return { top: clientHeight + offsetTop };
+  }
+}
 
 export const useMenu = (): MenuTuple => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -28,47 +48,23 @@ export const useMenu = (): MenuTuple => {
     setIsOpen(false);
   }
 
-  function calcXPosition(parent: Element, menuWidth: number) {
-    if (!trigger) return {};
-
-    const { clientWidth, offsetLeft } = trigger;
-
-    if (offsetLeft + menuWidth > parent.clientWidth) {
-      return { right: parent.clientWidth - (offsetLeft + clientWidth) };
-    } else {
-      return { left: offsetLeft };
-    }
-  }
-
-  function calcYPosition(parent: Element, menuHeight: number) {
-    if (!trigger) return {};
-
-    const { clientHeight, offsetTop } = trigger;
-
-    if (offsetTop + clientHeight + menuHeight > parent.clientHeight + parent.scrollTop) {
-      return { top: offsetTop - menuHeight };
-    } else {
-      return { top: clientHeight + offsetTop };
-    }
-  }
-
-  function calcMenuStyle(menuHeight: number, menuWidth: number): {} {
+  const calcMenuStyle = useCallback(function (menuHeight: number, menuWidth: number) {
     if (!trigger) return {};
 
     const { offsetParent } = trigger;
     let computed = {};
 
     if (offsetParent) {
-      const alignX = calcXPosition(offsetParent, menuWidth);
-      const alignY = calcYPosition(offsetParent, menuHeight);
-
+      const alignX = calcXPosition(trigger, offsetParent, menuWidth);
+      const alignY = calcYPosition(trigger, offsetParent, menuHeight);
       computed = { ...alignX, ...alignY };
     }
 
     return computed;
-  }
+  }, [trigger]);
 
-  function RenderMenu({ children }: IProps) {
+  // useCallback prevents re-render flicker
+  const RenderMenu = useCallback(function RenderMenu({ children }: IProps) {
     const [style, setStyle] = useState<{}>({});
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -89,7 +85,7 @@ export const useMenu = (): MenuTuple => {
     } else {
       return null;
     }
-  }
+  }, [isOpen]);
 
   return [openMenu, RenderMenu];
 };
