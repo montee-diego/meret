@@ -48,7 +48,7 @@ export const useMenu = (): MenuTuple => {
     setIsOpen(false);
   }
 
-  const calcMenuStyle = useCallback(function (menuHeight: number, menuWidth: number) {
+  const calcMenuStyle = useCallback(function (menuHeight: number = 0, menuWidth: number = 0) {
     if (!trigger) return {};
 
     const { offsetParent } = trigger;
@@ -69,11 +69,12 @@ export const useMenu = (): MenuTuple => {
     const menuRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-      const menuHeight = menuRef.current?.clientHeight || 0;
-      const menuWidth = menuRef.current?.clientWidth || 0;
-      const computedStyle = calcMenuStyle(menuHeight, menuWidth);
+      if (menuRef.current) {
+        const { clientHeight, clientWidth } = menuRef.current;
+        const computedStyle = calcMenuStyle(clientHeight, clientWidth);
 
-      setStyle(computedStyle);
+        setStyle(computedStyle);
+      }
     }, []);
 
     if (isOpen) {
