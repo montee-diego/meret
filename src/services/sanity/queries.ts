@@ -7,8 +7,9 @@ export function queryHome() {
         "cover": cover.asset->url
       },
       "playlists": *[_type == "playlist"][0...10] | order(_updatedAt desc) {
-        ...,
-        author->{name, image},
+        _id,
+        _updatedAt,
+        name,
         "cover": tracks[-1]->cover.asset->url,
         "total": count(tracks)
       }
@@ -74,10 +75,16 @@ export function queryPlaylist() {
   return `
     *[_type=="playlist" && _id == $id][0] {
       ...,
-      "user": *[_type=="user" && _id == $user][0] {
-        "isAuthor": ^.author._ref == $user,
-        "isSub": $id in subs[]._ref
-      },
+      "user": coalesce(
+        *[_type=="user" && _id == $user][0] {
+          "isAuthor": ^.author._ref == $user,
+          "isSub": $id in subs[]._ref
+        },
+        {
+          "isAuthor": false,
+          "isSub": false
+        }
+      ),
       author->{name, image},
       "total": count(tracks),
       tracks[] {
