@@ -61,7 +61,7 @@
 .Search,
 .Navigate,
 .UserPlaylists,
-.LogInBtn {
+.LoginBtn {
   margin: 1rem 0rem;
 }
 
@@ -76,7 +76,7 @@
   gap: 3px;
 }
 
-.LogInBtn {
+.LoginBtn {
   background-color: var(--color-panel);
   border-radius: 5px;
 }
