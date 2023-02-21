@@ -1,0 +1,33 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+.Message {
+  color: var(--color-text-secondary);
+  line-height: 1.5rem;
+  padding: 0.5rem;
+}
+
+.Providers {
+  align-self: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0.5rem auto;
+  max-width: 100%;
+  padding: 0.5rem;
+}
+
+.Providers button {
+  background-color: var(--color-panel);
+  direction: rtl;
+  padding: 0rem clamp(0.5rem, 5vw, 2.5rem);
+}
+
+@media (hover: hover) {
+  .Providers button:hover {
+    background-color: var(--color-scroll);
+  }
+}
