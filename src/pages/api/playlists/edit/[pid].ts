@@ -27,12 +27,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json(response);
   } else if (req.method === "DELETE") {
-    if (!req.body.key) {
+    if (!req.body.track) {
       res.status(400).send("Bad request");
     }
 
     const pid = req.query.pid as string;
-    const tracks = [`tracks[_key=="${req.body.key}"]`];
+    const tracks = [`tracks[_key=="${req.body.track}"]`];
     const response = await sanityClient.patch(pid).unset(tracks).commit();
 
     if (!response) {
