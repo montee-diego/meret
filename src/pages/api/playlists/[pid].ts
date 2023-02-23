@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(401).send("Unauthorized action");
   }
 
-  if (req.method === "PATCH") {
+  if (req.method === "POST") {
     if (!req.body.name || req.body.name === "") {
       res.status(400).send("Bad request");
     }
