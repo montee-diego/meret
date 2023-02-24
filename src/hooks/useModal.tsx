@@ -7,20 +7,25 @@ interface IProps {
   children: ReactNode;
 }
 
-type ModalTuple = [() => void, (props: IProps) => ReactElement | null];
+type ModalTuple = [() => void, () => void, (props: IProps) => ReactElement | null];
 
 export const useModal = (): ModalTuple => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const toggleOpen = () => setIsOpen(!isOpen);
+
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
 
   // useCallback prevents re-render flicker when the AudioPlayer context updates
-  const RenderModal = useCallback(function RenderModal(props: IProps) {
-    if (isOpen) {
-      return <Modal toggleOpen={toggleOpen}>{props.children}</Modal>;
-    } else {
-      return null;
-    }
-  }, [isOpen]);
+  const RenderModal = useCallback(
+    function RenderModal(props: IProps) {
+      if (isOpen) {
+        return <Modal closeModal={close}>{props.children}</Modal>;
+      } else {
+        return null;
+      }
+    },
+    [isOpen]
+  );
 
-  return [toggleOpen, RenderModal];
+  return [open, close, RenderModal];
 };
