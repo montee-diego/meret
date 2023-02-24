@@ -15,8 +15,17 @@
   outline: none;
 }
 
+.Button:disabled {
+  color: var(--color-text-secondary);
+}
+
 @media (hover: hover) {
   .Button:hover {
     background-color: var(--color-panel);
+  }
+
+  .Button:disabled:hover {
+    background-color: transparent;
+    cursor: default;
   }
 }
