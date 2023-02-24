@@ -1,0 +1,13 @@
+.Content {
+  max-height: calc(16rem + 15px);
+  overflow: hidden auto;
+  padding: 0.5rem;
+}
+
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  list-style: none;
+  margin-top: 3px;
+}

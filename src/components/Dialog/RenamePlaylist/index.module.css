@@ -1,0 +1,24 @@
+.Content {
+  padding: 0.5rem;
+}
+
+.Label span {
+  display: block;
+  line-height: 1.5rem;
+  padding: 0rem 0.5rem;
+}
+
+.Label input {
+  background-color: var(--color-panel);
+  border: none;
+  border-radius: 5px;
+  flex: 1;
+  height: 2.5rem;
+  margin-top: 0.5rem;
+  padding: 0rem 0.5rem;
+  width: 100%;
+}
+
+.Label input:focus {
+  outline: 2px solid var(--color-focus);
+}
