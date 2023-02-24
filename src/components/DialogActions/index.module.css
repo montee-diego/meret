@@ -1,0 +1,16 @@
+.Actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin: 0.5rem;
+}
+
+.Actions button {
+  width: 7rem;
+}
+
+@media screen and (max-width: 768px) {
+  .Actions button {
+    width: 100%;
+  }
+}

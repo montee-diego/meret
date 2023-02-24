@@ -1,0 +1,29 @@
+.Container {
+  align-items: center;
+  border-bottom: 1px solid var(--color-panel);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.Title {
+  flex: 1;
+  overflow: hidden;
+}
+
+.Title p,
+.Title h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Title p:first-of-type {
+  font-weight: 700;
+}
+
+.Title h3 {
+  line-height: 2.5rem;
+  padding-left: 0.5rem;
+}
