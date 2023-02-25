@@ -1,15 +1,16 @@
-import type { ChangeEvent, Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 
 import { useAudioPlayer } from "@context/AudioPlayer";
-import { formatTime } from "@global/utils";
 import AudioControls from "@components/AudioControls";
 import Button from "@components/Button";
 import Cover from "@components/Cover";
 import Style from "./index.module.css";
+
+import AudioSeek from "@components/AudioSeek";
 
 interface IProps {
   playerState: {
@@ -19,7 +20,6 @@ interface IProps {
 }
 
 export default function AudioPlayer({ playerState }: IProps) {
-  const [trackProgress, setTrackProgress] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { isPlayerOpen, setIsPlayerOpen } = playerState;
@@ -28,7 +28,6 @@ export default function AudioPlayer({ playerState }: IProps) {
   const { artist, audio, cover, title, length } = tracks[index] || {};
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const intervalRef = useRef<NodeJS.Timer>();
   const isReady = useRef<boolean>(false);
 
   const router = useRouter();
@@ -60,38 +59,16 @@ export default function AudioPlayer({ playerState }: IProps) {
     }
   }
 
-  function handleSeek(event: ChangeEvent<HTMLInputElement>) {
-    clearInterval(intervalRef.current);
-
-    if (audioRef.current) {
-      audioRef.current.currentTime = Number(event.currentTarget.value);
-      setTrackProgress(audioRef.current.currentTime);
-      startTimer();
-    }
-  }
-
-  function startTimer() {
-    clearInterval(intervalRef.current);
-
-    intervalRef.current = setInterval(() => {
-      if (!audioRef.current) return;
-
-      setTrackProgress(audioRef.current.currentTime);
-
-      if (audioRef.current.ended) {
-        setTrackProgress(0);
-        setIsPlaying(false);
-        handleControls.Next();
-      }
-    }, 1000);
-  }
-
   useEffect(() => {
     return () => {
       audioRef.current?.pause();
-      clearInterval(intervalRef.current);
     };
   }, []);
+
+  function playNextTrack() {
+    setIsPlaying(false);
+    handleControls.Next();
+  }
 
   useEffect(() => {
     if (player.data.isSync) {
@@ -100,8 +77,7 @@ export default function AudioPlayer({ playerState }: IProps) {
 
     if (audioRef.current) {
       audioRef.current.pause();
-      clearInterval(intervalRef.current);
-      setTrackProgress(0);
+      audioRef.current.removeEventListener("ended", playNextTrack);
     }
 
     if (isReady.current) {
@@ -112,23 +88,19 @@ export default function AudioPlayer({ playerState }: IProps) {
       }
 
       audioRef.current = new Audio(audio);
+      audioRef.current.addEventListener("ended", playNextTrack);
       audioRef.current.play();
       setIsPlaying(true);
-      startTimer();
     } else {
       isReady.current = true;
     }
   }, [player.data]);
 
   return (
-    <aside className={Style.Container} data-open={isPlayerOpen}>
+    <aside className={Style.Container} data-open={isPlayerOpen} tabIndex={-1}>
       <Cover cover={cover} size="60%" />
 
-      <div className={Style.Time}>
-        <span>{formatTime(trackProgress)}</span>
-        <input type="range" max={length || 0} value={trackProgress || 0} onChange={handleSeek} />
-        <span>{formatTime(length || 0)}</span>
-      </div>
+      <AudioSeek audioRef={audioRef} length={length} isPlaying={isPlaying} />
 
       <div className={Style.Tags}>
         <p className={Style.Title}>{title || "No track"}</p>
