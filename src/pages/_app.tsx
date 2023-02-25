@@ -13,6 +13,7 @@ import "../../node_modules/@fortawesome/fontawesome-svg-core/styles.css";
 
 const toastOptions = {
   style: {
+    height: "3rem",
     minWidth: "300px",
   },
 };
