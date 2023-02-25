@@ -1,0 +1,19 @@
+.Time {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.Time span {
+  width: 2.5rem;
+}
+
+.Time span:last-child {
+  text-align: right;
+}
+
+.Time input {
+  flex: 1;
+  width: 1px;
+}
