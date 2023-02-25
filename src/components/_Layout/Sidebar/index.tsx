@@ -14,8 +14,8 @@ import ButtonIcon from "@components/ButtonIcon";
 import ButtonLink from "@components/ButtonLink";
 import CreatePlaylist from "@components/CreatePlaylist";
 import Input from "@components/Input";
-import Login from "@components/Login";
-import css from "./index.module.css";
+import Login from "@components/Dialog/Login";
+import Style from "./index.module.css";
 
 interface IProps {
   navState: {
@@ -25,7 +25,7 @@ interface IProps {
 }
 
 export default function Sidebar({ navState }: IProps) {
-  const [toggleLoginModal, LoginModal] = useModal();
+  const [openLogin, closeLogin, LoginModal] = useModal();
   const { push } = useRouter();
   const { status } = useSession();
   const { data } = useMeret();
@@ -48,32 +48,32 @@ export default function Sidebar({ navState }: IProps) {
 
   function handleLogin(e: SyntheticEvent) {
     setIsNavOpen(false);
-    toggleLoginModal();
+    openLogin();
   }
 
   return (
     <Fragment>
-      <div className={css.Container} onClick={handleAutoClose} data-open={isNavOpen}>
-        <FocusTrap active={isNavOpen} className={css.Menu} cancelEvent={handleNavClose}>
-          <div className={css.Logo}>
+      <div className={Style.Container} onClick={handleAutoClose} data-open={isNavOpen}>
+        <FocusTrap active={isNavOpen} className={Style.Menu} cancelEvent={handleNavClose}>
+          <div className={Style.Logo}>
             <h1>Meret</h1>
             <ButtonIcon onClick={handleNavClose} aria-label="close sidebar">
               <Icon icon={faXmark} size="xl" />
             </ButtonIcon>
           </div>
 
-          <div className={css.Search}>
+          <div className={Style.Search}>
             <Input onSubmit={handleSubmit} placeholder="Search">
               <Icon icon={faMagnifyingGlass} />
             </Input>
           </div>
 
-          <div className={css.Navigate}>
+          <div className={Style.Navigate}>
             <ButtonLink href="/" align="left">
               Home
             </ButtonLink>
             <Accordion summary="Discover">
-              <ul className={css.List}>
+              <ul className={Style.List}>
                 <li>
                   <ButtonLink href="/discover/songs" align="left">
                     Songs
@@ -89,15 +89,15 @@ export default function Sidebar({ navState }: IProps) {
           </div>
 
           {status === "authenticated" ? (
-            <div className={css.UserPlaylists}>
+            <div className={Style.UserPlaylists}>
               <Accordion summary="Playlists">
                 <CreatePlaylist />
 
-                <ul className={css.List}>
-                  {data.playlists.map((playlist) => (
-                    <li key={playlist._id}>
-                      <ButtonLink href={`/playlist/${playlist._id}`} align="left">
-                        {playlist.name}
+                <ul className={Style.List}>
+                  {data.playlists.map(({ _id, name }) => (
+                    <li key={_id}>
+                      <ButtonLink href={`/playlist/${_id}`} align="left">
+                        {name}
                       </ButtonLink>
                     </li>
                   ))}
@@ -105,11 +105,11 @@ export default function Sidebar({ navState }: IProps) {
               </Accordion>
 
               <Accordion summary="Subscriptions">
-                <ul className={css.List}>
-                  {data.subscriptions.map((playlist) => (
-                    <li key={playlist._id}>
-                      <ButtonLink href={`/playlist/${playlist._id}`} align="left">
-                        {playlist.name}
+                <ul className={Style.List}>
+                  {data.subscriptions.map(({ _id, name }) => (
+                    <li key={_id}>
+                      <ButtonLink href={`/playlist/${_id}`} align="left">
+                        {name}
                       </ButtonLink>
                     </li>
                   ))}
@@ -117,7 +117,7 @@ export default function Sidebar({ navState }: IProps) {
               </Accordion>
             </div>
           ) : (
-            <div className={css.LoginBtn}>
+            <div className={Style.LoginBtn}>
               <Button onClick={handleLogin} align="center">
                 Log In to view Playlists
               </Button>
@@ -127,7 +127,7 @@ export default function Sidebar({ navState }: IProps) {
       </div>
 
       <LoginModal>
-        <Login toggleOpen={toggleLoginModal} />
+        <Login closeDialog={closeLogin} />
       </LoginModal>
     </Fragment>
   );
