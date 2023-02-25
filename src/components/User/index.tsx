@@ -8,19 +8,19 @@ import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
 import Button from "@components/Button";
 import ButtonLink from "@components/ButtonLink";
-import Login from "@components/Login";
-import style from "./index.module.css";
+import Login from "@components/Dialog/Login";
+import Style from "./index.module.css";
 
 export default function User() {
   const [toggleUserMenu, UserMenu] = useMenu();
-  const [toggleLoginModal, LoginModal] = useModal();
+  const [openLogin, closeLogin, LoginModal] = useModal();
   const { data: session } = useSession();
 
   return (
     <Fragment>
-      <button className={style.Button} onClick={toggleUserMenu} aria-label="toggle user menu">
+      <button className={Style.Button} onClick={toggleUserMenu} aria-label="toggle user menu">
         {session && session.user.image ? (
-          <div className={style.ProfileImage}>
+          <div className={Style.ProfileImage}>
             <Image src={session.user.image} alt="U" sizes="64px" fill />
           </div>
         ) : (
@@ -32,7 +32,7 @@ export default function User() {
       <UserMenu>
         {session ? (
           <Fragment>
-            <div className={style.User}>
+            <div className={Style.User}>
               <p>{session.user.name}</p>
               <span>{session.user.email}</span>
             </div>
@@ -48,7 +48,7 @@ export default function User() {
           </Fragment>
         ) : (
           <div>
-            <Button onClick={toggleLoginModal} align="left">
+            <Button onClick={openLogin} align="left">
               Log In
             </Button>
           </div>
@@ -56,7 +56,7 @@ export default function User() {
       </UserMenu>
 
       <LoginModal>
-        <Login toggleOpen={toggleLoginModal} />
+        <Login closeDialog={closeLogin} />
       </LoginModal>
     </Fragment>
   );
