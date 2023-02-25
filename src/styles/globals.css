@@ -86,19 +86,24 @@ body::before {
 
 section {
   display: flex;
-  /* display: grid; */
   flex: 1;
   flex-direction: column;
-  /* grid-template-rows: 3rem 1fr; */
-  /* overflow: hidden auto; */
   overflow: hidden auto;
   position: relative;
-  /* padding: 1rem; */
   width: 100%;
 }
 
-section[data-scroll="false"] {
-  /* overflow: hidden; */
+fieldset {
+  border: none;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+fieldset:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
 }
 
 a {
@@ -177,18 +182,6 @@ input[type="range"]:focus {
   outline-offset: 3px;
 }
 
-/* input[type="range"]:focus::-webkit-slider-thumb {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 3px;
+input[type="range"]:focus:not(:focus-visible) {
+  outline: none;
 }
-
-input[type="range"]:focus::-moz-range-thumb {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 3px;
-} */
-
-/* @media screen and (max-width: 768px) {
-  section {
-    padding: 1rem 0.5rem;
-  }
-} */
