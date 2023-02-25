@@ -1,31 +1,29 @@
-import type { MouseEvent, SyntheticEvent } from "react";
+import type { MouseEvent } from "react";
 import type { ISelected, ITrack } from "@global/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
-import AddToPlaylist from "@components/AddToPlaylist";
+import AddTrack from "@components/Dialog/AddTrack";
 import Button from "@components/Button";
-import ConfirmDialog from "@components/ConfirmDialog";
-import CreatePlaylist from "@components/CreatePlaylist";
-import Login from "@components/Login";
+import Login from "@components/Dialog/Login";
+import RemoveTrack from "@components/Dialog/RemoveTrack";
 import Track from "@components/Track";
-import TrackModalTitle from "@components/TrackModalTitle";
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps {
-  tracks: ITrack[];
+  pid?: string;
   play: (track: ISelected) => void;
-  remove?: (track: ISelected, toggleModal: () => void, e: HTMLButtonElement) => void;
+  tracks: ITrack[];
 }
 
-export default function Tracks({ tracks, play, remove }: IProps) {
+export default function Tracks({ pid, play, tracks }: IProps) {
   const [selected, setSelected] = useState<ISelected | null>(null);
   const [toggleMenu, TrackMenu] = useMenu();
-  const [toggleAddTo, AddToModal] = useModal();
-  const [toggleRemoveFrom, RemoveFromModal] = useModal();
-  const [toggleLoginModal, LoginModal] = useModal();
+  const [openAdd, closeAdd, AddModal] = useModal();
+  const [openRemove, closeRemove, RemoveModal] = useModal();
+  const [openLogin, closeLogin, LoginModal] = useModal();
   const { status } = useSession();
 
   function menu(e: MouseEvent<HTMLButtonElement>, track: ISelected) {
@@ -33,31 +31,23 @@ export default function Tracks({ tracks, play, remove }: IProps) {
       setSelected(track);
       toggleMenu(e);
     } else {
-      toggleLoginModal();
+      openLogin();
     }
   }
 
-  function removeTrack(e: SyntheticEvent<HTMLButtonElement>) {
-    if (!remove || !selected) return;
-
-    const btn = e.target as HTMLButtonElement;
-
-    remove(selected, toggleRemoveFrom, btn);
-  }
-
   return (
-    <div className={css.List}>
+    <div className={Style.List}>
       {tracks.map((track, index) => (
         <Track data={{ track, index }} play={play} menu={menu} key={track._key || track._id} />
       ))}
 
       <TrackMenu>
         <div>
-          <Button onClick={toggleAddTo} align="left">
+          <Button onClick={openAdd} align="left">
             Add to Playlist...
           </Button>
-          {remove && (
-            <Button onClick={toggleRemoveFrom} align="left">
+          {pid && (
+            <Button onClick={openRemove} align="left">
               Remove from Playlist
             </Button>
           )}
@@ -68,26 +58,19 @@ export default function Tracks({ tracks, play, remove }: IProps) {
       </TrackMenu>
 
       {selected && (
-        <AddToModal>
-          <TrackModalTitle track={selected.track} toggleOpen={toggleAddTo} />
-          <div className={css.AddTo} tabIndex={-1}>
-            <CreatePlaylist />
-            <AddToPlaylist trackId={selected.track._id} />
-          </div>
-        </AddToModal>
+        <AddModal>
+          <AddTrack selected={selected} closeDialog={closeAdd} />
+        </AddModal>
       )}
 
-      {remove && selected && (
-        <RemoveFromModal>
-          <TrackModalTitle track={selected.track} toggleOpen={toggleRemoveFrom} />
-          <ConfirmDialog onCancel={toggleRemoveFrom} onConfirm={removeTrack}>
-            <p>Are you sure you want to delete this track? This action cannot be undone.</p>
-          </ConfirmDialog>
-        </RemoveFromModal>
+      {pid && selected && (
+        <RemoveModal>
+          <RemoveTrack selected={selected} pid={pid} closeDialog={closeRemove} />
+        </RemoveModal>
       )}
 
       <LoginModal>
-        <Login toggleOpen={toggleLoginModal} />
+        <Login closeDialog={closeLogin} />
       </LoginModal>
     </div>
   );
