@@ -1,0 +1,22 @@
+.Message {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.Btn {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  color: inherit;
+  font-size: inherit;
+  outline: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 5px 7px;
+}
+
+.Btn:focus {
+  outline: 3px solid rgba(0, 0, 0, 0.3);
+}
+
+.Btn:focus:not(:focus-visible) {
+  outline: none;
+}
