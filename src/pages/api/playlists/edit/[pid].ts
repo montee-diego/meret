@@ -7,12 +7,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const token = await getToken({ req });
 
   if (!token) {
-    res.status(401).send("Unauthorized action");
+    return res.status(401).send("Unauthorized action");
   }
 
   if (req.method === "POST") {
     if (!req.body.track) {
-      res.status(400).send("Bad request");
+      return res.status(400).send("Request missing required data");
     }
 
     const pid = req.query.pid as string;
@@ -22,13 +22,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!response) {
-      res.status(500).send("Failed to add track");
+      return res.status(500).send("Failed to add track");
     }
 
-    res.status(200).json(response);
-  } else if (req.method === "DELETE") {
+    return res.status(200).json(response);
+  }
+
+  if (req.method === "DELETE") {
     if (!req.body.track) {
-      res.status(400).send("Bad request");
+      return res.status(400).send("Request missing required data");
     }
 
     const pid = req.query.pid as string;
@@ -36,11 +38,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await sanityClient.patch(pid).unset(tracks).commit();
 
     if (!response) {
-      res.status(500).send("Failed to remove track(s)");
+      return res.status(500).send("Failed to remove track(s)");
     }
 
-    res.status(200).json(response);
-  } else {
-    res.status(405).send("Method not allowed");
+    /*
+      Check if track was removed, because Sanity will send an OK response
+      even if no track was actually removed
+    */
+    const compareKeys = (track: any) => track._key === req.body.track;
+    const isRemoved = response?.tracks.findIndex(compareKeys) < 0;
+
+    if (!isRemoved) {
+      return res.status(500).send("Failed to remove track(s)");
+    }
+
+    return res.status(200).json(response);
   }
+
+  res.status(405).send("Method not allowed");
 }

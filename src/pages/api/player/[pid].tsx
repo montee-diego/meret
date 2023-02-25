@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const token = await getToken({ req });
 
   if (!token) {
-    res.status(401).send("Unauthorized action");
+    return res.status(401).send("Unauthorized action");
   }
 
   if (req.method === "GET") {
@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!response) {
-      res.status(500).send("Failed to sync playlists");
+      return res.status(500).send("Failed to sync playlists");
     }
 
     res.status(200).json(response);

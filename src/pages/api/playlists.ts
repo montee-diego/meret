@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const token = await getToken({ req });
 
   if (!token) {
-    res.status(401).send("Unauthorized action");
+    return res.status(401).send("Unauthorized action");
   }
 
   if (req.method === "GET") {
@@ -17,13 +17,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!response) {
-      res.status(500).send("Failed to fetch user playlists");
+      return res.status(500).send("Failed to fetch user playlists");
     }
 
-    res.status(200).json(response);
-  } else if (req.method === "POST") {
-    if (!req.body.name || req.body.name === "") {
-      res.status(400).send("Bad request");
+    return res.status(200).json(response);
+  }
+
+  if (req.method === "POST") {
+    if (!req.body.name) {
+      return res.status(400).send("Request missing required data");
     }
 
     const response = await sanityClient.create({
@@ -37,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!response) {
-      res.status(500).send("Failed to create playlist");
+      return res.status(500).send("Failed to create playlist");
     }
 
     const data = {
@@ -45,8 +47,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       name: response.name,
     };
 
-    res.status(200).json(data);
-  } else {
-    res.status(405).send("Method not allowed");
+    return res.status(200).json(data);
   }
+
+  res.status(405).send("Method not allowed");
 }
