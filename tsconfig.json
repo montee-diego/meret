@@ -23,7 +23,8 @@
       "@hooks/*": ["src/hooks/*"],
       "@reducers/*": ["src/reducers/*"],
       "@services/*": ["src/services/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "typeRoots": ["./node_modules/@types", "./types"]
   },
