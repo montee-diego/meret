@@ -2,7 +2,7 @@ import type { SyntheticEvent, ReactNode } from "react";
 import { forwardRef } from "react";
 
 import FocusTrap from "@accessibility/FocusTrap";
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps {
   children: ReactNode;
@@ -23,8 +23,8 @@ export default forwardRef<HTMLDivElement, IProps>(function Menu(props, ref) {
   }
 
   return (
-    <div className={css.Container} style={style} ref={ref}>
-      <FocusTrap active className={css.Menu} cancelEvent={toggleOpen} onClick={handleClick}>
+    <div className={Style.Container} style={style} ref={ref}>
+      <FocusTrap active className={Style.Menu} cancelEvent={toggleOpen} onClick={handleClick}>
         {children}
       </FocusTrap>
     </div>

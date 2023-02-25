@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { forwardRef } from "react";
 
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   align: "left" | "center" | "right";
@@ -12,7 +12,7 @@ export default forwardRef<HTMLButtonElement, IProps>(function Button(props, ref)
   const { align, children } = props;
 
   return (
-    <button {...props} className={css.Button} data-align={align} ref={ref}>
+    <button {...props} className={Style.Button} data-align={align} ref={ref}>
       {children}
     </button>
   );

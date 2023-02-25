@@ -9,7 +9,7 @@ import { formatTime } from "@global/utils";
 import AudioControls from "@components/AudioControls";
 import Button from "@components/Button";
 import Cover from "@components/Cover";
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps {
   playerState: {
@@ -121,26 +121,26 @@ export default function AudioPlayer({ playerState }: IProps) {
   }, [player.data]);
 
   return (
-    <aside className={css.Container} data-open={isPlayerOpen}>
+    <aside className={Style.Container} data-open={isPlayerOpen}>
       <Cover cover={cover} size="60%" />
 
-      <div className={css.Time}>
+      <div className={Style.Time}>
         <span>{formatTime(trackProgress)}</span>
         <input type="range" max={length || 0} value={trackProgress || 0} onChange={handleSeek} />
         <span>{formatTime(length || 0)}</span>
       </div>
 
-      <div className={css.Tags}>
-        <p className={css.Title}>{title || "No track"}</p>
-        <p className={css.Artist}>{artist || "Select a playlist or track to begin"}</p>
+      <div className={Style.Tags}>
+        <p className={Style.Title}>{title || "No track"}</p>
+        <p className={Style.Artist}>{artist || "Select a playlist or track to begin"}</p>
       </div>
 
       <AudioControls handleControls={handleControls} isPlaying={isPlaying} />
 
       {playlistId && (
-        <div className={css.ViewPlaylist}>
+        <div className={Style.ViewPlaylist}>
           {player.isSyncing ? (
-            <div className={css.Syncing}>
+            <div className={Style.Syncing}>
               <Icon icon={faRotate} spin />
               <p>Syncing...</p>
             </div>

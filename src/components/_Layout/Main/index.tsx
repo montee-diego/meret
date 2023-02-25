@@ -1,6 +1,6 @@
 import type { ReactNode, Dispatch, SetStateAction } from "react";
 
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps {
   children: ReactNode;
@@ -14,7 +14,7 @@ export default function Main({ children, playerState }: IProps) {
   const { isPlayerOpen } = playerState;
 
   return (
-    <main className={css.Container} data-open={isPlayerOpen}>
+    <main className={Style.Container} data-open={isPlayerOpen}>
       {children}
     </main>
   );

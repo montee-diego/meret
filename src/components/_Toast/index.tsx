@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Toast } from "react-hot-toast";
 import { toast } from "react-hot-toast";
 
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps {
   children: ReactNode;
@@ -17,9 +17,9 @@ export default function ActionToast({ children, onClick, t }: IProps) {
   }
 
   return (
-    <div className={css.Message}>
+    <div className={Style.Message}>
       <span>{children}</span>
-      <button type="button" className={css.Btn} onClick={handleClick}>
+      <button type="button" className={Style.Btn} onClick={handleClick}>
         Retry
       </button>
     </div>

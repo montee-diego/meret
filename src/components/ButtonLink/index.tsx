@@ -3,7 +3,7 @@ import type { LinkProps } from "next/link";
 import { forwardRef } from "react";
 import Link from "next/link";
 
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps extends LinkProps {
   align: "left" | "center" | "right";
@@ -14,7 +14,7 @@ export default forwardRef<HTMLAnchorElement, IProps>(function ButtonLink(props, 
   const { align, children } = props;
 
   return (
-    <Link {...props} className={css.Link} data-align={align} ref={ref}>
+    <Link {...props} className={Style.Link} data-align={align} ref={ref}>
       {children}
     </Link>
   );

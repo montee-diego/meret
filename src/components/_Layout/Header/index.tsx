@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 import ButtonIcon from "@components/ButtonIcon";
 import User from "@components/User";
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps {
   navState: {
@@ -30,15 +30,15 @@ export default function Header({ navState, playerState }: IProps) {
   const handlePlayerToggle = () => setIsPlayerOpen(!isPlayerOpen);
 
   return (
-    <header className={css.Container}>
-      <div className={css.Title}>
+    <header className={Style.Container}>
+      <div className={Style.Title}>
         <ButtonIcon onClick={handleNavOpen} aria-label="open sidebar">
           <Icon icon={faBars} size="xl" />
         </ButtonIcon>
         <h2>Home</h2>
       </div>
 
-      <div className={css.Actions}>
+      <div className={Style.Actions}>
         <ThemeToggle />
         <ButtonIcon onClick={handlePlayerToggle} aria-label="toggle audio player">
           <Icon icon={faSide} size="xl" flip={isPlayerOpen ? undefined : "horizontal"} />

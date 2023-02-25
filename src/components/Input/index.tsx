@@ -1,7 +1,7 @@
 import type { ChangeEvent, FormEvent, ReactNode } from "react";
 import { useState } from "react";
 
-import css from "./index.module.css";
+import Style from "./index.module.css";
 
 interface IProps {
   children: ReactNode;
@@ -26,7 +26,7 @@ export default function Input({ children, onSubmit, placeholder }: IProps) {
   }
 
   return (
-    <form className={css.Form} onSubmit={handleSubmit}>
+    <form className={Style.Form} onSubmit={handleSubmit}>
       <input type="text" value={input} onChange={handleChange} placeholder={placeholder} />
       <button type="submit" tabIndex={-1} aria-label={placeholder}>
         {children}
