@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import type { ITrack } from "@global/types";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
@@ -20,12 +21,13 @@ interface IProps {
 }
 
 export default function AudioPlayer({ playerState }: IProps) {
+  const [track, setTrack] = useState<ITrack | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { isPlayerOpen, setIsPlayerOpen } = playerState;
   const { player } = useAudioPlayer();
   const { index, playlistId, tracks } = player.data;
-  const { artist, audio, cover, title, length } = tracks[index] || {};
+  const { artist, audio, cover, title, length } = track || {};
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isReady = useRef<boolean>(false);
@@ -60,15 +62,16 @@ export default function AudioPlayer({ playerState }: IProps) {
   }
 
   useEffect(() => {
+    if (player.data.tracks.length && player.data.index > -1) {
+      const audioSrc = player.data.tracks[player.data.index].audio;
+      setTrack(player.data.tracks[player.data.index]);
+      audioRef.current = new Audio(audioSrc);
+    }
+
     return () => {
       audioRef.current?.pause();
     };
   }, []);
-
-  function playNextTrack() {
-    setIsPlaying(false);
-    handleControls.Next();
-  }
 
   useEffect(() => {
     if (player.data.isSync) {
@@ -77,7 +80,6 @@ export default function AudioPlayer({ playerState }: IProps) {
 
     if (audioRef.current) {
       audioRef.current.pause();
-      audioRef.current.removeEventListener("ended", playNextTrack);
     }
 
     if (isReady.current) {
@@ -87,8 +89,9 @@ export default function AudioPlayer({ playerState }: IProps) {
         return;
       }
 
-      audioRef.current = new Audio(audio);
-      audioRef.current.addEventListener("ended", playNextTrack);
+      const audioSrc = player.data.tracks[player.data.index].audio;
+      setTrack(player.data.tracks[player.data.index]);
+      audioRef.current = new Audio(audioSrc);
       audioRef.current.play();
       setIsPlaying(true);
     } else {
@@ -98,9 +101,14 @@ export default function AudioPlayer({ playerState }: IProps) {
 
   return (
     <aside className={Style.Container} data-open={isPlayerOpen} tabIndex={-1}>
-      <Cover cover={cover} size="60%" />
+      <Cover cover={cover || null} size="60%" />
 
-      <AudioSeek audioRef={audioRef} length={length} isPlaying={isPlaying} />
+      <AudioSeek
+        audioRef={audioRef}
+        length={length || 0}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+      />
 
       <div className={Style.Tags}>
         <p className={Style.Title}>{title || "No track"}</p>
