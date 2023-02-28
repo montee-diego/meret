@@ -47,6 +47,11 @@ export default function AudioPlayer({ playerState }: IProps) {
       }
     },
     Next: () => {
+      if (player.queue.length) {
+        advanceQueue();
+        return;
+      }
+
       if (index < tracks.length - 1) {
         player.setData((prevData) => {
           return { ...prevData, index: index + 1, isSync: false };
@@ -63,6 +68,11 @@ export default function AudioPlayer({ playerState }: IProps) {
   }
 
   function handleEnded() {
+    if (player.queue.length) {
+      advanceQueue();
+      return;
+    }
+
     if (index < tracks.length - 1) {
       controls.Next();
     } else {
@@ -78,12 +88,26 @@ export default function AudioPlayer({ playerState }: IProps) {
     }
   }
 
+  function advanceQueue() {
+    setTrack(player.queue[0]);
+
+    player.setQueue((queue) => {
+      return queue.slice(1, queue.length);
+    });
+
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+    }
+  }
+
+  // Component mount
   useEffect(() => {
     if (tracks.length && index > -1) {
       setTrack(tracks[index]);
     }
   }, []);
 
+  // New playlist or track sent to AudioPlayer
   useEffect(() => {
     if (player.data.isSync || !tracks.length) {
       return;
@@ -95,6 +119,13 @@ export default function AudioPlayer({ playerState }: IProps) {
       audioRef.current.currentTime = 0;
     }
   }, [player.data]);
+
+  // Track added to queue
+  useEffect(() => {
+    if (!track && player.queue.length) {
+      advanceQueue();
+    }
+  }, [player.queue]);
 
   return (
     <aside className={Style.Container} data-open={isPlayerOpen} tabIndex={-1}>
