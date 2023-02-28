@@ -1,13 +1,14 @@
 import type { FC, ReactNode } from "react";
 import type { IPlaylistMin } from "@global/types";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { usePlaylists } from "@reducers/usePlaylists";
-import { onCreate, onDelete, onFetch, onRename, onSub, onUnsub } from "@services/meret/playlists";
-import { onAddItem, onDeleteItem } from "@services/meret/playlistsItems";
+
+import { MeretAPI } from "@services/meret/api";
+import ActionToast from "@components/_Toast";
 
 interface IProps {
   children: ReactNode;
@@ -25,13 +26,13 @@ interface IMeret {
   rename: (pid: string, name: string) => Promise<unknown>;
   subscribe: (pid: string) => Promise<unknown>;
   unsubscribe: (pid: string) => Promise<unknown>;
-  addItem: (pid: string, trackId: string) => Promise<unknown>;
-  deleteItem: (trackId: string | undefined) => Promise<unknown>;
+  addToPlaylist: (pid: string, track: string) => Promise<unknown>;
+  removeFromPlaylist: (pid: string, track: string) => Promise<unknown>;
 }
 
 interface IContext {
   data: IData;
-  meret: IMeret;
+  meret: IMeret & any;
 }
 
 const DummyPromise = new Promise((resolve, reject) => {});
@@ -48,18 +49,19 @@ const Meret = createContext<IContext>({
     rename: () => DummyPromise,
     subscribe: () => DummyPromise,
     unsubscribe: () => DummyPromise,
-    addItem: () => DummyPromise,
-    deleteItem: () => DummyPromise,
+    addToPlaylist: () => DummyPromise,
+    removeFromPlaylist: () => DummyPromise,
   },
 });
+
+const api = new MeretAPI();
 
 export const MeretContext: FC<IProps> = (props) => {
   const { status } = useSession();
   const [meretData, dispatch] = usePlaylists();
-  const [isRunning, setIsRunning] = useState<boolean>(false);
   const router = useRouter();
 
-  function reload(pid: string, msg: string, redirect: boolean = false) {
+  function refetchPage(pid: string, redirect: boolean = false) {
     if (router.query.pid && router.query.pid === pid) {
       if (redirect) {
         router.replace("/");
@@ -69,148 +71,132 @@ export const MeretContext: FC<IProps> = (props) => {
         });
       }
     }
-
-    setIsRunning(false);
-    return msg;
-  }
-
-  function error(msg: string) {
-    setIsRunning(false);
-    return msg;
   }
 
   const data: IData = meretData;
+
   const meret: IMeret = {
-    fetch: async () => {
-      const request = onFetch(dispatch);
-      const response = await request.then(() => "OK").catch(() => "NOK");
-
-      if (response === "NOK") {
-        toast.error(
-          (t) => {
-            const buttonStyles = { color: "inherit", fontSize: "inherit", fontWeight: "700" };
-
-            function handleRetry() {
-              meret.fetch();
-              toast.dismiss(t.id);
-            }
-
-            return (
-              <div style={{ display: "flex", gap: "5px" }}>
-                <span>Failed to fetch user data.</span>
-                <button onClick={handleRetry} style={buttonStyles}>
-                  Retry
-                </button>
-              </div>
-            );
-          },
-          {
-            id: "fetch",
-            duration: Infinity,
-          }
-        );
-      } else {
-        try {
+    fetch: () => {
+      const promise = api.get(`/api/playlists`);
+      promise
+        .then((data) => {
+          dispatch({ type: "onFetch", payload: data });
           toast.dismiss("fetch");
-        } catch {}
-      }
+        })
+        .catch(() => {
+          toast.error(
+            (t) => (
+              <ActionToast t={t} onClick={meret.fetch}>
+                Failed to fetch data
+              </ActionToast>
+            ),
+            { id: "fetch", duration: Infinity }
+          );
+        });
+
+      return promise;
     },
-    create: async (name) => {
-      if (typeof name !== "string") {
-        return;
-      }
 
-      const request = toast.promise(onCreate(name, dispatch), {
-        loading: "Creating playlist...",
-        success: "Playlist created!",
-        error: "Failed to create playlist",
-      });
+    create: (name) => {
+      const promise = api.post(`/api/playlists/`, { name });
+      const messages = {
+        loading: "Creating Playlist...",
+        success: (data: any) => {
+          dispatch({ type: "onCreate", payload: data });
+          return "Playlist Created!";
+        },
+        error: "Failed to Create Playlist",
+      };
 
-      return await request.then(() => "OK").catch(() => "NOK");
+      return toast.promise(promise, messages);
     },
-    delete: async (pid, redirect) => {
-      if (isRunning || typeof pid !== "string") {
-        return;
-      }
 
-      const request = toast.promise(onDelete(pid, dispatch), {
-        loading: "Deleting playlist...",
-        success: () => reload(pid, "Playlist deleted!", redirect),
-        error: "Failed to delete playlist",
-      });
+    delete: (pid) => {
+      const promise = api.delete(`/api/playlists/${pid}`);
+      const messages = {
+        loading: "Deleting Playlist...",
+        success: (data: any) => {
+          dispatch({ type: "onDelete", payload: data });
+          refetchPage(pid, true);
+          return "Playlist Deleted!";
+        },
+        error: "Failed to Delete Playlist",
+      };
 
-      return await request.then(() => "OK").catch(() => "NOK");
+      return toast.promise(promise, messages);
     },
-    rename: async (pid, name) => {
-      if (isRunning || typeof pid !== "string" || typeof name !== "string") {
-        return;
-      }
 
-      const request = toast.promise(onRename(pid, name, dispatch), {
-        loading: "Renaming playlist...",
-        success: () => reload(pid, "Playlist renamed!"),
-        error: () => error("Failed to rename playlist"),
-      });
+    rename: (pid, name) => {
+      const promise = api.post(`/api/playlists/${pid}`, { name });
+      const messages = {
+        loading: "Renaming Playlist...",
+        success: (data: any) => {
+          dispatch({ type: "onRename", payload: data });
+          refetchPage(pid);
+          return "Playlist Renamed!";
+        },
+        error: "Failed to Rename Playlist",
+      };
 
-      return await request.then(() => "OK").catch(() => "NOK");
+      return toast.promise(promise, messages);
     },
-    subscribe: async (pid) => {
-      if (isRunning || typeof pid !== "string") {
-        return;
-      }
 
-      setIsRunning(true);
-      const request = toast.promise(onSub(pid, dispatch), {
+    subscribe: (pid) => {
+      const promise = api.post(`/api/playlists/subscribe/${pid}`);
+      const messages = {
         loading: "Subscribing...",
-        success: () => reload(pid, "Subscribed!"),
-        error: () => error("Failed to subscribe"),
-      });
+        success: (data: any) => {
+          dispatch({ type: "onSub", payload: data.subs });
+          refetchPage(pid);
+          return "Subscribed!";
+        },
+        error: "Failed to Subscribe",
+      };
 
-      return await request.then(() => "OK").catch(() => "NOK");
+      return toast.promise(promise, messages);
     },
-    unsubscribe: async (pid) => {
-      if (isRunning || typeof pid !== "string") {
-        return;
-      }
 
-      setIsRunning(true);
-      const request = toast.promise(onUnsub(pid, dispatch), {
+    unsubscribe: (pid) => {
+      const promise = api.delete(`/api/playlists/subscribe/${pid}`);
+      const messages = {
         loading: "Unsubscribing...",
-        success: () => reload(pid, "Unsubscribed!"),
-        error: () => error("Failed to unsubscribe"),
-      });
+        success: (data: any) => {
+          dispatch({ type: "onSub", payload: data.subs });
+          refetchPage(pid);
+          return "Unsubscribed!";
+        },
+        error: "Failed to unsubscribe",
+      };
 
-      return await request.then(() => "OK").catch(() => "NOK");
+      return toast.promise(promise, messages);
     },
-    addItem: async (pid, trackId) => {
-      if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
-        return;
-      }
 
-      setIsRunning(true);
-      const request = toast.promise(onAddItem(pid, trackId), {
-        loading: "Adding to playlist...",
-        success: () => reload(pid, "Added to playlist!"),
-        error: () => error("Failed to add to playlist"),
-      });
+    addToPlaylist: (pid, track) => {
+      const promise = api.post(`/api/playlists/edit/${pid}`, { track });
+      const messages = {
+        loading: "Adding Track...",
+        success: () => {
+          refetchPage(pid);
+          return "Track Added!";
+        },
+        error: "Failed to Add Track",
+      };
 
-      return await request.then(() => "OK").catch(() => "NOK");
+      return toast.promise(promise, messages);
     },
-    deleteItem: async (trackId) => {
-      const { pid } = router.query;
 
-      if (isRunning || typeof pid !== "string" || typeof trackId !== "string") {
-        return;
-      }
+    removeFromPlaylist: (pid, track) => {
+      const promise = api.delete(`/api/playlists/edit/${pid}`, { track });
+      const messages = {
+        loading: "Removing Track...",
+        success: () => {
+          refetchPage(pid);
+          return "Track Removed!";
+        },
+        error: "Failed to Remove Track",
+      };
 
-      setIsRunning(true);
-      const request = toast.promise(onDeleteItem(pid, trackId), {
-        loading: "Removing track...",
-        success: () => reload(pid, "Removed from playlist!"),
-        error: () => error("Failed to remove from playlist"),
-      });
-
-      return await request.then(() => "OK").catch(() => "NOK");
+      return toast.promise(promise, messages);
     },
   };
 
@@ -220,7 +206,11 @@ export const MeretContext: FC<IProps> = (props) => {
     }
   }, [status]);
 
-  return <Meret.Provider value={{ data, meret }}>{props.children}</Meret.Provider>;
+  return (
+    <Meret.Provider value={{ data, meret }}>
+      {props.children}
+    </Meret.Provider>
+  );
 };
 
 export const useMeret = () => useContext(Meret);
