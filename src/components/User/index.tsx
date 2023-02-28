@@ -3,6 +3,7 @@ import { useSession, signOut } from "next-auth/react";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
@@ -10,6 +11,10 @@ import Button from "@components/Button";
 import ButtonLink from "@components/ButtonLink";
 import Login from "@components/Dialog/Login";
 import Style from "./index.module.css";
+
+const ThemeToggle = dynamic(() => import("@components/ThemeToggle"), {
+  ssr: false,
+});
 
 export default function User() {
   const [toggleUserMenu, UserMenu] = useMenu();
@@ -38,6 +43,7 @@ export default function User() {
             </div>
 
             <div>
+              <ThemeToggle />
               <ButtonLink href="/profile" align="left">
                 Profile
               </ButtonLink>
@@ -48,6 +54,7 @@ export default function User() {
           </Fragment>
         ) : (
           <div>
+            <ThemeToggle />
             <Button onClick={openLogin} align="left">
               Log In
             </Button>
