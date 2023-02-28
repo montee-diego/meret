@@ -3,6 +3,7 @@ import type { ISelected, ITrack } from "@global/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
+import { useAudioPlayer } from "@context/AudioPlayer";
 import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
 import AddTrack from "@components/Dialog/AddTrack";
@@ -25,6 +26,7 @@ export default function Tracks({ pid, play, tracks }: IProps) {
   const [openRemove, closeRemove, RemoveModal] = useModal();
   const [openLogin, closeLogin, LoginModal] = useModal();
   const { status } = useSession();
+  const { player } = useAudioPlayer();
 
   function menu(e: MouseEvent<HTMLButtonElement>, track: ISelected) {
     if (status === "authenticated") {
@@ -32,6 +34,14 @@ export default function Tracks({ pid, play, tracks }: IProps) {
       toggleMenu(e);
     } else {
       openLogin();
+    }
+  }
+
+  function queueTrack() {
+    if (selected) {
+      player.setQueue((queue) => {
+        return [...queue, selected.track];
+      });
     }
   }
 
@@ -51,7 +61,7 @@ export default function Tracks({ pid, play, tracks }: IProps) {
               Remove from Playlist
             </Button>
           )}
-          <Button onClick={() => {}} align="left">
+          <Button onClick={queueTrack} align="left">
             Queue
           </Button>
         </div>
