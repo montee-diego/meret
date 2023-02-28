@@ -5,7 +5,7 @@ import Head from "next/head";
 
 import { AudioPlayerContext } from "@context/AudioPlayer";
 import { MeretContext } from "@context/Meret";
-import Layout from "@components/_Layout";
+import Layout from "@components/Layout";
 import "@styles/globals.css";
 
 // Fix FontAwesome icons size flash on page load
