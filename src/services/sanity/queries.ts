@@ -6,7 +6,7 @@ export function queryHome() {
         "audio": audio.asset->url,
         "cover": cover.asset->url
       },
-      "playlists": *[_type == "playlist"][0...10] | order(_updatedAt desc) {
+      "playlists": *[_type == "playlist" && count(tracks) > 0][0...10] | order(_updatedAt desc) {
         _id,
         _updatedAt,
         name,
