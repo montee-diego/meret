@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import { usePlaylists } from "@reducers/usePlaylists";
 
 import { MeretAPI } from "@services/meret/api";
-import ActionToast from "@components/_Toast";
+import ToastAction from "@components/ToastAction";
 
 interface IProps {
   children: ReactNode;
@@ -86,9 +86,9 @@ export const MeretContext: FC<IProps> = (props) => {
         .catch(() => {
           toast.error(
             (t) => (
-              <ActionToast t={t} onClick={meret.fetch}>
+              <ToastAction t={t} onClick={meret.fetch}>
                 Failed to fetch data
-              </ActionToast>
+              </ToastAction>
             ),
             { id: "fetch", duration: Infinity }
           );
@@ -206,11 +206,7 @@ export const MeretContext: FC<IProps> = (props) => {
     }
   }, [status]);
 
-  return (
-    <Meret.Provider value={{ data, meret }}>
-      {props.children}
-    </Meret.Provider>
-  );
+  return <Meret.Provider value={{ data, meret }}>{props.children}</Meret.Provider>;
 };
 
 export const useMeret = () => useContext(Meret);
