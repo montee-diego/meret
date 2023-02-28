@@ -1,7 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faBars, faArrowRightToBracket as faSide } from "@fortawesome/free-solid-svg-icons";
-import dynamic from "next/dynamic";
 
 import ButtonIcon from "@components/ButtonIcon";
 import User from "@components/User";
@@ -17,10 +16,6 @@ interface IProps {
     setIsPlayerOpen: Dispatch<SetStateAction<boolean>>;
   };
 }
-
-const ThemeToggle = dynamic(() => import("@components/ThemeToggle"), {
-  ssr: false,
-});
 
 export default function Header({ navState, playerState }: IProps) {
   const { setIsNavOpen } = navState;
@@ -39,7 +34,6 @@ export default function Header({ navState, playerState }: IProps) {
       </div>
 
       <div className={Style.Actions}>
-        <ThemeToggle />
         <ButtonIcon onClick={handlePlayerToggle} aria-label="toggle audio player">
           <Icon icon={faSide} size="xl" flip={isPlayerOpen ? undefined : "horizontal"} />
         </ButtonIcon>
