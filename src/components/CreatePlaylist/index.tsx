@@ -13,7 +13,11 @@ export default function CreatePlaylist() {
     if (isLoading) return;
 
     setIsLoading(true);
-    const response = await meret.create(input);
+
+    try {
+      await meret.create(input);
+    } catch (error) {}
+
     setIsLoading(false);
   }
 

@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import { Fragment, useState } from "react";
 
-import AudioPlayer from "@components/_Layout/AudioPlayer";
-import Header from "@components/_Layout/Header";
-import Main from "@components/_Layout/Main";
-import Sidebar from "@components/_Layout/Sidebar";
+import AudioPlayer from "@components/AudioPlayer";
+import Header from "@components/Header";
+import Main from "@components/Main";
+import Sidebar from "@components/Sidebar";
 
 interface IProps {
   children: ReactNode;

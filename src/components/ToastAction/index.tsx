@@ -10,7 +10,7 @@ interface IProps {
   t: Toast;
 }
 
-export default function ActionToast({ children, onClick, t }: IProps) {
+export default function ToastAction({ children, onClick, t }: IProps) {
   function handleClick() {
     onClick();
     toast.dismiss(t.id);

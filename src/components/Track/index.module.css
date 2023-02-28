@@ -30,7 +30,7 @@
   color: var(--color-text-secondary);
   column-gap: 0.5rem;
   display: grid;
-  flex: 2;
+  flex: 1.5;
   grid-template-columns: 2fr 1fr 1fr;
 }
 

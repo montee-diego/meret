@@ -10,12 +10,12 @@ interface IProps {
 
 export default function Cover({ cover, size }: IProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const loadingClass = isLoading ? " " + Style.Loading : "";
-  const handleLoad = (image: HTMLImageElement) => {
+
+  function handleLoad(image: HTMLImageElement) {
     image.classList.add(Style.ImgLoaded);
     setIsLoading(false);
-  };
+  }
 
   return (
     <div className={Style.Container + loadingClass} style={{ width: size }}>
