@@ -30,28 +30,45 @@ export default function AudioPlayer({ playerState }: IProps) {
   const { artist, audio, cover, title, length } = track || {};
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const isReady = useRef<boolean>(false);
-
   const router = useRouter();
 
-  const handleControls = {
+  const controls = {
     Play: () => {
-      if (audioRef.current) {
+      if (audioRef.current && audioRef.current.src) {
         isPlaying ? audioRef.current.pause() : audioRef.current.play();
         setIsPlaying(!isPlaying);
       }
     },
     Prev: () => {
       if (index > 0) {
-        player.setData({ ...player.data, index: index - 1, isSync: false });
+        player.setData((prevData) => {
+          return { ...prevData, index: index - 1, isSync: false };
+        });
       }
     },
     Next: () => {
       if (index < tracks.length - 1) {
-        player.setData({ ...player.data, index: index + 1, isSync: false });
+        player.setData((prevData) => {
+          return { ...prevData, index: index + 1, isSync: false };
+        });
       }
     },
   };
+
+  function handlePlay() {
+    if (audioRef.current && audioRef.current.src) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }
+
+  function handleEnded() {
+    if (index < tracks.length - 1) {
+      controls.Next();
+    } else {
+      setIsPlaying(false);
+    }
+  }
 
   function handleViewPlaylist() {
     router.push(`/playlist/${playlistId}`);
@@ -62,40 +79,20 @@ export default function AudioPlayer({ playerState }: IProps) {
   }
 
   useEffect(() => {
-    if (player.data.tracks.length && player.data.index > -1) {
-      const audioSrc = player.data.tracks[player.data.index].audio;
-      setTrack(player.data.tracks[player.data.index]);
-      audioRef.current = new Audio(audioSrc);
+    if (tracks.length && index > -1) {
+      setTrack(tracks[index]);
     }
-
-    return () => {
-      audioRef.current?.pause();
-    };
   }, []);
 
   useEffect(() => {
-    if (player.data.isSync) {
+    if (player.data.isSync || !tracks.length) {
       return;
     }
 
+    setTrack(tracks[index]);
+
     if (audioRef.current) {
-      audioRef.current.pause();
-    }
-
-    if (isReady.current) {
-      if (!tracks.length) {
-        audioRef.current = null;
-        setIsPlaying(false);
-        return;
-      }
-
-      const audioSrc = player.data.tracks[player.data.index].audio;
-      setTrack(player.data.tracks[player.data.index]);
-      audioRef.current = new Audio(audioSrc);
-      audioRef.current.play();
-      setIsPlaying(true);
-    } else {
-      isReady.current = true;
+      audioRef.current.currentTime = 0;
     }
   }, [player.data]);
 
@@ -103,19 +100,16 @@ export default function AudioPlayer({ playerState }: IProps) {
     <aside className={Style.Container} data-open={isPlayerOpen} tabIndex={-1}>
       <Cover cover={cover || null} size="60%" />
 
-      <AudioSeek
-        audioRef={audioRef}
-        length={length || 0}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-      />
+      <AudioSeek audioRef={audioRef} length={length || 0} isPlaying={isPlaying} />
 
       <div className={Style.Tags}>
         <p className={Style.Title}>{title || "No track"}</p>
         <p className={Style.Artist}>{artist || "Select a playlist or track to begin"}</p>
       </div>
 
-      <AudioControls handleControls={handleControls} isPlaying={isPlaying} />
+      <audio src={audio} ref={audioRef} onCanPlay={handlePlay} onEnded={handleEnded} />
+
+      <AudioControls controls={controls} isPlaying={isPlaying} />
 
       {playlistId && (
         <div className={Style.ViewPlaylist}>

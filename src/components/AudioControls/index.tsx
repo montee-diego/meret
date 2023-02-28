@@ -5,7 +5,7 @@ import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
 import Style from "./index.module.css";
 
 interface IProps {
-  handleControls: {
+  controls: {
     Play: () => void;
     Prev: () => void;
     Next: () => void;
@@ -13,8 +13,8 @@ interface IProps {
   isPlaying: boolean;
 }
 
-export default function AudioControls({ handleControls, isPlaying }: IProps) {
-  const { Prev, Play, Next } = handleControls;
+export default function AudioControls({ controls, isPlaying }: IProps) {
+  const { Prev, Play, Next } = controls;
 
   return (
     <div className={Style.Container}>
