@@ -1,13 +1,13 @@
+import type { MouseEvent } from "react";
 import { useState } from "react";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
-import ButtonIcon from "@components/ButtonIcon";
+import Style from "./index.module.css";
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<string>(document.body.dataset.theme || "light");
 
-  const handleThemeToggle = () => {
+  function handleToggle(e: MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     const activeTheme = theme === "light" ? "dark" : "light";
 
     if (theme == activeTheme) {
@@ -17,11 +17,14 @@ export default function ThemeToggle() {
     document.body.dataset.theme = activeTheme;
     window.localStorage.setItem("theme", activeTheme);
     setTheme(activeTheme);
-  };
+  }
 
   return (
-    <ButtonIcon onClick={handleThemeToggle} aria-label="toggle theme">
-      <Icon size="xl" icon={theme === "light" ? faMoon : faSun} />
-    </ButtonIcon>
+    <button className={Style.Button} onClick={handleToggle}>
+      <span>Dark Mode</span>
+      <div className={Style.Track}>
+        <div className={Style.Toggle} data-active={theme === "dark"}></div>
+      </div>
+    </button>
   );
 }

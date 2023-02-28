@@ -1,0 +1,58 @@
+.Button {
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  font-size: 1rem;
+  justify-content: space-between;
+  line-height: 2.5rem;
+  overflow: hidden;
+  padding: 0rem 0.5rem;
+  text-overflow: ellipsis;
+  transition: background-color 0.2s var(--ease);
+  white-space: nowrap;
+  width: 100%;
+}
+
+.Button:focus {
+  outline: 2px solid var(--color-focus);
+}
+
+.Button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.Button:disabled {
+  color: var(--color-text-secondary);
+}
+
+.Track {
+  align-items: center;
+  background-color: var(--toggle-track);
+  border: 0.2rem solid transparent;
+  border-radius: 1rem;
+  display: flex;
+  width: 2.4rem;
+}
+
+.Toggle {
+  background-color: var(--color-text-default);
+  border-radius: 50%;
+  height: 1rem;
+  transition: transform 0.25s var(--ease);
+  width: 1rem;
+}
+
+.Toggle[data-active="true"] {
+  transform: translateX(100%);
+}
+
+@media (hover: hover) {
+  .Button:hover {
+    background-color: var(--color-panel);
+  }
+
+  .Button:disabled:hover {
+    background-color: transparent;
+    cursor: default;
+  }
+}
