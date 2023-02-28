@@ -27,8 +27,6 @@ export default function AudioSeek({ audioRef, length, isPlaying }: IProps) {
       if (audioRef.current) {
         setTime(Math.floor(audioRef.current.currentTime));
       }
-
-      console.log("Loop running...");
     }, 250);
   }
 
@@ -40,8 +38,6 @@ export default function AudioSeek({ audioRef, length, isPlaying }: IProps) {
         startTimer();
       }
     }
-
-    console.log("Seek time:", time);
   }
 
   function handleSeek(e: ChangeEvent<HTMLInputElement>) {
