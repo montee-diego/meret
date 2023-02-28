@@ -20,7 +20,9 @@ interface IContext {
     isSyncError: boolean;
     isSyncing: boolean;
     setData: Dispatch<SetStateAction<IData>>;
+    setQueue: Dispatch<SetStateAction<ITrack[]>>;
     syncPlaylist: (pid: string, removeIndex: number) => {};
+    queue: ITrack[];
   };
 }
 
@@ -37,7 +39,9 @@ const AudioPlayer = createContext<IContext>({
     isSyncError: false,
     isSyncing: false,
     setData: () => {},
+    setQueue: () => {},
     syncPlaylist: async () => {},
+    queue: [],
   },
 });
 
@@ -45,6 +49,7 @@ export const AudioPlayerContext: FC<IProps> = (props) => {
   const [data, setData] = useState<IData>(initialData);
   const [isSyncError, setIsSyncError] = useState<boolean>(false);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [queue, setQueue] = useState<ITrack[]>([]);
 
   async function syncPlaylist(pid: string = "", removeIndex: number) {
     // Check if the playlist being modified is playing
@@ -92,6 +97,8 @@ export const AudioPlayerContext: FC<IProps> = (props) => {
     isSyncing,
     setData,
     syncPlaylist,
+    queue,
+    setQueue,
   };
 
   return <AudioPlayer.Provider value={{ player }}>{props.children}</AudioPlayer.Provider>;
