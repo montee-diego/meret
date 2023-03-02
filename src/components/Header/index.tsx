@@ -30,7 +30,7 @@ export default function Header({ navState, playerState }: IProps) {
         <ButtonIcon onClick={handleNavOpen} aria-label="open sidebar">
           <Icon icon={faBars} size="xl" />
         </ButtonIcon>
-        <h2>Home</h2>
+        <h2 id="header-title"></h2>
       </div>
 
       <div className={Style.Actions}>
