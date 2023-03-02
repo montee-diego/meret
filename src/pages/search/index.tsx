@@ -1,12 +1,12 @@
-import type { GetServerSideProps } from "next";
-import type { ITrack } from "@global/types";
-
 // SSR
+import type { GetServerSideProps } from "next";
 import { sanityClient } from "@services/sanity/client";
 import { querySearch } from "@services/sanity/queries";
 
 // CSR
+import type { ITrack } from "@global/types";
 import { useRouter } from "next/router";
+import { useAppTitle } from "@hooks/useAppTitle";
 import Title from "@components/Title";
 import Tracklist from "@components/Tracklist";
 
@@ -14,17 +14,17 @@ interface IProps {
   tracks: ITrack[];
 }
 
-export default function Search({ tracks }: IProps) {
+export default function SearchPage({ tracks }: IProps) {
   const { query } = useRouter();
+  const { setAppTitle } = useAppTitle();
+
+  setAppTitle("Search");
 
   return (
-    <section>
+    <section tabIndex={-1}>
       <Tracklist tracks={tracks}>
         <Title title={`Search: ${query.query}`} />
       </Tracklist>
-      {/* <List title={`Search: ${query.query}`} view="list">
-        <Tracks tracks={tracks} />
-      </List> */}
     </section>
   );
 }

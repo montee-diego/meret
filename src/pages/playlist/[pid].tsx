@@ -7,6 +7,7 @@ import { queryPlaylist } from "@services/sanity/queries";
 // CSR
 import type { IPlaylist, ISelected } from "@global/types";
 import { useAudioPlayer } from "@context/AudioPlayer";
+import { useAppTitle } from "@hooks/useAppTitle";
 import PlaylistHeader from "@components/PlaylistHeader";
 import Tracks from "@components/Tracks";
 
@@ -16,6 +17,7 @@ interface IProps {
 
 export default function PlaylistPage({ playlist }: IProps) {
   const { player } = useAudioPlayer();
+  const { setAppTitle } = useAppTitle();
   const { _id, tracks } = playlist;
   const { isAuthor } = playlist.user;
 
@@ -28,8 +30,10 @@ export default function PlaylistPage({ playlist }: IProps) {
     });
   }
 
+  setAppTitle("Playlist");
+
   return (
-    <section data-scroll="false">
+    <section tabIndex={-1}>
       <fieldset data-pid={playlist._id}>
         <PlaylistHeader playlist={playlist} />
         <Tracks tracks={tracks} play={play} pid={isAuthor ? _id : undefined} />

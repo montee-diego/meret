@@ -1,11 +1,11 @@
-import type { GetServerSideProps } from "next";
-import type { IPlaylistCard, ITrack } from "@global/types";
-
 // SSR
+import type { GetServerSideProps } from "next";
 import { sanityClient } from "@services/sanity/client";
 import { queryHome } from "@services/sanity/queries";
 
 // CSR
+import type { IPlaylistCard, ITrack } from "@global/types";
+import { useAppTitle } from "@hooks/useAppTitle";
 import PlaylistsGrid from "@components/PlaylistsGrid";
 import Title from "@components/Title";
 import Tracklist from "@components/Tracklist";
@@ -17,11 +17,14 @@ interface IProps {
   };
 }
 
-export default function Home({ feed }: IProps) {
+export default function HomePage({ feed }: IProps) {
+  const { setAppTitle } = useAppTitle();
   const { tracks, playlists } = feed;
 
+  setAppTitle("Home");
+
   return (
-    <section>
+    <section tabIndex={-1}>
       <Tracklist tracks={tracks}>
         <Title title="Latest Tracks" href="/discover/songs" />
       </Tracklist>
