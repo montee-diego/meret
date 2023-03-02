@@ -11,7 +11,11 @@ export default function Title({ title, href }: IProps) {
   return (
     <div className={Style.Title}>
       <h3>{title}</h3>
-      {href && <Link href={href}>SHOW ALL</Link>}
+      {href && (
+        <Link className={Style.Link} href={href}>
+          SHOW ALL
+        </Link>
+      )}
     </div>
   );
 }
