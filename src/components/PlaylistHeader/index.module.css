@@ -36,7 +36,7 @@
 
 .Author {
   align-items: center;
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-hover);
   border-radius: 1.5rem;
   display: flex;
   gap: 5px;
@@ -44,13 +44,12 @@
 }
 
 .Total {
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-hover);
   border-radius: 1.5rem;
   padding: 2px 8px;
 }
 
 .Image {
-  background-color: var(--color-text-primary);
   border-radius: 50%;
   min-height: 1.5rem;
   overflow: hidden;
@@ -59,7 +58,7 @@
 }
 
 .Updated {
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-hover);
   border-radius: 1.5rem;
   padding: 2px 8px;
 }

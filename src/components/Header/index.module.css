@@ -1,11 +1,12 @@
 .Container {
   align-items: center;
-  background-color: var(--color-panel-header);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.4);
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-header-border);
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;
+  z-index: 800;
 }
 
 .Title {

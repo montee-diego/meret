@@ -27,7 +27,7 @@
 
 .Track {
   align-items: center;
-  background-color: var(--toggle-track);
+  background-color: var(--color-bg-toggle);
   border: 0.2rem solid transparent;
   border-radius: 1rem;
   display: flex;
@@ -35,7 +35,7 @@
 }
 
 .Toggle {
-  background-color: var(--color-text-default);
+  background-color: var(--color-text);
   border-radius: 50%;
   height: 1rem;
   transition: transform 0.25s var(--ease);
@@ -48,7 +48,7 @@
 
 @media (hover: hover) {
   .Button:hover {
-    background-color: var(--color-panel);
+    background-color: var(--color-bg-hover);
   }
 
   .Button:disabled:hover {

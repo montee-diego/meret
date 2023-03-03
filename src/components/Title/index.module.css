@@ -35,7 +35,7 @@
 
 @media (hover: hover) {
   .Title a:hover {
-    color: var(--color-text-default);
+    color: var(--color-text);
   }
 }
 

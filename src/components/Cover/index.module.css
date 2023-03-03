@@ -1,6 +1,6 @@
 .Container {
   aspect-ratio: 1/1;
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-hover);
   border-radius: 5px;
   flex-shrink: 0;
   max-width: 320px;
@@ -24,7 +24,7 @@
 
 @keyframes loadingAnim {
   from {
-    background-color: var(--color-panel);
+    background-color: var(--color-bg-hover);
   }
 
   to {

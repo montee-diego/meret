@@ -32,6 +32,6 @@
 
 @media (hover: hover) {
   .Button:hover {
-    background-color: var(--color-panel);
+    background-color: var(--color-bg-hover);
   }
 }

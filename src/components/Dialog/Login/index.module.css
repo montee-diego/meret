@@ -15,7 +15,7 @@
 }
 
 .Providers button {
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-hover);
   direction: rtl;
   padding: 0rem clamp(0.5rem, 5vw, 2.5rem);
 }

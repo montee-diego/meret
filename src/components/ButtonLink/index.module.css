@@ -37,7 +37,7 @@
 
 @media (hover: hover) {
   .Link:hover {
-    background-color: var(--color-panel);
+    background-color: var(--color-bg-hover);
   }
 
   .Link:disabled:hover {

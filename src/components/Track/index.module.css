@@ -1,6 +1,6 @@
 .Container {
   align-items: center;
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-item);
   border-radius: 5px;
   display: flex;
   gap: 0.5rem;

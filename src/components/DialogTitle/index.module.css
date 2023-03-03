@@ -1,6 +1,6 @@
 .Container {
   align-items: center;
-  border-bottom: 1px solid var(--color-panel);
+  border-bottom: 1px solid var(--color-bg-hover);
   display: flex;
   gap: 0.5rem;
   padding: 0.5rem;

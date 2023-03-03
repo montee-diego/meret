@@ -9,7 +9,7 @@
 }
 
 .Label input {
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-hover);
   border: none;
   border-radius: 5px;
   flex: 1;

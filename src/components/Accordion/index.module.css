@@ -9,7 +9,7 @@
 .Summary {
   align-items: center;
   border-radius: 5px;
-  color: var(--color-text-default);
+  color: var(--color-text);
   cursor: pointer;
   display: flex;
   gap: 0.5rem;
@@ -41,7 +41,7 @@
 
 @media (hover: hover) {
   .Summary:hover {
-    background-color: var(--color-panel);
+    background-color: var(--color-bg-hover);
   }
 }
 

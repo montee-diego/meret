@@ -1,7 +1,7 @@
 .Button {
   align-items: center;
   border-radius: 5px;
-  color: var(--color-text-default);
+  color: var(--color-text);
   display: flex;
   gap: 0.5rem;
   padding: 0.25rem 0.5rem;
@@ -21,7 +21,6 @@
 }
 
 .ProfileImage {
-  background-color: var(--color-text-primary);
   border-radius: 50%;
   height: 2rem;
   margin: 0 auto;
@@ -31,7 +30,7 @@
 }
 
 .User {
-  border-bottom: 1px solid var(--color-panel);
+  border-bottom: 1px solid var(--color-bg-hover);
 }
 
 .User p {
@@ -48,6 +47,6 @@
 
 @media (hover: hover) {
   .Button:hover {
-    background-color: var(--color-panel);
+    background-color: var(--color-bg-hover);
   }
 }

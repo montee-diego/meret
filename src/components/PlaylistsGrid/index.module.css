@@ -7,10 +7,9 @@
 }
 
 .Item {
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-item);
   border-radius: 5px;
   padding: 1rem;
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .Item:focus {
@@ -29,12 +28,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-@media (hover: hover) {
-  .Item:hover {
-    background-color: var(--color-scroll);
-  }
 }
 
 @media screen and (max-width: 768px) {

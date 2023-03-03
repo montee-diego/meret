@@ -1,5 +1,5 @@
 .Form {
-  background-color: var(--color-panel);
+  background-color: var(--color-bg-hover);
   border-radius: 5px;
   display: flex;
   overflow: hidden;
