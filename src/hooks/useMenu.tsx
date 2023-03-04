@@ -25,6 +25,10 @@ function calcXPosition(trigger: HTMLElement, parent: Element, menuWidth: number)
 function calcYPosition(trigger: HTMLElement, parent: Element, menuHeight: number) {
   const { clientHeight, offsetTop } = trigger;
 
+  if (parent.clientHeight < menuHeight) {
+    return { top: clientHeight + offsetTop };
+  }
+
   if (offsetTop + clientHeight + menuHeight > parent.clientHeight + parent.scrollTop) {
     return { top: offsetTop - menuHeight };
   } else {
@@ -48,45 +52,51 @@ export const useMenu = (): MenuTuple => {
     setIsOpen(false);
   }
 
-  const calcMenuStyle = useCallback(function (menuHeight: number = 0, menuWidth: number = 0) {
-    if (!trigger) return {};
+  const calcMenuStyle = useCallback(
+    function (menuHeight: number = 0, menuWidth: number = 0) {
+      if (!trigger) return {};
 
-    const { offsetParent } = trigger;
-    let computed = {};
+      const { offsetParent } = trigger;
+      let computed = {};
 
-    if (offsetParent) {
-      const alignX = calcXPosition(trigger, offsetParent, menuWidth);
-      const alignY = calcYPosition(trigger, offsetParent, menuHeight);
-      computed = { ...alignX, ...alignY };
-    }
+      if (offsetParent) {
+        const alignX = calcXPosition(trigger, offsetParent, menuWidth);
+        const alignY = calcYPosition(trigger, offsetParent, menuHeight);
+        computed = { ...alignX, ...alignY };
+      }
 
-    return computed;
-  }, [trigger]);
+      return computed;
+    },
+    [trigger]
+  );
 
   // useCallback prevents re-render flicker
-  const RenderMenu = useCallback(function RenderMenu({ children }: IProps) {
-    const [style, setStyle] = useState<{}>({});
-    const menuRef = useRef<HTMLDivElement | null>(null);
+  const RenderMenu = useCallback(
+    function RenderMenu({ children }: IProps) {
+      const [style, setStyle] = useState<{}>({});
+      const menuRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-      if (menuRef.current) {
-        const { clientHeight, clientWidth } = menuRef.current;
-        const computedStyle = calcMenuStyle(clientHeight, clientWidth);
+      useEffect(() => {
+        if (menuRef.current) {
+          const { clientHeight, clientWidth } = menuRef.current;
+          const computedStyle = calcMenuStyle(clientHeight, clientWidth);
 
-        setStyle(computedStyle);
+          setStyle(computedStyle);
+        }
+      }, []);
+
+      if (isOpen) {
+        return (
+          <Menu toggleOpen={closeMenu} style={style} ref={menuRef}>
+            {children}
+          </Menu>
+        );
+      } else {
+        return null;
       }
-    }, []);
-
-    if (isOpen) {
-      return (
-        <Menu toggleOpen={closeMenu} style={style} ref={menuRef}>
-          {children}
-        </Menu>
-      );
-    } else {
-      return null;
-    }
-  }, [isOpen]);
+    },
+    [isOpen]
+  );
 
   return [openMenu, RenderMenu];
 };
