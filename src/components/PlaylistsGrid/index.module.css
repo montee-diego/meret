@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   grid-gap: 1rem;
   justify-content: space-between;
-  padding: 1rem;
+  margin: 1rem;
 }
 
 .Item {
@@ -32,6 +32,6 @@
 
 @media screen and (max-width: 768px) {
   .Container {
-    padding: 1rem 0.5rem;
+    margin: 1rem 0.5rem;
   }
 }

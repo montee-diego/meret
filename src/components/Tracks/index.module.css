@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem;
+  margin: 1rem;
 }
 
 .AddTo {
@@ -13,6 +13,6 @@
 
 @media screen and (max-width: 768px) {
   .List {
-    padding: 1rem 0.5rem;
+    margin: 1rem 0.5rem;
   }
 }
