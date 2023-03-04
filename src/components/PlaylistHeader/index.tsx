@@ -51,10 +51,10 @@ export default function PlaylistHeader({ playlist }: IProps) {
     <Fragment>
       <div className={Style.Container}>
         <div className={Style.Title}>
+          <h2>{name}</h2>
           <ButtonIcon id="pls-menu" onClick={handleMenu} aria-label="playlist menu">
             <Icon icon={faEllipsisVertical} size="xl" />
           </ButtonIcon>
-          <h2>{name}</h2>
 
           <PlaylistMenu>
             {user.isAuthor ? (
@@ -77,7 +77,6 @@ export default function PlaylistHeader({ playlist }: IProps) {
         </div>
 
         <div className={Style.Subtitle}>
-          <span>By</span>
           <div className={Style.Author}>
             <div className={Style.Image}>
               <Image src={author.image} alt="U" sizes="64px" fill />
