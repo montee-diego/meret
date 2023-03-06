@@ -113,3 +113,29 @@ export function querySyncPlaylist() {
     }
   `;
 }
+
+export function queryUserProfile() {
+  return `
+    {
+      "user": *[_type=="user" && _id == $user][0] {
+        _createdAt
+      },
+      "playlists": *[_type=="playlist" && author._ref == $user] | order(_createdAt asc) {
+        _id,
+        _updatedAt,
+        name,
+        "cover": tracks[-1]->cover.asset->url,
+        "total": count(tracks)
+      },
+      ...*[_type=="user" && _id == $user][0] {
+        "subscriptions": subs[]->{
+          _id,
+          _updatedAt,
+          name,
+          "cover": tracks[-1]->cover.asset->url,
+          "total": count(tracks)
+        }
+      }
+    }
+  `;
+}
