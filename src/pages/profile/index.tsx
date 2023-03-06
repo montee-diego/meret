@@ -7,6 +7,7 @@ import { queryUserProfile } from "@services/sanity/queries";
 //CSR
 import type { IPlaylistCard } from "@global/types";
 import { useAppTitle } from "@hooks/useAppTitle";
+import Head from "next/head";
 import Message from "@components/Message";
 import PlaylistsGrid from "@components/PlaylistsGrid";
 import Title from "@components/Title";
@@ -33,6 +34,10 @@ export default function ProfilePage({ data: { user, playlists, subscriptions } }
 
   return (
     <section tabIndex={-1}>
+      <Head>
+        <title>Profile</title>
+      </Head>
+
       <UserProfileCard user={user} total={userData} />
       <Title title="Your Playlists" />
       {playlists.length > 0 ? (

@@ -6,6 +6,7 @@ import { queryDiscoverSong } from "@services/sanity/queries";
 //CSR
 import type { ITrack } from "@global/types";
 import { useAppTitle } from "@hooks/useAppTitle";
+import Head from "next/head";
 import Title from "@components/Title";
 import Tracklist from "@components/Tracklist";
 
@@ -20,6 +21,10 @@ export default function SongsPage({ tracks }: IProps) {
 
   return (
     <section tabIndex={-1}>
+      <Head>
+        <title>Discover: Songs</title>
+      </Head>
+
       <Title title="Discover Songs" />
       <Tracklist tracks={tracks} />
     </section>

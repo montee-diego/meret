@@ -6,6 +6,7 @@ import { queryDiscoverPlaylists } from "@services/sanity/queries";
 //CSR
 import type { IPlaylistCard } from "@global/types";
 import { useAppTitle } from "@hooks/useAppTitle";
+import Head from "next/head";
 import PlaylistsGrid from "@components/PlaylistsGrid";
 import Title from "@components/Title";
 
@@ -20,6 +21,10 @@ export default function PlaylistsPage({ playlists }: IProps) {
 
   return (
     <section tabIndex={-1}>
+      <Head>
+        <title>Discover: Playlists</title>
+      </Head>
+
       <Title title="Discover Playlists" />
       <PlaylistsGrid playlists={playlists} />
     </section>

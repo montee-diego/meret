@@ -8,6 +8,7 @@ import { queryPlaylist } from "@services/sanity/queries";
 import type { IPlaylist, ISelected } from "@global/types";
 import { useAudioPlayer } from "@context/AudioPlayer";
 import { useAppTitle } from "@hooks/useAppTitle";
+import Head from "next/head";
 import PlaylistHeader from "@components/PlaylistHeader";
 import Tracks from "@components/Tracks";
 
@@ -34,6 +35,10 @@ export default function PlaylistPage({ playlist }: IProps) {
 
   return (
     <section tabIndex={-1}>
+      <Head>
+        <title>{playlist.name}</title>
+      </Head>
+
       <fieldset data-pid={playlist._id}>
         <PlaylistHeader playlist={playlist} />
         <Tracks tracks={tracks} play={play} pid={isAuthor ? _id : undefined} />

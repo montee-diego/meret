@@ -6,6 +6,7 @@ import { queryHome } from "@services/sanity/queries";
 // CSR
 import type { IPlaylistCard, ITrack } from "@global/types";
 import { useAppTitle } from "@hooks/useAppTitle";
+import Head from "next/head";
 import PlaylistsGrid from "@components/PlaylistsGrid";
 import Title from "@components/Title";
 import Tracklist from "@components/Tracklist";
@@ -25,6 +26,10 @@ export default function HomePage({ feed }: IProps) {
 
   return (
     <section tabIndex={-1}>
+      <Head>
+        <title>Meret Home</title>
+      </Head>
+
       <Title title="Latest Tracks" href="/discover/songs" />
       <Tracklist tracks={tracks} />
 
