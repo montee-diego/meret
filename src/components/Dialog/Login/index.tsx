@@ -21,13 +21,7 @@ export default function Login({ closeDialog }: IProps) {
 
       <div className={Style.Container}>
         <div className={Style.Providers}>
-          <Button onClick={() => {}} align="left">
-            Continue with Apple
-          </Button>
-          <Button onClick={() => {}} align="left">
-            Continue with Facebook
-          </Button>
-          <Button onClick={() => {}} align="left">
+          <Button onClick={() => signIn("github")} align="left">
             Continue with GitHub
           </Button>
           <Button onClick={() => signIn("google")} align="left">
