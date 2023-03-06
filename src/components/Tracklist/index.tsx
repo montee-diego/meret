@@ -1,15 +1,13 @@
-import type { ReactNode } from "react";
 import type { ISelected, ITrack } from "@global/types";
 
 import { useAudioPlayer } from "@context/AudioPlayer";
 import Tracks from "@components/Tracks";
 
 interface IProps {
-  children: ReactNode;
   tracks: ITrack[];
 }
 
-export default function Tracklist({ children, tracks }: IProps) {
+export default function Tracklist({ tracks }: IProps) {
   const { player } = useAudioPlayer();
 
   function play({ index, track }: ISelected) {
@@ -21,10 +19,5 @@ export default function Tracklist({ children, tracks }: IProps) {
     });
   }
 
-  return (
-    <div>
-      {children}
-      <Tracks tracks={tracks} play={play} />
-    </div>
-  );
+  return <Tracks tracks={tracks} play={play} />;
 }

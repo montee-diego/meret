@@ -30,6 +30,15 @@
   white-space: nowrap;
 }
 
+.Details h4 {
+  font-size: 1.1rem;
+}
+
+.Details p {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
 @media screen and (max-width: 768px) {
   .Container {
     margin: 1rem 0.5rem;
