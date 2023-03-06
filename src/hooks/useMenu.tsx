@@ -25,7 +25,7 @@ function calcXPosition(trigger: HTMLElement, parent: Element, menuWidth: number)
 function calcYPosition(trigger: HTMLElement, parent: Element, menuHeight: number) {
   const { clientHeight, offsetTop } = trigger;
 
-  if (parent.clientHeight < menuHeight) {
+  if (offsetTop < menuHeight) {
     return { top: clientHeight + offsetTop };
   }
 
@@ -81,7 +81,7 @@ export const useMenu = (): MenuTuple => {
           const { clientHeight, clientWidth } = menuRef.current;
           const computedStyle = calcMenuStyle(clientHeight, clientWidth);
 
-          setStyle(computedStyle);
+          setStyle({ ...computedStyle, visibility: "visible" });
         }
       }, []);
 

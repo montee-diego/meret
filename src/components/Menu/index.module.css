@@ -1,6 +1,7 @@
 .Container {
   padding: 5px 0px;
   position: absolute;
+  visibility: hidden;
   z-index: 1000;
 }
 
