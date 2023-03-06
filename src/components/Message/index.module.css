@@ -1,0 +1,24 @@
+.Container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.Content {
+  align-items: center;
+  background-color: var(--color-bg-item);
+  border-radius: 5px;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.Content p {
+  color: var(--color-text-secondary);
+}
+
+@media screen and (max-width: 768px) {
+  .Container {
+    margin: 1rem 0.5rem;
+  }
+}

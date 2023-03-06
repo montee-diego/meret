@@ -1,0 +1,73 @@
+.Container {
+  background-color: var(--color-bg-item);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+  margin: 1rem;
+  padding: 1.5rem 1rem;
+}
+
+.User {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.User h2 {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ProfileImage {
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 4rem;
+  overflow: hidden;
+  position: relative;
+  width: 4rem;
+}
+
+.Data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.DataItem {
+  min-width: 10rem;
+  overflow: hidden;
+}
+
+.DataItem span {
+  color: var(--color-text-secondary);
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+}
+
+.DataItem p {
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+  .Container {
+    margin: 1rem 0.5rem;
+  }
+
+  .User {
+    flex-direction: column;
+  }
+}
