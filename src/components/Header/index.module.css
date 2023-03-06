@@ -16,7 +16,7 @@
   text-transform: capitalize;
 }
 
-.Title h1 {
+.Title h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
