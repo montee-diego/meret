@@ -73,9 +73,7 @@ body {
 }
 
 section {
-  display: flex;
   flex: 1;
-  flex-direction: column;
   overflow: hidden auto;
   position: relative;
   width: 100%;

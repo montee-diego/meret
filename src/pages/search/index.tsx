@@ -7,6 +7,7 @@ import { querySearch } from "@services/sanity/queries";
 import type { ITrack } from "@global/types";
 import { useRouter } from "next/router";
 import { useAppTitle } from "@hooks/useAppTitle";
+import Message from "@components/Message";
 import Title from "@components/Title";
 import Tracklist from "@components/Tracklist";
 
@@ -22,9 +23,12 @@ export default function SearchPage({ tracks }: IProps) {
 
   return (
     <section tabIndex={-1}>
-      <Tracklist tracks={tracks}>
-        <Title title={`Search: ${query.query}`} />
-      </Tracklist>
+      <Title title={`Search: ${query.query}`} />
+      {tracks.length > 0 ? (
+        <Tracklist tracks={tracks} />
+      ) : (
+        <Message>No results found</Message>
+      )}
     </section>
   );
 }

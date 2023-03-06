@@ -25,13 +25,11 @@ export default function HomePage({ feed }: IProps) {
 
   return (
     <section tabIndex={-1}>
-      <Tracklist tracks={tracks}>
-        <Title title="Latest Tracks" href="/discover/songs" />
-      </Tracklist>
+      <Title title="Latest Tracks" href="/discover/songs" />
+      <Tracklist tracks={tracks} />
 
-      <PlaylistsGrid playlists={playlists}>
-        <Title title="Last Updated" href="/discover/playlists" />
-      </PlaylistsGrid>
+      <Title title="Last Updated" href="/discover/playlists" />
+      <PlaylistsGrid playlists={playlists} />
     </section>
   );
 }
