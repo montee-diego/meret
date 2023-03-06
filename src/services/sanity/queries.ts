@@ -139,3 +139,23 @@ export function queryUserProfile() {
     }
   `;
 }
+
+export function queryDiscoverSong() {
+  return `
+    *[_type == "track"][0...10] | order(_createdAt desc) {
+      ...,
+      "audio": audio.asset->url,
+      "cover": cover.asset->url
+    }
+  `;
+}
+
+export function queryDiscoverPlaylists() {
+  return `*[_type == "playlist" && count(tracks) > 0][0...10] | order(_updatedAt desc) {
+    _id,
+    _updatedAt,
+    name,
+    "cover": tracks[-1]->cover.asset->url,
+    "total": count(tracks)
+  }`;
+}
