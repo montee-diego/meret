@@ -1,5 +1,6 @@
 import type { ChangeEvent, FormEvent } from "react";
 import { Fragment, useState } from "react";
+import { toast } from "react-hot-toast";
 
 import { useMeret } from "@context/Meret";
 import Button from "@components/Button";
@@ -31,6 +32,11 @@ export default function RenamePlaylist({ data: { _id, name }, closeDialog }: IPr
     const trimmedName = newName.trim();
 
     if (allowSubmit) {
+      if (trimmedName.length > 40) {
+        toast("Name cannot exceed 40 characters", { id: "length-error" });
+        return;
+      }
+
       if (menuBtn instanceof HTMLButtonElement) {
         menuBtn.disabled = true;
       }

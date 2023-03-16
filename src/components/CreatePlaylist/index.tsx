@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,6 +12,11 @@ export default function CreatePlaylist() {
 
   async function handleCreate(input: string) {
     if (isLoading) return;
+
+    if (input.length > 40) {
+      toast("Name cannot exceed 40 characters", { id: "length-error" });
+      return;
+    }
 
     setIsLoading(true);
 
