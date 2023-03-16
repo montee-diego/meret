@@ -2,7 +2,7 @@ import type { ChangeEvent, MutableRefObject } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { debounce } from "@utils/debounce";
-import { formatTime } from "@global/utils";
+import { formatTime } from "@utils/display";
 import Style from "./index.module.css";
 
 interface IProps {

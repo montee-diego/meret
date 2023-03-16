@@ -8,7 +8,7 @@ import Image from "next/image";
 
 import { useMenu } from "@hooks/useMenu";
 import { useModal } from "@hooks/useModal";
-import { formatDate, formatTrackCount } from "@global/utils";
+import { formatDate, formatTrackCount } from "@utils/display";
 import Button from "@components/Button";
 import ButtonIcon from "@components/ButtonIcon";
 import DeletePlaylist from "@components/Dialog/DeletePlaylist";

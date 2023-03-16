@@ -3,7 +3,7 @@ import type { ISelected } from "@global/types";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPlay, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
-import { formatTime } from "@global/utils";
+import { formatTime } from "@utils/display";
 import ButtonIcon from "@components/ButtonIcon";
 import Cover from "@components/Cover";
 import Style from "./index.module.css";

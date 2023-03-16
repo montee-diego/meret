@@ -1,7 +1,7 @@
 import type { IPlaylistCard } from "@global/types";
 import Link from "next/link";
 
-import { formatTrackCount } from "@global/utils";
+import { formatTrackCount } from "@utils/display";
 import Cover from "@components/Cover";
 import Style from "./index.module.css";
 

@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
-import { formatDate } from "@global/utils";
+import { formatDate } from "@utils/display";
 import Style from "./index.module.css";
 
 interface IProps {
