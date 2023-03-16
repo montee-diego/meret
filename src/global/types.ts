@@ -20,7 +20,7 @@ export interface ITrack extends IDocument {
   audio: string;
   cover: string;
   date: string;
-  genres: string[];
+  genre: string;
   length: number;
   title: string;
 }
