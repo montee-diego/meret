@@ -34,10 +34,9 @@ export default {
       validation: (rule) => rule.required(),
     },
     {
-      name: "genres",
-      title: "Genres",
-      type: "array",
-      of: [{ type: "string" }],
+      name: "genre",
+      title: "Genre",
+      type: "string",
       validation: (rule) => rule.required(),
     },
     {
