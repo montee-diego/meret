@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
 import { getToken } from "next-auth/jwt";
+
 import { sanityClient } from "@services/sanity/client";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -11,8 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "POST") {
-    if (!req.body.name) {
-      res.status(400).send("Request missing required data");
+    if (!req.body.name || req.body.name.length > 40) {
+      res.status(400).send("Bad request");
     }
 
     const pid = req.query.pid as string;
