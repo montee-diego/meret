@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
 import { getToken } from "next-auth/jwt";
+
 import { sanityClient } from "@services/sanity/client";
 import { querySyncPlaylist } from "@services/sanity/queries";
 

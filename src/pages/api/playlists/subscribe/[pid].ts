@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
 import { getToken } from "next-auth/jwt";
+
 import { sanityClient } from "@services/sanity/client";
 import { queryUserSubs } from "@services/sanity/queries";
 
@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!response) {
-      return res.status(500).send("Failed to rename playlist");
+      return res.status(500).send("Failed to subscribe");
     }
 
     const data = await sanityClient.fetch(queryUserSubs(), {
@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await sanityClient.patch(user).unset([ref]).commit();
 
     if (!response) {
-      return res.status(500).send("Failed to delete playlist");
+      return res.status(500).send("Failed to unsubscribe");
     }
 
     const data = await sanityClient.fetch(queryUserSubs(), {
