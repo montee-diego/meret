@@ -32,7 +32,7 @@ export default function Track({ data, play, menu }: IProps) {
         </div>
 
         <div className={Style.Metadata}>
-          <p>{track.genres.join(", ")}</p>
+          <p>{track.genre}</p>
           <p>{track.date}</p>
           <p className={Style.Length}>{formatTime(track.length)}</p>
         </div>
